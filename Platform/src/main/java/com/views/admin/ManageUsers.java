@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ResourceBundle;
 
 public class ManageUsers extends JPanel {
 	private JTextField textField;
@@ -23,6 +24,7 @@ public class ManageUsers extends JPanel {
 	private JButton btnDelete;
 	private JButton btnModify;
 	private JButton btnCreate;
+	private JButton btnSearch;
 	
 	public ManageUsers() {
 		setLayout(null);
@@ -32,7 +34,7 @@ public class ManageUsers extends JPanel {
 		add(textField);
 		textField.setColumns(10);
 		
-		JButton btnSearch = new JButton("Search");
+		btnSearch = new JButton("Search");
 		btnSearch.setBounds(341, 41, 97, 25);
 		add(btnSearch);
 		
@@ -72,4 +74,14 @@ public class ManageUsers extends JPanel {
 		    }
 		});
 	}
+	public void setLanguageBundle(ResourceBundle languageBundle)  {
+		
+	      btnModify.setText(languageBundle.getString("modify"));
+	      btnCreate.setText(languageBundle.getString("create"));
+	      btnDelete.setText(languageBundle.getString("delete"));
+	      btnSearch.setText(languageBundle.getString("search"));
+	      
+	  
+	  
+		}	
 }

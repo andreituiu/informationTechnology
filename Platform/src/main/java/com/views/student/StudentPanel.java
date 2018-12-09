@@ -30,6 +30,7 @@ public class StudentPanel extends JPanel{
 
 	public void setPanel(JPanel newPannel) {
 		remove(currentPannel);
+		repaint();
 		currentPannel = newPannel;
 		add(currentPannel);
 		currentPannel.setLocation(0, 52);

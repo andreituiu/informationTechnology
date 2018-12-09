@@ -2,6 +2,7 @@ package com.views.student;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -10,6 +11,9 @@ import com.controllers.student.IStudentHeaderController;
 
 public class StudentHeader extends JPanel {
 	protected IStudentHeaderController studentHeaderController;
+	private JButton btnProfile;
+	private JButton btnCourses;
+	private JButton btnMail;
 
 	public StudentHeader(IStudentHeaderController studentHeaderController) {
 		this.studentHeaderController = studentHeaderController;
@@ -19,15 +23,15 @@ public class StudentHeader extends JPanel {
 	private void initialize() {
 		setLayout(null);
 
-		JButton btnProfile = new JButton("Profile");
+		btnProfile = new JButton("Profile");
 		btnProfile.setBounds(36, 11, 89, 23);
 		add(btnProfile);
 
-		JButton btnCourses = new JButton("Courses");
+		btnCourses = new JButton("Courses");
 		btnCourses.setBounds(181, 11, 89, 23);
 		add(btnCourses);
 
-		JButton btnMail = new JButton("Mail");
+		btnMail = new JButton("Mail");
 		btnMail.setBounds(329, 11, 89, 23);
 		add(btnMail);
 		
@@ -55,4 +59,12 @@ public class StudentHeader extends JPanel {
 			}
 		});
 	}
+	
+	public void setLanguageBundle(ResourceBundle languageBundle)  {
+		
+		  btnProfile.setText(languageBundle.getString("profile"));             
+		  btnCourses.setText(languageBundle.getString("courses"));                
+		  btnMail.setText(languageBundle.getString("email"));
+	  
+		}
 }

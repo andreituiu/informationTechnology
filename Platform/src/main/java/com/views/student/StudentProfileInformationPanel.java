@@ -2,6 +2,9 @@ package com.views.student;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import java.util.ResourceBundle;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -17,6 +20,21 @@ public class StudentProfileInformationPanel extends JPanel {
 	private JTextField oldPasswordTextField;
 	private JTextField newPasswordTextField;
 	private JTextField confirmPasswordTextField;
+	
+	private JLabel lblName;
+	private JLabel lblSurname;
+	private JLabel lblCnp;
+	private JLabel lblExternalEmail;
+	private JLabel lblInternalEmail;
+	private JLabel lblOldPassword;
+	private JLabel lblNewPassword;
+	private JLabel lblConfirmationPassword;
+	private JLabel lblSpecialization;
+	private JLabel lblYear;
+	
+	
+	private JButton btnSave;
+	private JButton btnChangePassword;
 
 	public StudentProfileInformationPanel() {
 		initialize();
@@ -75,51 +93,51 @@ public class StudentProfileInformationPanel extends JPanel {
 		confirmPasswordTextField.setBounds(175, 296, 221, 20);
 		add(confirmPasswordTextField);
 
-		JButton btnSave = new JButton("Save");
+		btnSave = new JButton("Save");
 		btnSave.setBounds(109, 320, 100, 23);
 		add(btnSave);
 
-		JButton btnChangePassword = new JButton("Change password");
+		btnChangePassword = new JButton("Change password");
 		btnChangePassword.setBounds(211, 320, 119, 23);
 		add(btnChangePassword);
 
-		JLabel lblName = new JLabel("Name");
+		lblName = new JLabel("Name");
 		lblName.setBounds(33, 14, 46, 14);
 		add(lblName);
 
-		JLabel lblSurname = new JLabel("Surname");
+		lblSurname = new JLabel("Surname");
 		lblSurname.setBounds(33, 45, 46, 14);
 		add(lblSurname);
 
-		JLabel lblCnp = new JLabel("CNP");
+		lblCnp = new JLabel("CNP");
 		lblCnp.setBounds(33, 76, 46, 14);
 		add(lblCnp);
 
-		JLabel lblExternalEmail = new JLabel("External e-mail");
+		lblExternalEmail = new JLabel("External e-mail");
 		lblExternalEmail.setBounds(33, 109, 79, 14);
 		add(lblExternalEmail);
 
-		JLabel lblInternalEmail = new JLabel("Internal e-mail");
+		lblInternalEmail = new JLabel("Internal e-mail");
 		lblInternalEmail.setBounds(33, 142, 79, 14);
 		add(lblInternalEmail);
 
-		JLabel lblSpecialization = new JLabel("Specialization");
+	    lblSpecialization = new JLabel("Specialization");
 		lblSpecialization.setBounds(33, 206, 79, 14);
 		add(lblSpecialization);
 
-		JLabel lblYear = new JLabel("Year");
+		lblYear = new JLabel("Year");
 		lblYear.setBounds(33, 175, 46, 14);
 		add(lblYear);
 
-		JLabel lblOldPassword = new JLabel("Old password");
+		lblOldPassword = new JLabel("Old password");
 		lblOldPassword.setBounds(33, 237, 79, 14);
 		add(lblOldPassword);
 
-		JLabel lblNewPassword = new JLabel("New password");
+		lblNewPassword = new JLabel("New password");
 		lblNewPassword.setBounds(33, 268, 79, 14);
 		add(lblNewPassword);
 
-		JLabel lblConfirmationPassword = new JLabel("Confirmation password");
+		lblConfirmationPassword = new JLabel("Confirm password");
 		lblConfirmationPassword.setBounds(33, 299, 119, 14);
 		add(lblConfirmationPassword);
 	}
@@ -135,4 +153,19 @@ public class StudentProfileInformationPanel extends JPanel {
 	public void setCNP(String cnp) {
 		cnpTextField.setText(cnp);
 	}
+	public void setLanguageBundle(ResourceBundle languageBundle)  {
+		
+	      lblName.setText(languageBundle.getString("name"));             
+	      lblSurname.setText(languageBundle.getString("surname"));         
+	      lblCnp.setText(languageBundle.getString("cnp"));            
+	      lblExternalEmail.setText(languageBundle.getString("externalEmail"));
+	      lblInternalEmail.setText(languageBundle.getString("internalEmail"));
+	      lblYear.setText(languageBundle.getString("year"));
+	      lblSpecialization.setText(languageBundle.getString("specialization"));
+	      lblOldPassword.setText(languageBundle.getString("oldPassword"));
+	      lblNewPassword.setText(languageBundle.getString("newPassword"));
+	      lblConfirmationPassword.setText(languageBundle.getString("confirmPassword"));
+	      btnSave.setText(languageBundle.getString("save"));
+	      btnChangePassword.setText(languageBundle.getString("changePassword"));
+		}	
 }

@@ -1,23 +1,66 @@
 package com.views.student;
 
+
+import java.util.ResourceBundle;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+
 import javax.swing.BoxLayout;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import com.controllers.student.IStudentEnrolledCoursesPanelController;
+import com.model.Assignment;
+import com.model.Course;
+import com.model.StudentAssignment;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 public class StudentEnrolledCoursesPanel extends JPanel {
 
 	private JTextField textField;
+
 	private JTextField txtDeadline;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	
+	private JLabel deadlineLabel;
+	private JLabel lastUploadLabel;
+	private JLabel gradeLabel;
+	
+	private JButton btnUpload;
+	private JButton btnSearch;
+	
+public StudentEnrolledCoursesPanel() {}
 
-	public StudentEnrolledCoursesPanel() {
+	private JTextField deadlineTextField;
+	private JTextField lastUploadTextField;
+	private JTextField gradeTextField;
+	private JComboBox<StudentAssignment> assignmentComboBox;
+	private DefaultListModel<Course> coursesListModel;
+	private JList<Course> coursesList;
+	protected IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController;
+
+	public StudentEnrolledCoursesPanel(IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController) {
+		super();
+		this.studentEnrolledCoursesPanelController = studentEnrolledCoursesPanelController;
+
 		initialzie();
 	}
 
@@ -29,58 +72,147 @@ public class StudentEnrolledCoursesPanel extends JPanel {
 		textField.setBounds(10, 12, 317, 20);
 		add(textField);
 
-		JButton button = new JButton("Search");
-		button.setBounds(360, 11, 80, 23);
-		add(button);
+		btnSearch = new JButton("Search");
+		btnSearch.setBounds(360, 11, 80, 23);
+		add(btnSearch);
 
 		JScrollPane courses = new JScrollPane();
 		courses.setLocation(10, 43);
 		courses.setSize(151, 243);
 
-		DefaultListModel listModel = new DefaultListModel();
-		JList list = new JList(listModel);
+		coursesListModel = new DefaultListModel<Course>();
+		coursesList = new JList<Course>(coursesListModel);
+
+		coursesList.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent me) {
+				if (me.getClickCount() == 1) {
+					studentEnrolledCoursesPanelController.courseSelected((Course) coursesList.getSelectedValue());
+				}
+			}
+		});
 
 		JPanel boxPanel = new JPanel();
 		boxPanel.setLayout(new BoxLayout(boxPanel, BoxLayout.PAGE_AXIS));
-		boxPanel.add(list);
+		boxPanel.add(coursesList);
 		courses.setViewportView(boxPanel);
 
 		add(courses);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(171, 43, 269, 23);
-		add(comboBox);
+		assignmentComboBox = new JComboBox<StudentAssignment>();
+		assignmentComboBox.setBounds(171, 43, 269, 23);
+		add(assignmentComboBox);
 
-		txtDeadline = new JTextField();
-		txtDeadline.setBounds(320, 92, 120, 23);
-		add(txtDeadline);
-		txtDeadline.setColumns(10);
+		assignmentComboBox.addItemListener(new ItemListener() {
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(320, 127, 120, 23);
-		add(textField_1);
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				studentEnrolledCoursesPanelController
+						.assignmentSelected((StudentAssignment) assignmentComboBox.getSelectedItem());
 
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(320, 166, 120, 23);
-		add(textField_2);
+			}
+		});
+		deadlineTextField = new JTextField();
+		deadlineTextField.setBounds(320, 92, 120, 23);
+		add(deadlineTextField);
+		deadlineTextField.setColumns(10);
 
-		JLabel deadlineLabel = new JLabel("Deadline");
+		lastUploadTextField = new JTextField();
+		lastUploadTextField.setColumns(10);
+		lastUploadTextField.setBounds(320, 127, 120, 23);
+		add(lastUploadTextField);
+
+		gradeTextField = new JTextField();
+		gradeTextField.setColumns(10);
+		gradeTextField.setBounds(320, 166, 120, 23);
+		add(gradeTextField);
+
+		deadlineLabel = new JLabel("Deadline");
 		deadlineLabel.setLocation(192, 92);
 		deadlineLabel.setSize(100, 23);
 		add(deadlineLabel);
 
-		JButton btnUpload = new JButton("Upload");
+		btnUpload = new JButton("Upload");
 		btnUpload.setBounds(269, 204, 89, 23);
 		add(btnUpload);
 
-		JLabel lastUploadLabel = new JLabel("Last upload");
+		lastUploadLabel = new JLabel("Last upload");
 		lastUploadLabel.setBounds(192, 131, 100, 23);
 		add(lastUploadLabel);
 
-		JLabel gradeLabel = new JLabel("Grade");
+		gradeLabel = new JLabel("Grade");
 		gradeLabel.setBounds(192, 170, 100, 23);
 		add(gradeLabel);
 	}
+
+	
+	public void setLanguageBundle(ResourceBundle languageBundle)  {
+		
+		  deadlineLabel.setText(languageBundle.getString("deadline"));             
+		  btnUpload.setText(languageBundle.getString("upload"));         
+		  lastUploadLabel.setText(languageBundle.getString("lastUpload"));            
+	      gradeLabel.setText(languageBundle.getString("grade"));
+	      btnSearch.setText(languageBundle.getString("search"));
+	  
+		}	
+
+
+	public void populateCourses(List<Course> courses) {
+		ereaseAll();
+		if (courses == null || courses.isEmpty()) {
+			return;
+		}
+		for (Course course : courses) {
+			coursesListModel.addElement(course);
+		}
+		coursesList.setSelectedIndex(0);
+		studentEnrolledCoursesPanelController.courseSelected(coursesList.getSelectedValue());
+	}
+
+	private void ereaseAll() {
+		coursesListModel.clear();
+		assignmentComboBox.removeAll();
+		deadlineTextField.setText("");
+		lastUploadTextField.setText("");
+		gradeTextField.setText("");
+	}
+
+	public void populateAssignments(List<StudentAssignment> courseAssignments) {
+		DefaultComboBoxModel model = (DefaultComboBoxModel) assignmentComboBox.getModel();
+		model.removeAllElements();
+		deadlineTextField.setText("");
+		lastUploadTextField.setText("");
+		gradeTextField.setText("");
+		if (courseAssignments == null || courseAssignments.isEmpty()) {
+			return;
+		}
+		for (StudentAssignment assignment : courseAssignments) {
+			assignmentComboBox.addItem(assignment);
+		}
+		studentEnrolledCoursesPanelController.assignmentSelected((StudentAssignment) assignmentComboBox.getSelectedItem());
+	}
+
+	public void setDeadline(Date deadline) {
+		if (deadline == null) {
+			deadlineTextField.setText("");
+		} else {
+			deadlineTextField.setText(deadline.toString());
+		}
+	}
+
+	public void setLastUpload(Date lastUpload) {
+		if (lastUpload == null) {
+			lastUploadTextField.setText("");
+		} else {
+			lastUploadTextField.setText(lastUpload.toString());
+		}
+	}
+
+	public void setGrade(Double grade) {
+		if (grade == null) {
+			gradeTextField.setText("");
+		} else {
+			gradeTextField.setText(grade.toString());
+		}
+	}
+
 }

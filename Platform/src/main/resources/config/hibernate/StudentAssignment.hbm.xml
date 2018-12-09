@@ -1,0 +1,19 @@
+<!-- <?xml version = "1.0" encoding = "utf-8"?> -->
+<!-- <!DOCTYPE hibernate-mapping PUBLIC  -->
+<!-- "-//Hibernate/Hibernate Mapping DTD//EN" -->
+<!-- "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> -->
+
+<!-- <hibernate-mapping package="com.model"> -->
+<!-- 	<class entity-name="studentAssignment" name="com.model.StudentAssignment" table="student_assignment"> -->
+
+<!-- <!-- 		<composite-id name="id" class="StudentAssignmentMapping"> --> -->
+<!-- <!-- 			<key-many-to-one name="student" entity-name="student" --> -->
+<!-- <!-- 				column="student_id" /> --> -->
+<!-- <!-- 			<key-many-to-one name="assignment" entity-name="assignment" --> -->
+<!-- <!-- 				column="assignment_id" /> --> -->
+<!-- <!-- 		</composite-id> --> -->
+
+<!-- 		<property name="lastUpdate" type="date" column="lastUpdate" /> -->
+<!-- 		<property name="grade" type="double" column="grade" /> -->
+<!-- 	</class> -->
+<!-- </hibernate-mapping> -->

@@ -1,5 +1,7 @@
 package com.views.admin;
 
+import java.util.ResourceBundle;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -8,10 +10,11 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
 public class CreateCourses extends JPanel {
-	private JTextField nameTextField;
+	
+	private JTextField courseNameTextField;
 	private JTextField yearTextField;
 	private JTextField semesterTextField;
-	private JLabel lblName;
+	private JLabel lblCourseName;
 	private JLabel lblYear;
 	private JLabel lblSemester;
 	private JLabel lblTeacher;
@@ -19,13 +22,18 @@ public class CreateCourses extends JPanel {
 	private JComboBox teacherComboBox;
 	private JComboBox specializationComboBox;
 	private JButton btnAddTeacher;
+	private JButton btnSave;
+	
 	public CreateCourses() {
+		intialize();
+	}
+	public void intialize() {
 		setLayout(null);
 		
-		nameTextField = new JTextField();
-		nameTextField.setBounds(157, 30, 236, 19);
-		add(nameTextField);
-		nameTextField.setColumns(10);
+		courseNameTextField = new JTextField();
+		courseNameTextField.setBounds(157, 30, 236, 19);
+		add(courseNameTextField);
+		courseNameTextField.setColumns(10);
 		
 		yearTextField = new JTextField();
 		yearTextField.setBounds(157, 134, 236, 19);
@@ -37,9 +45,9 @@ public class CreateCourses extends JPanel {
 		add(semesterTextField);
 		semesterTextField.setColumns(10);
 		
-		lblName = new JLabel("Name");
-		lblName.setBounds(44, 32, 56, 16);
-		add(lblName);
+		lblCourseName = new JLabel("Course Name");
+		lblCourseName.setBounds(44, 32, 78, 19);
+		add(lblCourseName);
 		
 		lblYear = new JLabel("Year");
 		lblYear.setBounds(44, 136, 56, 16);
@@ -51,9 +59,9 @@ public class CreateCourses extends JPanel {
 		
 		ButtonGroup buttonGroup = new ButtonGroup();
 		
-		JButton btnModify = new JButton("Modify");
-		btnModify.setBounds(220, 291, 116, 25);
-		add(btnModify);
+		btnSave = new JButton("Save");
+		btnSave.setBounds(220, 291, 116, 25);
+		add(btnSave);
 		
 		lblTeacher = new JLabel("Teacher");
 		lblTeacher.setBounds(44, 192, 56, 16);
@@ -75,4 +83,16 @@ public class CreateCourses extends JPanel {
 		btnAddTeacher.setBounds(409, 190, 125, 18);
 		add(btnAddTeacher);
 	}
+	public void setLanguageBundle(ResourceBundle languageBundle)  {
+		
+	      lblCourseName.setText(languageBundle.getString("courseName")); 
+	      lblYear.setText(languageBundle.getString("year"));
+	      lblSemester.setText(languageBundle.getString("semester"));
+	      lblTeacher.setText(languageBundle.getString("teacher"));
+	      lblSpecialization.setText(languageBundle.getString("specialization"));
+	      btnAddTeacher.setText(languageBundle.getString("addTeacher")); 
+	      btnSave.setText(languageBundle.getString("save"));
+	  
+	  
+		}	
 }

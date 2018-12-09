@@ -1,6 +1,7 @@
 package com.views.admin;
 
 import java.awt.Dimension;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -12,10 +13,15 @@ public class ManageCourses extends JPanel{
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private JScrollPane scrollPanel;
+	private JButton btnModify;
+	private JButton btnCreate;
 	
 	private String[] tableColumns = {"Name", "Teacher", "Year", "Semester", "Specialization"};
 	
 	public ManageCourses() {
+	   initialize();
+	}
+	public void initialize() {
 		setLayout(null);
 		
 		JPanel tablePanel = new JPanel();
@@ -34,12 +40,19 @@ public class ManageCourses extends JPanel{
 		scrollPanel.setBounds(23, 37, 374, 200);
 		add(scrollPanel);
 		
-		JButton btnModify = new JButton("Modify");
+		btnModify = new JButton("Modify");
 		btnModify.setBounds(77, 250, 97, 25);
 		add(btnModify);
 		
-		JButton btnNew = new JButton("New");
-		btnNew.setBounds(211, 250, 97, 25);
-		add(btnNew);
+		btnCreate = new JButton("Create");
+		btnCreate.setBounds(211, 250, 97, 25);
+		add(btnCreate);
 	}
+	public void setLanguageBundle(ResourceBundle languageBundle)  {
+		
+	      btnModify.setText(languageBundle.getString("modify"));
+	      btnCreate.setText(languageBundle.getString("create"));
+	  
+	  
+		}	
 }

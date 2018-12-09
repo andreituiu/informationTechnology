@@ -12,7 +12,6 @@ public class ProfileInformationPanel extends JPanel{
 	private JTextField externalEmailTextField;
 	private JTextField internalEmailTextField;
 	private JTextField specializationTextField;
-	private JTextField oldPassTextField;
 	private JTextField newPassTextField;
 	private JTextField confirmPassTextField;
 	private JLabel lblName;
@@ -20,7 +19,6 @@ public class ProfileInformationPanel extends JPanel{
 	private JLabel lblCnp;
 	private JLabel lblExternalEmail;
 	private JLabel lblInternalEmail;
-	private JLabel lblSpecialization;
 	private JLabel lblOldPassword;
 	private JLabel lblNewPassword;
 	private JLabel lblConfirmNewPassword;
@@ -56,11 +54,6 @@ public class ProfileInformationPanel extends JPanel{
 		specializationTextField.setBounds(269, 271, 221, 20);
 		specializationTextField.setColumns(10);
 		add(specializationTextField);
-		
-		oldPassTextField = new JTextField();
-		oldPassTextField.setBounds(269, 174, 221, 20);
-		oldPassTextField.setColumns(10);
-		add(oldPassTextField);
 		
 		newPassTextField = new JTextField();
 		newPassTextField.setBounds(269, 205, 221, 20);
@@ -99,10 +92,6 @@ public class ProfileInformationPanel extends JPanel{
 		lblInternalEmail = new JLabel("Internal e-mail");
 		lblInternalEmail.setBounds(81, 142, 90, 18);
 		add(lblInternalEmail);
-		
-		lblSpecialization = new JLabel("Specialization");
-		lblSpecialization.setBounds(81, 178, 100, 16);
-		add(lblSpecialization);
 		
 		lblOldPassword = new JLabel("Old password");
 		lblOldPassword.setBounds(81, 207, 100, 18);
