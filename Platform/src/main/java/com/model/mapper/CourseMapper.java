@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.model.Course;
+import com.model.Specialization;
 
 public class CourseMapper {
 
@@ -26,7 +27,7 @@ public class CourseMapper {
             while(resultSet.next()) {
                 Course course = new Course();
                 course.setName(resultSet.getString("course_name"));
-                course.setSpecialization(resultSet.getString("specialization"));
+                course.setSpecialization( new Specialization(resultSet.getString("specialization")));
                 course.setTeacher(teacherMapper.getTeacher(resultSet));
                 courses.add(course);
             }

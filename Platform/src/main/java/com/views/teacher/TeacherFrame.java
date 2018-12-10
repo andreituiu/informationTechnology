@@ -16,9 +16,9 @@ public class TeacherFrame extends JFrame {
 
 	private void initialize() {
 		getContentPane().setLayout(null);
-
+//		teacherPanel = new TeacherPanel(null, null);
 		teacherPanel.setLocation(0, 0);
-		teacherPanel.setSize(476, 400);
+		teacherPanel.setSize(800, 800);
 		getContentPane().add(teacherPanel);
 	}
 

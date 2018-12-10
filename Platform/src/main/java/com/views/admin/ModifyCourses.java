@@ -10,18 +10,22 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
 public class ModifyCourses extends JPanel {
+	
 	private JTextField courseNameTextField;
 	private JTextField yearTextField;
 	private JTextField semesterTextField;
+	
 	private JLabel lblCourseName;
 	private JLabel lblYear;
 	private JLabel lblSemester;
 	private JLabel lblTeacher;
 	private JLabel lblSpecialization;
+	
 	private JComboBox teacherComboBox;
 	private JComboBox specializationComboBox;
+	
 	private JButton btnAddTeacher;
-	private JButton btnModify;
+	private JButton btnSave;
 	
 	public ModifyCourses() {
 		intialize();
@@ -58,9 +62,9 @@ public class ModifyCourses extends JPanel {
 		
 		ButtonGroup buttonGroup = new ButtonGroup();
 		
-		btnModify = new JButton("Save");
-		btnModify.setBounds(220, 291, 116, 25);
-		add(btnModify);
+		btnSave = new JButton("Save");
+		btnSave.setBounds(220, 291, 116, 25);
+		add(btnSave);
 		
 		lblTeacher = new JLabel("Teacher");
 		lblTeacher.setBounds(44, 192, 56, 16);
@@ -81,6 +85,8 @@ public class ModifyCourses extends JPanel {
 		btnAddTeacher = new JButton("Add teacher");
 		btnAddTeacher.setBounds(409, 190, 125, 18);
 		add(btnAddTeacher);
+		
+		
 	}
 	public void setLanguageBundle(ResourceBundle languageBundle)  {
 		
@@ -90,7 +96,7 @@ public class ModifyCourses extends JPanel {
 	      lblTeacher.setText(languageBundle.getString("teacher"));
 	      lblSpecialization.setText(languageBundle.getString("specialization"));
 	      btnAddTeacher.setText(languageBundle.getString("addTeacher")); 
-	      btnModify.setText(languageBundle.getString("modify"));
+	      btnSave.setText(languageBundle.getString("save"));
 	  
 	  
 		}	

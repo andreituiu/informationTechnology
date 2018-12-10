@@ -6,6 +6,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -21,24 +24,41 @@ import com.controllers.student.implementation.StudentEnrolledCoursesPanelControl
 import com.controllers.student.implementation.StudentFindCoursePannelController;
 import com.controllers.student.implementation.StudentHeaderController;
 import com.controllers.student.implementation.StudentProfileInformationPanelController;
+import com.controllers.teacher.ITeacherCoursePanelController;
+import com.controllers.teacher.ITeacherCreateAssignmentFrameController;
+import com.controllers.teacher.ITeacherHeaderController;
+import com.controllers.teacher.ITeacherManageAssignmentsPanelController;
+import com.controllers.teacher.ITeacherManageStudentsPanelController;
+import com.controllers.teacher.ITeacherProfileInformationPanelController;
+import com.controllers.teacher.implementation.TeacherCoursePanelController;
+import com.controllers.teacher.implementation.TeacherCreateAssignmentFrameController;
+import com.controllers.teacher.implementation.TeacherHeaderController;
+import com.controllers.teacher.implementation.TeacherManageAssignmentsPanelController;
+import com.controllers.teacher.implementation.TeacherManageStudentsPanelController;
+import com.controllers.teacher.implementation.TeacherProfileInformationPanelController;
 import com.model.Course;
 import com.model.Mail;
 import com.model.Student;
 import com.model.StudentAssignment;
+import com.model.Teacher;
 import com.model.User;
 import com.model.dao.AssignmentDAO;
 import com.model.dao.CourseDAO;
 import com.model.dao.MailDAO;
 import com.model.dao.StudentDAO;
+import com.model.dao.TeacherDAO;
 import com.model.dao.implementation.AssignmentDAOImpl;
 import com.model.dao.implementation.CourseDAOImpl;
 import com.model.dao.implementation.MailDAOImpl;
 import com.model.dao.implementation.StudentDAOImpl;
+import com.model.dao.implementation.TeacherDAOImpl;
 import com.model.mapper.AssignmentMapper;
 import com.model.mapper.CourseMapper;
 import com.model.mapper.MailMapper;
 import com.model.mapper.StudentAssignmentMapper;
+import com.model.mapper.StudentMapper;
 import com.model.mapper.TeacherMapper;
+import com.views.common.ISupportPanel;
 import com.views.common.MailPanel;
 import com.views.student.StudentCoursesPanel;
 import com.views.student.StudentEnrolledCoursesPanel;
@@ -47,6 +67,15 @@ import com.views.student.StudentFrame;
 import com.views.student.StudentHeader;
 import com.views.student.StudentPanel;
 import com.views.student.StudentProfileInformationPanel;
+import com.views.teacher.TeacherCoursesPanel;
+import com.views.teacher.TeacherCreateAssignmentFrame;
+import com.views.teacher.TeacherFrame;
+import com.views.teacher.TeacherHeader;
+import com.views.teacher.TeacherManageAssignmentsPanel;
+import com.views.teacher.TeacherManageStudentsPanel;
+import com.views.teacher.TeacherPanel;
+import com.views.teacher.TeacherProfileInformationPanel;
+import com.views.teacher.TeacherStudentsTablePanel;
 
 public class Main {
 
@@ -62,15 +91,99 @@ public class Main {
 	static final String PASS = "";
 
 	private StudentFrame studentFrame;
-	private IEmailPanelController emailPanelController;
+	private IEmailPanelController emailPanelControllerTeacher;
+	private IEmailPanelController emailPanelControllerStudent;
 	private IStudentCoursesPanelController studentCoursesPanelController;
 	private Connection connection;
+	private TeacherFrame teacherFrame;
+	private MailDAO mailDAO;
+	private CourseDAO coursesDAO;
+	private StudentDAO studentDAO;
+	private TeacherDAO teacherDAO;
+	private AssignmentDAO assignmentDAO;
+
+	private CourseMapper courseMapper;
+	private TeacherMapper teacherMapper;
+	private StudentMapper studentMapper;
+	private StudentAssignmentMapper studentAssignmentsMapper;
+	private AssignmentMapper assignmetMapper;
 
 	public void run() {
 		initConn();
+		initMappers();
+		initDAO();
 //		init();
-		 initialize();
-		 studentFrame.setVisible(true);
+//		 initialize();
+		initStudent();
+		initTeacher();
+		teacherFrame.setVisible(true);
+		studentFrame.setVisible(true);
+	}
+
+
+	private void initMappers() {
+		studentMapper = new StudentMapper();
+		teacherMapper = new TeacherMapper();
+		assignmetMapper = new AssignmentMapper();
+		courseMapper = new CourseMapper(teacherMapper);
+		studentAssignmentsMapper = new StudentAssignmentMapper(assignmetMapper);
+	}
+
+	private void initDAO() {
+		studentDAO = new StudentDAOImpl(studentMapper, connection);
+        coursesDAO = new CourseDAOImpl(courseMapper,connection);
+		mailDAO = new MailDAOImpl(new MailMapper(), connection);
+		teacherDAO = new TeacherDAOImpl(teacherMapper, connection);
+		assignmentDAO = new AssignmentDAOImpl(assignmetMapper, studentAssignmentsMapper, connection);
+	}
+
+	private void initTeacher() {
+		User user = new User();
+		Teacher teacher = teacherDAO.getTeacher("123");
+		
+		emailPanelControllerTeacher = new EmailPanelController(mailDAO, user);
+		
+		ITeacherProfileInformationPanelController teacherProfilePanelController = new TeacherProfileInformationPanelController(teacher);
+		
+		ITeacherManageStudentsPanelController teacherManageStudentsPanelController = new TeacherManageStudentsPanelController(studentDAO);
+		ITeacherCreateAssignmentFrameController teacherCreateAssignmentFrameController = new TeacherCreateAssignmentFrameController(assignmentDAO);
+		ITeacherManageAssignmentsPanelController teacherManageAssignmentsPanelConttoller = new TeacherManageAssignmentsPanelController(studentDAO, assignmentDAO, teacherCreateAssignmentFrameController);
+		ITeacherCoursePanelController teacherCoursesPanelController = new TeacherCoursePanelController(teacher, coursesDAO, teacherManageStudentsPanelController, teacherManageAssignmentsPanelConttoller);
+		
+		ITeacherHeaderController teacherHeaderController = new TeacherHeaderController(teacherProfilePanelController, teacherCoursesPanelController, emailPanelControllerTeacher);
+		
+		MailPanel mailPanel = new MailPanel(emailPanelControllerTeacher);
+		
+		TeacherStudentsTablePanel waitingStudentsTablePanel = new TeacherStudentsTablePanel();
+		TeacherStudentsTablePanel enrolledStudentsTablePanel = new TeacherStudentsTablePanel();
+		TeacherStudentsTablePanel studentsTablePanel = new TeacherStudentsTablePanel(teacherManageAssignmentsPanelConttoller);
+		TeacherManageStudentsPanel teacherManageStudentsPanel = new TeacherManageStudentsPanel(teacherManageStudentsPanelController, waitingStudentsTablePanel, enrolledStudentsTablePanel);
+		TeacherManageAssignmentsPanel teacherManageAssignmentsPanel = new TeacherManageAssignmentsPanel(teacherManageAssignmentsPanelConttoller, studentsTablePanel);
+		
+		TeacherCreateAssignmentFrame teacherCreateAssignmentFrame = new TeacherCreateAssignmentFrame(teacherCreateAssignmentFrameController);
+
+		TeacherCoursesPanel teacherCoursePanel = new TeacherCoursesPanel(teacherCoursesPanelController, teacherManageStudentsPanel, teacherManageAssignmentsPanel);
+
+		TeacherHeader teacherHeader = new TeacherHeader(teacherHeaderController);
+		TeacherProfileInformationPanel teacherProfileInformationPanel = new TeacherProfileInformationPanel();
+		TeacherPanel teacherPanel = new TeacherPanel(teacherHeader, teacherProfileInformationPanel);
+		teacherFrame = new TeacherFrame(teacherPanel);
+		
+		teacherManageAssignmentsPanelConttoller.setTeacherManageAssignmentsPanel(teacherManageAssignmentsPanel);
+		
+		teacherManageStudentsPanelController.setTeacherManageStudentsPanel(teacherManageStudentsPanel);
+
+		teacherCoursesPanelController.setTeacherCoursePanel(teacherCoursePanel);
+		teacherCoursesPanelController.setTeacherPanel(teacherPanel);
+		
+		teacherProfilePanelController.setTeacherPanel(teacherPanel);
+		teacherProfilePanelController.setTeacherProfileInformationPanel(teacherProfileInformationPanel);
+		
+		teacherCreateAssignmentFrameController.setTeacherCreateAssignmentFrame(teacherCreateAssignmentFrame);
+		
+		emailPanelControllerTeacher.setMailPanel(mailPanel);
+		emailPanelControllerTeacher.setSupportPanel(teacherPanel);
+	
 	}
 
 	private void initConn() {
@@ -81,78 +194,46 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
+	
 
-	private void init() {
-		SessionFactory factory = new Configuration().configure().buildSessionFactory();
-//		CourseDAO courseDAO = new CourseDAOImpl(factory);
-		StudentDAO studentDAO = new StudentDAOImpl(factory);
-		MailDAO mailDAO = new MailDAOImpl(new MailMapper(), connection);
-
-		mailDAO.sendMail(new Mail("1", "2", "subj", "message"));
-		// Student student = studentDAO.getStudent("1");
-		// List<Course> enrolledCourses = courseDAO.getEnrolledCourses(student);
-		// courseDAO.getAllCourses();
-		// System.out.println(enrolledCourses.size());
-
-	}
-
-	private void initialize() {
-	    TeacherMapper teacherMapper = new TeacherMapper();
-        CourseMapper courseMapper = new CourseMapper(teacherMapper);
-        AssignmentMapper assignmetMapper = new AssignmentMapper();
-		StudentAssignmentMapper studentAssignmentsMapper = new StudentAssignmentMapper(assignmetMapper);
-
-        StudentProfileInformationPanel studentProfilePanel = new StudentProfileInformationPanel();
-		
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
-		StudentDAO studentDAO = new StudentDAOImpl(factory);
-        CourseDAO coursesDAO = new CourseDAOImpl(courseMapper,connection);
-		MailDAO mailDAO = new MailDAOImpl(new MailMapper(), connection);
-		AssignmentDAO assignmentDAO = new AssignmentDAOImpl(studentAssignmentsMapper, connection);
-		
+	private void initStudent() {
 		User user = new User();
 		Student student = studentDAO.getStudent("1");
-		if (student != null) {
-			System.out.println(student.getCnp());
-		} else {
-			System.out.println("student not found");
-		}
-		// System.out.println(coursesDAO.getAllCourses().get(0).getAssignments().size());
-		IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController = new StudentEnrolledCoursesPanelController(
-				coursesDAO, assignmentDAO, student);
-		IStudentFindCoursePannelController studentFindCoursePannelController = new StudentFindCoursePannelController(
-				coursesDAO);
-		studentCoursesPanelController = new StudentCoursesPanelController(studentFindCoursePannelController,
-				studentEnrolledCoursesPanelController);
-		StudentFindCoursePannel studentFindCoursePannel = new StudentFindCoursePannel(
-				studentFindCoursePannelController);
+		IStudentProfileInformationPanelController studentProfilePanelController = new StudentProfileInformationPanelController(student);
+		
+		IStudentFindCoursePannelController studentFindCoursePannelController = new StudentFindCoursePannelController(student, coursesDAO, studentDAO);
+		IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController = new StudentEnrolledCoursesPanelController(coursesDAO, assignmentDAO, student);
+		
+		studentCoursesPanelController = new StudentCoursesPanelController(studentFindCoursePannelController, studentEnrolledCoursesPanelController);
+		
+		emailPanelControllerStudent = new EmailPanelController(mailDAO, user);
+		
+		IStudentHeaderController studentHeaderController = new StudentHeaderController(studentProfilePanelController, studentCoursesPanelController, emailPanelControllerStudent);
+
+		
+		StudentProfileInformationPanel studentProfilePanel = new StudentProfileInformationPanel();
+		StudentHeader header = new StudentHeader(studentHeaderController);
+		StudentPanel studentPanel = new StudentPanel(header, studentProfilePanel);
+		
+		StudentFindCoursePannel studentFindCoursePannel = new StudentFindCoursePannel(studentFindCoursePannelController);
+		StudentEnrolledCoursesPanel studentEnrolledCoursesPanel = new StudentEnrolledCoursesPanel(studentEnrolledCoursesPanelController);
+		
+		StudentCoursesPanel studentCoursesPanel = new StudentCoursesPanel(studentCoursesPanelController, studentFindCoursePannel, studentEnrolledCoursesPanel);
+
 		studentFindCoursePannelController.setStudentFindCoursePannel(studentFindCoursePannel);
-
-		IStudentProfileInformationPanelController studentProfilePanelController = new StudentProfileInformationPanelController(
-				student);
+		studentEnrolledCoursesPanelController.setStudentEnrolledCoursesPanel(studentEnrolledCoursesPanel);
 		
-		emailPanelController = new EmailPanelController(mailDAO, user);
-		MailPanel emailPanel = new MailPanel(emailPanelController);
-		
-		IStudentHeaderController studentHeaderController = new StudentHeaderController(studentProfilePanelController,
-				studentCoursesPanelController, emailPanelController);
-		StudentHeader studentHeader = new StudentHeader(studentHeaderController);
-		StudentPanel studentPanel = new StudentPanel(studentHeader, studentProfilePanel);
-
-		StudentEnrolledCoursesPanel enrolledCoursesPanel = new StudentEnrolledCoursesPanel(
-				studentEnrolledCoursesPanelController);
-		StudentCoursesPanel studentCoursesPanel = new StudentCoursesPanel(studentCoursesPanelController,
-				studentFindCoursePannel, enrolledCoursesPanel);
-
-		emailPanelController.setMailPanel(emailPanel);
-		emailPanelController.setStudentPanel(studentPanel);
 		studentCoursesPanelController.setStudentPanel(studentPanel);
 		studentCoursesPanelController.setStudentCoursesPanel(studentCoursesPanel);
-		studentEnrolledCoursesPanelController.setStudentEnrolledCoursesPanel(enrolledCoursesPanel);
-		studentProfilePanelController.setStudentPanel(studentPanel);
-		studentProfilePanelController.setStudentProfileInformationPanel(studentProfilePanel);
-
+		
+		MailPanel mailPanel = new MailPanel(emailPanelControllerStudent);
+		
+		emailPanelControllerStudent.setMailPanel(mailPanel);
+		emailPanelControllerStudent.setSupportPanel(studentPanel);
+		
 		studentFrame = new StudentFrame(studentPanel);
 	}
+
+	
 
 }

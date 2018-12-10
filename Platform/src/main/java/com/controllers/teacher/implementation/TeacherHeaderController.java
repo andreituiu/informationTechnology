@@ -1,47 +1,38 @@
 package com.controllers.teacher.implementation;
 
+import com.controllers.common.IEmailPanelController;
+import com.controllers.teacher.ITeacherCoursePanelController;
 import com.controllers.teacher.ITeacherHeaderController;
-import com.views.common.MailPanel;
-import com.views.teacher.TeacherCourses;
-import com.views.teacher.TeacherPanel;
-import com.views.teacher.TeacherProfileInformationPanel;
+import com.controllers.teacher.ITeacherProfileInformationPanelController;
 
 public class TeacherHeaderController implements ITeacherHeaderController {
 
-	private TeacherProfileInformationPanel teacherProfilePanel;
-	private TeacherPanel teacherPanel;
-	private TeacherCourses teacherCourses;
-	private MailPanel emailPanel;
-	
-	public TeacherHeaderController(TeacherProfileInformationPanel teacherProfilePanel,
-			TeacherCourses teacherCourses, MailPanel emailPanel) {
-		super();
-		this.teacherProfilePanel = teacherProfilePanel;
-		this.teacherCourses = teacherCourses;
-		this.emailPanel = emailPanel;
-	}
+    private ITeacherProfileInformationPanelController teacherProfilePanelController;
+    private IEmailPanelController emailPanelController;
+    private ITeacherCoursePanelController teacherCoursesPanelController;
 
-	
-	@Override
-	public void setTeacherPanel(TeacherPanel teacherPanel) {
-		this.teacherPanel = teacherPanel;
-	}
+    public TeacherHeaderController(
+            ITeacherProfileInformationPanelController teacherProfilePanelController,
+            ITeacherCoursePanelController teacherCoursesPanelController,
+            IEmailPanelController emailPanelController) {
+        super();
+        this.teacherProfilePanelController = teacherProfilePanelController;
+        this.teacherCoursesPanelController = teacherCoursesPanelController;
+        this.emailPanelController = emailPanelController;
+    }
 
+    @Override
+    public void viewProfile() {
+        teacherProfilePanelController.viewProfile();
+    }
 
+    @Override
+    public void viewCourses() {
+        teacherCoursesPanelController.viewCourse();
+    }
 
-	@Override
-	public void viewProfile() {
-		teacherPanel.setPanel(teacherProfilePanel);
-	}
-
-	@Override
-	public void viewCourses() {
-		teacherPanel.setPanel(teacherCourses);
-	}
-
-	@Override
-	public void viewEmail() {
-		teacherPanel.setPanel(emailPanel);
-	}
-
+    @Override
+    public void viewEmail() {
+        emailPanelController.viewEmail();
+    }
 }

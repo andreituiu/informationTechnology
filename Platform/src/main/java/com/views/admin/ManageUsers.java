@@ -21,6 +21,7 @@ public class ManageUsers extends JPanel {
 	private JScrollPane scrollPanel;
 	
 	private String[] tableColumns = {"Name", "Surname", "CNP", "Role"};
+	
 	private JButton btnDelete;
 	private JButton btnModify;
 	private JButton btnCreate;
@@ -80,8 +81,6 @@ public class ManageUsers extends JPanel {
 	      btnCreate.setText(languageBundle.getString("create"));
 	      btnDelete.setText(languageBundle.getString("delete"));
 	      btnSearch.setText(languageBundle.getString("search"));
-	      
-	  
 	  
 		}	
 }

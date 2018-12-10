@@ -1,30 +1,44 @@
 package com.views.admin;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
-public class CreateCourses extends JPanel {
+import com.controllers.admin.IAdminCreateCoursesController;
+import com.model.Specialization;
+import com.model.Teacher;
+
+public class CreateCourses extends JFrame {
 	
 	private JTextField courseNameTextField;
 	private JTextField yearTextField;
 	private JTextField semesterTextField;
+	
 	private JLabel lblCourseName;
 	private JLabel lblYear;
 	private JLabel lblSemester;
 	private JLabel lblTeacher;
 	private JLabel lblSpecialization;
-	private JComboBox teacherComboBox;
-	private JComboBox specializationComboBox;
-	private JButton btnAddTeacher;
+	
+	private JComboBox<Teacher> teacherComboBox;
+	private JComboBox<Specialization> specializationComboBox;
+
 	private JButton btnSave;
 	
-	public CreateCourses() {
+	private IAdminCreateCoursesController adminCreateCoursesController;
+
+ 
+	
+	public CreateCourses(IAdminCreateCoursesController adminCreateCoursesController) {
+		this.adminCreateCoursesController = adminCreateCoursesController;
+
 		intialize();
 	}
 	public void intialize() {
@@ -57,7 +71,6 @@ public class CreateCourses extends JPanel {
 		lblSemester.setBounds(44, 82, 56, 16);
 		add(lblSemester);
 		
-		ButtonGroup buttonGroup = new ButtonGroup();
 		
 		btnSave = new JButton("Save");
 		btnSave.setBounds(220, 291, 116, 25);
@@ -71,18 +84,40 @@ public class CreateCourses extends JPanel {
 		lblSpecialization.setBounds(44, 241, 78, 17);
 		add(lblSpecialization);
 		
-		teacherComboBox = new JComboBox();
+		teacherComboBox = new JComboBox<Teacher>();
 		teacherComboBox.setBounds(157, 191, 236, 19);
 		add(teacherComboBox);
 		
-		specializationComboBox = new JComboBox();
+		specializationComboBox = new JComboBox<Specialization>();
 		specializationComboBox.setBounds(157, 238, 236, 20);
 		add(specializationComboBox);
 		
-		btnAddTeacher = new JButton("Add teacher");
-		btnAddTeacher.setBounds(409, 190, 125, 18);
-		add(btnAddTeacher);
-	}
+		
+		btnSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminCreateCoursesController.saveCourse();
+			}
+		});
+		
+		specializationComboBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminCreateCoursesController.selectSpecialization((Specialization)specializationComboBox.getSelectedItem());
+			};
+			});
+		
+		teacherComboBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminCreateCoursesController.selectTeacher((Teacher)teacherComboBox.getSelectedItem());
+			}
+		});
+		}
+	
 	public void setLanguageBundle(ResourceBundle languageBundle)  {
 		
 	      lblCourseName.setText(languageBundle.getString("courseName")); 
@@ -90,9 +125,58 @@ public class CreateCourses extends JPanel {
 	      lblSemester.setText(languageBundle.getString("semester"));
 	      lblTeacher.setText(languageBundle.getString("teacher"));
 	      lblSpecialization.setText(languageBundle.getString("specialization"));
-	      btnAddTeacher.setText(languageBundle.getString("addTeacher")); 
 	      btnSave.setText(languageBundle.getString("save"));
-	  
-	  
+	}	
+	
+	public String getCourseName() {
+		return courseNameTextField.getText();
+	}
+
+
+	public Integer getYear() {
+	    return new Integer(yearTextField.getText());
+	}
+
+	public Integer getSemester() {
+	    return new Integer(semesterTextField.getText());
+	}
+
+	
+    public void ereaseAll() {
+    	
+	  teacherComboBox.removeAll();
+	  specializationComboBox.removeAll();
+	  courseNameTextField.setText("");
+	  yearTextField.setText("");      
+	  semesterTextField.setText("");  
+	        
+	}
+
+	public void populateTeachers(List<Teacher> teachers) {
+		DefaultComboBoxModel<Teacher> model = (DefaultComboBoxModel) teacherComboBox.getModel();
+		model.removeAllElements();
+		if (teachers == null || teachers.isEmpty()) {
+			return;
+		}
+		
+		for (Teacher teacher : teachers) {
+		
+			teacherComboBox.addItem(teacher);
 		}	
+	}
+	
+	
+	public void populateSpecializations(List<Specialization> specializations) {
+		DefaultComboBoxModel<Specialization> model = (DefaultComboBoxModel) specializationComboBox.getModel();
+		model.removeAllElements();
+		if (specializations == null || specializations.isEmpty()) {
+			return;
+		}
+		
+		for (Specialization specialization : specializations) {
+		
+			specializationComboBox.addItem(specialization);
+		}	
+	}
+	
 }

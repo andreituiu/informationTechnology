@@ -1,6 +1,10 @@
 package com.views.admin;
 
 import javax.swing.JPanel;
+
+import com.controllers.admin.IAdminHeaderController;
+import com.controllers.student.IStudentHeaderController;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
@@ -12,8 +16,13 @@ public class AdminHeader extends JPanel{
 	private JButton btnManageCourses;
 	private JButton btnEmail;
 	private JButton btnProfile;
+
+	private IAdminHeaderController adminHeaderController;
+
+
 	
-	public AdminHeader() {
+	public AdminHeader(IAdminHeaderController adminHeaderController) {
+		this.adminHeaderController = adminHeaderController;
 		initialize();
 	}
 	
@@ -47,6 +56,39 @@ public class AdminHeader extends JPanel{
 		btnProfile = new JButton("Profile");
 		btnProfile.setBounds(12, 13, 97, 25);
 		add(btnProfile);
+		
+		btnProfile.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminHeaderController.viewProfile();
+			}
+		});
+		
+		btnManageCourses.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminHeaderController.viewCourses();
+			}
+		});
+		
+		btnManageSpecializations.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminHeaderController.viewSpecializations();
+			}
+		});
+		
+		btnEmail.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminHeaderController.viewEmail();
+			}
+		});
+		
 	}
 	
 	public void setLanguageBundle(ResourceBundle languageBundle)  {

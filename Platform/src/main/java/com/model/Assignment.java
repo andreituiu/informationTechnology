@@ -1,14 +1,13 @@
 package com.model;
 
 import java.util.Date;
-import java.util.Set;
 
 public class Assignment {
 
 	private Integer id;
 	private String name;
 	private Date deadline;
-
+	private String courseName;
 	
 	public Integer getId() {
 		return id;
@@ -63,6 +62,17 @@ public class Assignment {
 			return false;
 		return true;
 	}
+	public String getCourseName() {
+		return courseName;
+	}
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 	
 	
 }

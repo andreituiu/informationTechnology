@@ -88,7 +88,7 @@ public class TeacherFindCoursePannel extends JPanel {
 		eraseTable();
 		this.courses = courses;
 		for (Course course : courses) {
-			Object[] newRow = {course.getName(), course.getSpecialization()};
+			Object[] newRow = {course.getName()};
 			tableModel.addRow(newRow);
 		}
 	}

@@ -1,9 +1,5 @@
 package com.controllers.teacher.implementation;
 
-import java.awt.Component;
-
-import org.hibernate.sql.Update;
-
 import com.controllers.teacher.ITeacherProfileInformationPanelController;
 import com.model.Teacher;
 import com.views.teacher.TeacherPanel;

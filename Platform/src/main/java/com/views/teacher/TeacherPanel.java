@@ -2,10 +2,12 @@ package com.views.teacher;
 
 import javax.swing.JPanel;
 
-public class TeacherPanel extends JPanel{
+import com.views.common.ISupportPanel;
+
+public class TeacherPanel extends JPanel implements ISupportPanel {
 	private JPanel currentPannel;
 	TeacherHeader header;
-	
+
 	public TeacherPanel(TeacherHeader header, JPanel startingPannel) {
 		currentPannel = startingPannel;
 		this.header = header;
@@ -13,15 +15,16 @@ public class TeacherPanel extends JPanel{
 	}
 
 	private void initialize() {
+		// header = new TeacherHeader(null);
+		// currentPannel = new TeacherCoursesPanel(null, null, null);
+
 		header.setLocation(0, 0);
 		header.setSize(450, 53);
-		
-		currentPannel = new TeacherProfileInformationPanel();
 		currentPannel.setLocation(0, 52);
-		currentPannel.setSize(450, 349);
-		
+		currentPannel.setSize(671, 349);
+
 		setLayout(null);
-		
+
 		add(header);
 		add(currentPannel);
 	}
@@ -31,6 +34,6 @@ public class TeacherPanel extends JPanel{
 		currentPannel = newPannel;
 		add(currentPannel);
 		currentPannel.setLocation(0, 52);
-		currentPannel.setSize(450, 349);
+		currentPannel.setSize(671, 349);
 	}
 }

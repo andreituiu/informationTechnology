@@ -55,7 +55,7 @@ public class TeacherEnrolledStudentsPanel extends JPanel {
 		setLayout(null);
 
 		JScrollPane studentsEnrl_scrollPane = new JScrollPane();
-		studentsEnrl_scrollPane.setBounds(10, 124, 275, 88);
+		studentsEnrl_scrollPane.setBounds(10, 11, 275, 88);
 		txtrEnroledStudents = new JTextArea();
 		txtrEnroledStudents.setText("Enroled students");
 		studentsEnrl_scrollPane.setColumnHeaderView(txtrEnroledStudents);
@@ -74,7 +74,7 @@ public class TeacherEnrolledStudentsPanel extends JPanel {
 
 			}
 		});
-		
+		add(studentsEnrl_scrollPane);
 
 	}
 

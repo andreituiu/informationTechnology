@@ -15,10 +15,12 @@ public class ModifySpecialization extends JPanel {
 	private JTextField nameTextField;
 	private JTextField yearTextField;
 	private JTextField semesterTextField;
+	
 	private JLabel lblSpecializationName;
 	private JLabel lblYear;
 	private JLabel lblSemester;
-	private JButton btnModify;
+	
+	private JButton btnSave;
 	
 	public ModifySpecialization() {
 	 initialize();
@@ -54,16 +56,17 @@ public class ModifySpecialization extends JPanel {
 		add(lblSemester);
 		
 		
-		btnModify = new JButton("Create");
-		btnModify.setBounds(287, 193, 116, 25);
-		add(btnModify);
+		btnSave = new JButton("Save");
+		btnSave.setBounds(287, 193, 116, 25);
+		add(btnSave);
+		
 	}
 	public void setLanguageBundle(ResourceBundle languageBundle)  {
 		
 	      lblSpecializationName.setText(languageBundle.getString("specializationName")); 
 	      lblYear.setText(languageBundle.getString("year"));
 	      lblSemester.setText(languageBundle.getString("semester"));
-	      btnModify.setText(languageBundle.getString("modify"));
+	      btnSave.setText(languageBundle.getString("save"));
 	  
 	  
 		}	

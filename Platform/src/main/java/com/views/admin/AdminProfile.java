@@ -10,13 +10,14 @@ import javax.swing.JLabel;
 
 public class AdminProfile extends JPanel{
 	private JTextField nameTextField;
-	private JTextField SurnameTextField;
-	private JTextField CNPTextField;
+	private JTextField surnameTextField;
+	private JTextField cnpTextField;
 	private JTextField externalEmailTextField;
 	private JTextField internalEmailTextField;
 	private JTextField newPassTextField;
 	private JTextField confirmPassTextField;
 	private JTextField confirmPasswordTextField;
+	
 	private JLabel lblName;
 	private JLabel lblSurname;
 	private JLabel lblCnp;
@@ -25,6 +26,7 @@ public class AdminProfile extends JPanel{
 	private JLabel lblOldPassword;
 	private JLabel lblNewPassword;
 	private JLabel lblConfirmNewPassword;
+	
 	private JButton btnSave;
 	private JButton btnChangePassword;
 	
@@ -39,15 +41,15 @@ public class AdminProfile extends JPanel{
 		add(nameTextField);
 		nameTextField.setColumns(10);
 		
-		SurnameTextField = new JTextField();
-		SurnameTextField.setBounds(269, 44, 221, 20);
-		SurnameTextField.setColumns(10);
-		add(SurnameTextField);
+		surnameTextField = new JTextField();
+		surnameTextField.setBounds(269, 44, 221, 20);
+		surnameTextField.setColumns(10);
+		add(surnameTextField);
 		
-		CNPTextField = new JTextField();
-		CNPTextField.setBounds(269, 75, 221, 20);
-		CNPTextField.setColumns(10);
-		add(CNPTextField);
+		cnpTextField = new JTextField();
+		cnpTextField.setBounds(269, 75, 221, 20);
+		cnpTextField.setColumns(10);
+		add(cnpTextField);
 		
 		externalEmailTextField = new JTextField();
 		externalEmailTextField.setBounds(269, 108, 221, 20);
@@ -128,4 +130,34 @@ public class AdminProfile extends JPanel{
       btnSave.setText(languageBundle.getString("save"));
       btnChangePassword.setText(languageBundle.getString("changePassword"));
 	}	
+	
+	public void setUsername(String name) {
+		nameTextField.setText(name);
+	}
+
+	public void setSurname(String surname) {
+		surnameTextField.setText(surname);
+	}
+
+	public void setCNP(String cnp) {
+		cnpTextField.setText(cnp);
+	}
+	
+	public void setExternalEmail(String externalEmail) {
+		externalEmailTextField.setText(externalEmail);
+	}
+	
+	
+	public void setInternalEmail(String internalEmail) {
+		internalEmailTextField.setText(internalEmail);
+	}
+	
+	public void ereaseAll() {
+		
+		nameTextField.setText("");
+		surnameTextField.setText("");	
+		cnpTextField.setText("");	
+		externalEmailTextField.setText("");
+		internalEmailTextField.setText("");             
+	}
 }

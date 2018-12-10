@@ -46,5 +46,9 @@ public class Teacher {
 	public void setInternalEmail(String internalEmail) {
 		this.internalEmail = internalEmail;
 	}
+	@Override
+	public String toString() {
+		return name+" "+surname;
+	}
 	
 }

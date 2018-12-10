@@ -4,19 +4,29 @@ import java.util.List;
 
 import com.controllers.student.IStudentFindCoursePannelController;
 import com.model.Course;
+import com.model.Student;
 import com.model.dao.CourseDAO;
+import com.model.dao.StudentDAO;
 import com.views.student.StudentFindCoursePannel;
 
 public class StudentFindCoursePannelController implements IStudentFindCoursePannelController {
 
 	private StudentFindCoursePannel studentFindCoursePannel;
 	private CourseDAO coursesDAO;
+	private Student student;
+	private StudentDAO studentDAO;
+	private List<Course> notEnrolledCourses;
 	
 
-	public StudentFindCoursePannelController(CourseDAO coursesDAO) {
+	
+
+	public StudentFindCoursePannelController(Student student, CourseDAO coursesDAO, StudentDAO studentDAO) {
 		super();
+		this.student = student;
 		this.coursesDAO = coursesDAO;
+		this.studentDAO = studentDAO;
 	}
+
 
 
 	@Override
@@ -28,8 +38,13 @@ public class StudentFindCoursePannelController implements IStudentFindCoursePann
 
 	@Override
 	public void update() {
-		List<Course> courses = coursesDAO.getAllCourses();
-		studentFindCoursePannel.populate(courses);
+		List<Course> pendingCourses = coursesDAO.getPendingCourses(student);
+		List<Course> enrolledCourses = coursesDAO.getEnrolledCourses(student);
+		List<Course> notEnrolledCourses = coursesDAO.getNotEnrolledCourses(student);
+		
+		this.notEnrolledCourses = notEnrolledCourses;
+		
+		studentFindCoursePannel.populate(notEnrolledCourses, pendingCourses, enrolledCourses);
 	}
 
 
@@ -37,8 +52,22 @@ public class StudentFindCoursePannelController implements IStudentFindCoursePann
 	public void searchCourse() {
 		String searchedText = studentFindCoursePannel.getSearchedText();
 	
-		List<Course> courses = coursesDAO.getAllCoursesContaining(searchedText);
-		studentFindCoursePannel.populate(courses);
+		List<Course> pendingCourses = coursesDAO.getPendingCoursesContaining(student, searchedText);
+		List<Course> enrolledCourses = coursesDAO.getEnrolledCoursesContaining(student, searchedText);
+		List<Course> notEnrolledCourses = coursesDAO.getNotEnrolledCoursesContaining(student, searchedText);
+		
+		this.notEnrolledCourses = notEnrolledCourses;
+		
+		studentFindCoursePannel.populate(notEnrolledCourses, pendingCourses, enrolledCourses);
+	}
+
+
+	@Override
+	public void sendPendingRequest(Course selectedCourse) {
+		if(notEnrolledCourses.contains(selectedCourse)) {
+			studentDAO.pendingStudent(student, selectedCourse);
+			update();
+		}
 	}
 
 }

@@ -1,26 +1,38 @@
 package com.model;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 public class Course implements Serializable{
 
 	private String name;
-	private String specialization;
+	private Specialization specialization;
 	private Teacher teacher;
+	private Integer year;
+	private Integer semester;
 	
 	
+	public Integer getSemester() {
+		return semester;
+	}
+	public void setSemester(Integer semester) {
+		this.semester = semester;
+	}
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+	public Integer getYear() {
+		return year;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getSpecialization() {
+	public Specialization getSpecialization() {
 		return specialization;
 	}
-	public void setSpecialization(String specialization) {
+	public void setSpecialization(Specialization specialization) {
 		this.specialization = specialization;
 	}
 	public Teacher getTeacher() {
@@ -29,6 +41,7 @@ public class Course implements Serializable{
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
 	}
+	
 	
 	@Override
 	public int hashCode() {
@@ -60,6 +73,6 @@ public class Course implements Serializable{
 			return false;
 		return true;
 	}
-
+	
 	
 }

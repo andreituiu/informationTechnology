@@ -2,10 +2,13 @@ package com.controllers.common.implementation;
 
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import com.controllers.common.IEmailPanelController;
 import com.model.Mail;
 import com.model.User;
 import com.model.dao.MailDAO;
+import com.views.common.ISupportPanel;
 import com.views.common.MailPanel;
 import com.views.student.StudentPanel;
 
@@ -15,7 +18,7 @@ public class EmailPanelController implements IEmailPanelController {
     private MailDAO mailDAO;
     private MailPanel mailPanel;
     private User user;
-    private StudentPanel studentPanel;
+    private ISupportPanel supportPanel;
 
     
     
@@ -27,16 +30,16 @@ public class EmailPanelController implements IEmailPanelController {
 
     @Override
     public void viewEmail() {
-        studentPanel.setPanel(mailPanel);
+    	supportPanel.setPanel(mailPanel);
     }
     
     
     @Override
-    public void setStudentPanel(StudentPanel studentPanel) {
-        this.studentPanel = studentPanel;
-    }
+    public void setSupportPanel(ISupportPanel supportPanel) {
+		this.supportPanel = supportPanel;
+	}
 
-    @Override
+	@Override
     public void setMailPanel(MailPanel mailPanel) {
         this.mailPanel = mailPanel;
     }

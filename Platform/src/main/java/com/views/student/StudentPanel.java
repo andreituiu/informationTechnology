@@ -4,7 +4,9 @@ import java.awt.Component;
 
 import javax.swing.JPanel;
 
-public class StudentPanel extends JPanel{
+import com.views.common.ISupportPanel;
+
+public class StudentPanel extends JPanel implements ISupportPanel{
 	private JPanel currentPannel;
 	private StudentHeader header;
 	

@@ -2,7 +2,9 @@ package com.model.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.model.Assignment;
 
@@ -15,7 +17,7 @@ public class AssignmentMapper {
 		String name = null;
 		Date deadline = null;
 		try {
-			id = resultSet.getInt("assignment_id");
+			id = resultSet.getInt("id");
 			name = resultSet.getString("name");
 			deadline = resultSet.getDate("deadline");
 		} catch (SQLException e) {
@@ -27,6 +29,20 @@ public class AssignmentMapper {
 		assignment.setDeadline(deadline);
 		
 		return assignment;
+	}
+
+	public List<Assignment> getList(ResultSet resultSet) {
+		List<Assignment> assignments = new ArrayList<>();
+		
+		try {
+			while(resultSet.next()) {
+				assignments.add(getAssignment(resultSet));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return assignments;
 	}
 
 }

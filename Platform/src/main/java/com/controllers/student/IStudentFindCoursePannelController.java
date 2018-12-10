@@ -1,5 +1,6 @@
 package com.controllers.student;
 
+import com.model.Course;
 import com.views.student.StudentFindCoursePannel;
 
 public interface IStudentFindCoursePannelController {
@@ -9,5 +10,7 @@ public interface IStudentFindCoursePannelController {
 	void setStudentFindCoursePannel(StudentFindCoursePannel studentFindCoursePannel);
 
 	void searchCourse();
+
+	void sendPendingRequest(Course selectedCourse);
 
 }

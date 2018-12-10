@@ -10,7 +10,7 @@ public class Student {
 	private String password;
 	private String externalEmail;
 	private String internalEmail;
-	private String specialization;
+	private Specialization specialization;
 	private Integer studyYear;
 	private Set<Course> enrolledCourses;
 	private Set<StudentAssignment> studentAssignment;
@@ -52,10 +52,10 @@ public class Student {
 	public void setInternalEmail(String internalEmail) {
 		this.internalEmail = internalEmail;
 	}
-	public String getSpecialization() {
+	public Specialization getSpecialization() {
 		return specialization;
 	}
-	public void setSpecialization(String specialization) {
+	public void setSpecialization(Specialization specialization) {
 		this.specialization = specialization;
 	}
 	public Integer getStudyYear() {

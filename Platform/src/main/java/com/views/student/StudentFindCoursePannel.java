@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,7 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
 
 import org.omg.CORBA.INITIALIZE;
 
@@ -29,7 +29,6 @@ import java.awt.event.ActionEvent;
 import com.controllers.student.IStudentFindCoursePannelController;
 import com.model.Course;
 
-
 public class StudentFindCoursePannel extends JPanel {
 
 	private JTextField searchTextField;
@@ -39,9 +38,11 @@ public class StudentFindCoursePannel extends JPanel {
 	private JButton btnSearch;
 	private JButton btnEnrole;
 
-	private String[] tableColumns = { "Enrolled", "Course name", "Teacher name", "Specialization" };
+	private String[] tableColumns = { "Status", "Course name", "Teacher name", "Specialization" };
 	private List<Course> courses;
 	protected IStudentFindCoursePannelController studentFindCoursesController;
+	private String pending = "Pending";
+	private String enrolled = "Enrolled";
 
 	public StudentFindCoursePannel(IStudentFindCoursePannelController studentFindCoursesController) {
 		this.studentFindCoursesController = studentFindCoursesController;
@@ -80,37 +81,55 @@ public class StudentFindCoursePannel extends JPanel {
 		scrollPanel.setBounds(10, 69, 317, 220);
 		add(scrollPanel);
 
-		table.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent me) {
-				JTable table = (JTable) me.getSource();
-				Point p = me.getPoint();
-
-			}
-		});
-		
 		btnSearch.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				studentFindCoursesController.searchCourse();
 			}
 		});
-		
-			
+
+		btnEnrole.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				studentFindCoursesController.sendPendingRequest(getSelectedCourse());
+			}
+		});
+
 	}
 
-	public void setLanguageBundle(ResourceBundle languageBundle)  {
-		  btnEnrole.setText(languageBundle.getString("enrole"));
-	      btnSearch.setText(languageBundle.getString("search"));
-	  
+	private Course getSelectedCourse() {
+
+		return courses.get(table.getSelectedRow());
+	}
+
+	public void setLanguageBundle(ResourceBundle languageBundle) {
+		btnEnrole.setText(languageBundle.getString("enrole"));
+		btnSearch.setText(languageBundle.getString("search"));
+
+	}
+
+	public void populate(List<Course> notEnrolledCourses, List<Course> pendingCoursesCourses,
+			List<Course> enrolledCourses) {
+		eraseTable();
+		this.courses = new ArrayList<>();
+		courses.addAll(notEnrolledCourses);
+		courses.addAll(pendingCoursesCourses);
+		courses.addAll(enrolledCourses);
+
+		for (Course course : notEnrolledCourses) {
+			Object[] newRow = { "", course.getName(), course.getSpecialization(), course.getTeacher().getName() };
+			tableModel.addRow(newRow);
 		}
 
-	
-	public void populate(List<Course> courses) {
-		eraseTable();
-		this.courses = courses;
-		for (Course course : courses) {
-			Object[] newRow = {"", course.getName(), course.getSpecialization(), course.getTeacher().getName()};
+		for (Course course : pendingCoursesCourses) {
+			Object[] newRow = { pending, course.getName(), course.getSpecialization(), course.getTeacher().getName() };
+			tableModel.addRow(newRow);
+		}
+
+		for (Course course : enrolledCourses) {
+			Object[] newRow = { enrolled, course.getName(), course.getSpecialization(), course.getTeacher().getName() };
 			tableModel.addRow(newRow);
 		}
 	}

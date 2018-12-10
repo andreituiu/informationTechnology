@@ -54,4 +54,31 @@ public class StudentAssignmentMapper {
 		return studentAssignments;
 	}
 
+
+
+    public StudentAssignment getStudentAssignment(ResultSet resultSet) {
+        StudentAssignment studentAssignment = new StudentAssignment();
+        try {
+            if(resultSet.next()) {
+                Assignment assignment = assignmetMapper.getAssignment(resultSet);
+                Double grade = null;
+                Date lastUpdate = null;
+                try {
+                    grade = resultSet.getDouble("grade");
+                    lastUpdate = resultSet.getDate("lastUpdate");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                studentAssignment.setAssignment(assignment);
+                studentAssignment.setGrade(grade);
+                studentAssignment.setLastUpdate(lastUpdate);
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentAssignment;
+    }
+
 }

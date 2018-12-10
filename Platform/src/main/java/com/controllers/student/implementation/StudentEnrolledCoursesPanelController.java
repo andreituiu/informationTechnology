@@ -17,7 +17,9 @@ public class StudentEnrolledCoursesPanelController implements IStudentEnrolledCo
 	private StudentEnrolledCoursesPanel studentEnrolledCoursesPanel;
 	private CourseDAO coursesDAO;
 	private Student student;
-	private AssignmentDAO assignmentDAO;
+    private AssignmentDAO assignmentDAO;
+	
+	
 
 	public StudentEnrolledCoursesPanelController(CourseDAO coursesDAO, AssignmentDAO assignmentDAO, Student student) {
 		super();
@@ -26,10 +28,13 @@ public class StudentEnrolledCoursesPanelController implements IStudentEnrolledCo
 		this.assignmentDAO = assignmentDAO;
 	}
 
+	
 	@Override
 	public void setStudentEnrolledCoursesPanel(StudentEnrolledCoursesPanel studentEnrolledCoursesPanel) {
 		this.studentEnrolledCoursesPanel = studentEnrolledCoursesPanel;
 	}
+
+
 
 	@Override
 	public void update() {
@@ -39,12 +44,12 @@ public class StudentEnrolledCoursesPanelController implements IStudentEnrolledCo
 
 	@Override
 	public void courseSelected(Course course) {
-		List<StudentAssignment> courseAssignments = assignmentDAO.getAllAssignmentsFor(course, student);
+		List<Assignment> courseAssignments = assignmentDAO.getAssignmentsFor(course);
 		studentEnrolledCoursesPanel.populateAssignments(courseAssignments);
 	}
 
 	@Override
-	public void assignmentSelected(StudentAssignment assignment) {
+	public void assignmentSelected(Assignment assignment) {
 		if (assignment == null) {
 			return;
 		}

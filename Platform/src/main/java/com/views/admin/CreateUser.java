@@ -1,30 +1,43 @@
 package com.views.admin;
 
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+import com.controllers.admin.IAdminCreateUserController;
+import com.model.Specialization;
 
 public class CreateUser extends JPanel {
 	private JTextField nameTextField;
 	private JTextField surnameTextField;
 	private JTextField cnpTextField;
+	
 	private JLabel lblName;
 	private JLabel lblSurname;
 	private JLabel lblCnp;
 	private JLabel lblSpecialization;
+	
 	private JButton btnSave;
+	
 	private JRadioButton rdbtnAdmin;
 	private JRadioButton rdbtnStudent; 
     private JRadioButton rdbtnTeacher;
+   
+    private JComboBox<Specialization> specializationComboBox;
 	
-	public CreateUser() {
+    protected IAdminCreateUserController adminCreateUserController;
+	
+	public CreateUser(IAdminCreateUserController adminCreateUserController) {
+		
+		this.adminCreateUserController = adminCreateUserController;
 		initialize();
 	}
 	
@@ -58,9 +71,9 @@ public class CreateUser extends JPanel {
 		lblCnp.setBounds(12, 136, 56, 16);
 		add(lblCnp);
 		
-		JComboBox spcializationComboBox = new JComboBox();
-		spcializationComboBox.setBounds(157, 189, 214, 19);
-		add(spcializationComboBox);
+		specializationComboBox = new JComboBox<Specialization>();
+		specializationComboBox.setBounds(157, 189, 214, 19);
+		add(specializationComboBox);
 		
 		lblSpecialization = new JLabel("Specialization");
 		lblSpecialization.setBounds(12, 189, 94, 22);
@@ -85,9 +98,44 @@ public class CreateUser extends JPanel {
 		
 		rdbtnStudent.setSelected(true);
 		
-		JButton btnSave = new JButton("Save");
+		btnSave = new JButton("Save");
 		btnSave.setBounds(218, 280, 116, 25);
 		add(btnSave);
+		
+		btnSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminCreateUserController.saveUser();
+			}
+		});
+		
+		rdbtnAdmin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminCreateUserController.selectAdmin();
+			}
+		});
+		
+		rdbtnStudent.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminCreateUserController.selectStudent();
+			}
+		});
+		
+		rdbtnTeacher.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminCreateUserController.selectTeacher();
+			}
+		});
+		
+		
+		
 	}
 	public void setLanguageBundle(ResourceBundle languageBundle)  {
 		
@@ -100,7 +148,19 @@ public class CreateUser extends JPanel {
 	      lblSpecialization.setText(languageBundle.getString("specialization"));
 	      btnSave.setText(languageBundle.getString("save"));
 	    
-		}	
+		}
+
+    public String getName() {
+		return nameTextField.getText();
+	}
+
+	public String getSurname() {
+		return surnameTextField.getText();
+	}
+
+	public String getCNP() {
+		return cnpTextField.getText();
+	}
 	
 	
 }
