@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.model">
+	<class entity-name="assignment" name="com.model.Assignment" table="assignment">
+
+		<id name="id" column="id" type="integer">
+			<generator class="identity" />
+		</id>
+		<property name="name" column="name" type="string"></property>
+		<property name="deadline" column="deadline" type="date"></property>
+
+	</class>
+</hibernate-mapping>

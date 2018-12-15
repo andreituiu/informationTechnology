@@ -1,5 +1,7 @@
 package com.model;
 
+import java.util.Set;
+
 public class Student {
 
 	private String cnp;
@@ -8,9 +10,10 @@ public class Student {
 	private String password;
 	private String externalEmail;
 	private String internalEmail;
-	private String specialization;
+	private Specialization specialization;
 	private Integer studyYear;
-	
+	private Set<Course> enrolledCourses;
+	private Set<StudentAssignment> studentAssignment;
 	
 	
 	public String getCnp() {
@@ -49,10 +52,10 @@ public class Student {
 	public void setInternalEmail(String internalEmail) {
 		this.internalEmail = internalEmail;
 	}
-	public String getSpecialization() {
+	public Specialization getSpecialization() {
 		return specialization;
 	}
-	public void setSpecialization(String specialization) {
+	public void setSpecialization(Specialization specialization) {
 		this.specialization = specialization;
 	}
 	public Integer getStudyYear() {
@@ -60,6 +63,19 @@ public class Student {
 	}
 	public void setStudyYear(Integer studyYear) {
 		this.studyYear = studyYear;
+	}
+	public Set<Course> getEnrolledCourses() {
+		return enrolledCourses;
+	}
+	public void setEnrolledCourses(Set<Course> enrolledCourses) {
+		this.enrolledCourses = enrolledCourses;
+	}
+	
+	public Set<StudentAssignment> getStudentAssignment() {
+		return studentAssignment;
+	}
+	public void setStudentAssignment(Set<StudentAssignment> studentAssignment) {
+		this.studentAssignment = studentAssignment;
 	}
 	
 	
