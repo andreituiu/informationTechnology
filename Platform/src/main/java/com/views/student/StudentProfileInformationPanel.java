@@ -1,11 +1,23 @@
 package com.views.student;
 
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import com.controllers.student.IStudentProfileInformationPanelController;
+import com.model.Specialization;
+import com.views.common.ILanguagePanel;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-public class StudentProfileInformationPanel extends JPanel {
+public class StudentProfileInformationPanel extends JPanel implements ILanguagePanel {
 
 	private JTextField nameTextField;
 	private JTextField surnameTextField;
@@ -14,9 +26,24 @@ public class StudentProfileInformationPanel extends JPanel {
 	private JTextField internalEmailTextField;
 	private JTextField specializationTextField;
 	private JTextField yearTextField;
-	private JTextField oldPasswordTextField;
-	private JTextField newPasswordTextField;
-	private JTextField confirmPasswordTextField;
+	private JPasswordField oldPasswordTextField;
+	private JPasswordField newPasswordTextField;
+	private JPasswordField confirmPasswordTextField;
+
+	private JLabel lblName;
+	private JLabel lblSurname;
+	private JLabel lblCnp;
+	private JLabel lblExternalEmail;
+	private JLabel lblInternalEmail;
+	private JLabel lblOldPassword;
+	private JLabel lblNewPassword;
+	private JLabel lblConfirmationPassword;
+	private JLabel lblSpecialization;
+	private JLabel lblYear;
+
+	private JButton btnSave;
+	private JButton btnChangePassword;
+	private IStudentProfileInformationPanelController studentProfileInformationController;
 
 	public StudentProfileInformationPanel() {
 		initialize();
@@ -24,104 +51,136 @@ public class StudentProfileInformationPanel extends JPanel {
 
 	private void initialize() {
 		setLayout(null);
+		setBackground(new Color(215, 228, 242));
 
 		nameTextField = new JTextField();
-		nameTextField.setBounds(175, 11, 221, 20);
-		add(nameTextField);
+		nameTextField.setBounds(232, 6, 354, 31);
 		nameTextField.setColumns(10);
+		nameTextField.setEditable(false);
+		add(nameTextField);
 
 		surnameTextField = new JTextField();
+		surnameTextField.setBounds(232, 50, 354, 31);
 		surnameTextField.setColumns(10);
-		surnameTextField.setBounds(175, 42, 221, 20);
+		surnameTextField.setEditable(false);
 		add(surnameTextField);
 
 		cnpTextField = new JTextField();
+		cnpTextField.setBounds(232, 90, 354, 31);
 		cnpTextField.setColumns(10);
-		cnpTextField.setBounds(175, 73, 221, 20);
+		cnpTextField.setEditable(false);
 		add(cnpTextField);
 
 		externalEmailTextField = new JTextField();
+		externalEmailTextField.setBounds(232, 134, 354, 31);
 		externalEmailTextField.setColumns(10);
-		externalEmailTextField.setBounds(175, 106, 221, 20);
 		add(externalEmailTextField);
 
 		internalEmailTextField = new JTextField();
+		internalEmailTextField.setBounds(232, 178, 354, 31);
 		internalEmailTextField.setColumns(10);
-		internalEmailTextField.setBounds(175, 139, 221, 20);
+		internalEmailTextField.setEditable(false);
 		add(internalEmailTextField);
 
 		yearTextField = new JTextField();
 		yearTextField.setColumns(10);
-		yearTextField.setBounds(175, 172, 221, 20);
+		yearTextField.setBounds(232, 222, 354, 31);
+		yearTextField.setEditable(false);
 		add(yearTextField);
 
 		specializationTextField = new JTextField();
 		specializationTextField.setColumns(10);
-		specializationTextField.setBounds(175, 203, 221, 20);
+		specializationTextField.setBounds(232, 266, 354, 31);
+		specializationTextField.setEditable(false);
 		add(specializationTextField);
 
-		oldPasswordTextField = new JTextField();
+		oldPasswordTextField = new JPasswordField();
 		oldPasswordTextField.setColumns(10);
-		oldPasswordTextField.setBounds(175, 234, 221, 20);
+		oldPasswordTextField.setBounds(232, 341, 354, 31);
 		add(oldPasswordTextField);
 
-		newPasswordTextField = new JTextField();
+		newPasswordTextField = new JPasswordField();
+		newPasswordTextField.setBounds(232, 392, 354, 31);
 		newPasswordTextField.setColumns(10);
-		newPasswordTextField.setBounds(175, 265, 221, 20);
 		add(newPasswordTextField);
 
-		confirmPasswordTextField = new JTextField();
+		confirmPasswordTextField = new JPasswordField();
+		confirmPasswordTextField.setBounds(232, 445, 354, 31);
 		confirmPasswordTextField.setColumns(10);
-		confirmPasswordTextField.setBounds(175, 296, 221, 20);
 		add(confirmPasswordTextField);
 
-		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(109, 320, 100, 23);
+		btnSave = new JButton("Save");
+		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSave.setBounds(182, 489, 209, 35);
 		add(btnSave);
 
-		JButton btnChangePassword = new JButton("Change password");
-		btnChangePassword.setBounds(211, 320, 119, 23);
+		btnChangePassword = new JButton("Change password");
+		btnChangePassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnChangePassword.setBounds(438, 489, 209, 35);
 		add(btnChangePassword);
 
-		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(33, 14, 46, 14);
+		lblName = new JLabel("Name");
+		lblName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblName.setBounds(43, 5, 209, 31);
 		add(lblName);
 
-		JLabel lblSurname = new JLabel("Surname");
-		lblSurname.setBounds(33, 45, 46, 14);
+		lblSurname = new JLabel("Surname");
+		lblSurname.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblSurname.setBounds(43, 50, 209, 31);
 		add(lblSurname);
 
-		JLabel lblCnp = new JLabel("CNP");
-		lblCnp.setBounds(33, 76, 46, 14);
+		lblCnp = new JLabel("CNP");
+		lblCnp.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblCnp.setBounds(43, 94, 209, 31);
 		add(lblCnp);
 
-		JLabel lblExternalEmail = new JLabel("External e-mail");
-		lblExternalEmail.setBounds(33, 109, 79, 14);
+		lblExternalEmail = new JLabel("External e-mail");
+		lblExternalEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblExternalEmail.setBounds(43, 134, 209, 31);
 		add(lblExternalEmail);
 
-		JLabel lblInternalEmail = new JLabel("Internal e-mail");
-		lblInternalEmail.setBounds(33, 142, 79, 14);
+		lblInternalEmail = new JLabel("Internal e-mail");
+		lblInternalEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblInternalEmail.setBounds(43, 178, 209, 31);
 		add(lblInternalEmail);
 
-		JLabel lblSpecialization = new JLabel("Specialization");
-		lblSpecialization.setBounds(33, 206, 79, 14);
-		add(lblSpecialization);
-
-		JLabel lblYear = new JLabel("Year");
-		lblYear.setBounds(33, 175, 46, 14);
-		add(lblYear);
-
-		JLabel lblOldPassword = new JLabel("Old password");
-		lblOldPassword.setBounds(33, 237, 79, 14);
+		lblOldPassword = new JLabel("Old password");
+		lblOldPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblOldPassword.setBounds(43, 384, 209, 31);
 		add(lblOldPassword);
 
-		JLabel lblNewPassword = new JLabel("New password");
-		lblNewPassword.setBounds(33, 268, 79, 14);
+		lblNewPassword = new JLabel("New password");
+		lblNewPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewPassword.setBounds(43, 340, 209, 31);
 		add(lblNewPassword);
 
-		JLabel lblConfirmationPassword = new JLabel("Confirmation password");
-		lblConfirmationPassword.setBounds(33, 299, 119, 14);
+		lblSpecialization = new JLabel("Specialization");
+		lblSpecialization.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblSpecialization.setBounds(43, 264, 209, 31);
+		add(lblSpecialization);
+
+		lblYear = new JLabel("Year Study");
+		lblYear.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblYear.setBounds(43, 220, 209, 31);
+		add(lblYear);
+
+		lblConfirmationPassword = new JLabel("Confirm new password");
+		lblConfirmationPassword.setForeground(SystemColor.activeCaptionText);
+		lblConfirmationPassword.setFont(new Font("Arial", Font.PLAIN, 15));
+		lblConfirmationPassword.setBounds(43, 436, 209, 31);
 		add(lblConfirmationPassword);
+		
+		btnChangePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				studentProfileInformationController.changePassword();
+			}
+		});
+		
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				studentProfileInformationController.changeSave();
+			}
+		});
 	}
 
 	public void setUsername(String name) {
@@ -134,5 +193,67 @@ public class StudentProfileInformationPanel extends JPanel {
 
 	public void setCNP(String cnp) {
 		cnpTextField.setText(cnp);
+	}
+
+	public void setExternalEmail(String externalEmail) {
+		externalEmailTextField.setText(externalEmail);
+	}
+
+	public void setInternalEmail(String internalEmail) {
+		internalEmailTextField.setText(internalEmail);
+	}
+
+	public void setYearStudy(int studyYear) {
+		yearTextField.setText("" + studyYear);
+	}
+
+	public void setSpecialization(Specialization specialization) {
+		try {
+			specializationTextField.setText(specialization.getName());
+		} catch (Exception e) {
+		}
+	}
+
+	public String getOldPassword() {
+		return new String(oldPasswordTextField.getPassword());
+	}
+	public String getNewPassword() {
+		return new String(newPasswordTextField.getPassword());
+	}
+	public String getConfirmPassword() {
+		return new String(confirmPasswordTextField.getPassword());
+	}
+	public String getExternalEmail() {
+		return externalEmailTextField.getText();
+	}
+	
+	@Override
+	public void setLanguageBundle(ResourceBundle languageBundle) {
+
+		lblName.setText(languageBundle.getString("name"));
+		lblSurname.setText(languageBundle.getString("surname"));
+		lblCnp.setText(languageBundle.getString("cnp"));
+		lblExternalEmail.setText(languageBundle.getString("externalEmail"));
+		lblInternalEmail.setText(languageBundle.getString("internalEmail"));
+		lblYear.setText(languageBundle.getString("year"));
+		lblSpecialization.setText(languageBundle.getString("specialization"));
+		lblOldPassword.setText(languageBundle.getString("oldPassword"));
+		lblNewPassword.setText(languageBundle.getString("newPassword"));
+		lblConfirmationPassword.setText(languageBundle.getString("confirmPassword"));
+		btnSave.setText(languageBundle.getString("save"));
+		btnChangePassword.setText(languageBundle.getString("changePassword"));
+	}
+	
+	public void eraseAll() {
+		nameTextField.setText("");
+		surnameTextField.setText("");
+		cnpTextField.setText("");
+		internalEmailTextField.setText("");
+		externalEmailTextField.setText("");
+		yearTextField.setText("");
+		specializationTextField.setText("");
+		oldPasswordTextField.setText("");
+		newPasswordTextField.setText("");
+		confirmPasswordTextField.setText("");
 	}
 }

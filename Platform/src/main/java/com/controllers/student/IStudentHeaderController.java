@@ -10,5 +10,4 @@ public interface IStudentHeaderController {
 	
 	void viewEmail();
 
-	void setStudentPanel(StudentPanel studentPanel);
 }
