@@ -1,88 +1,55 @@
 package com.views.admin;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ResourceBundle;
-
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import com.controllers.admin.IAdminCreateSpecializationsController;
-import com.views.common.ILanguagePanel;
-import java.awt.Font;
-
-public class CreateSpecialization extends JFrame implements ILanguagePanel{
+public class CreateSpecialization extends JPanel {
 
 	private JTextField nameTextField;
-
-	private JLabel lblSpecializationName;
-	
-	private JButton btnSave;
-	
-	private IAdminCreateSpecializationsController adminCreateSpecializationsController;
-	
-	public CreateSpecialization(IAdminCreateSpecializationsController adminCreateSpecializationsController) {
-		getContentPane().setEnabled(false);
-		
-		this.adminCreateSpecializationsController = adminCreateSpecializationsController;
-		initialize();
-	}
-	
-	public void initialize() {
-		setSize(1000, 150);
-		getContentPane().setLayout(null);
-		getContentPane().setBackground(new Color(215, 228, 242));
+	private JTextField yearTextField;
+	private JTextField semesterTextField;
+	private JLabel lblName;
+	private JLabel lblYear;
+	private JLabel lblSemester;
+	public CreateSpecialization() {
+		setLayout(null);
 		
 		nameTextField = new JTextField();
-		nameTextField.setBounds(232, 30,354, 31);
-		getContentPane().add(nameTextField);
+		nameTextField.setBounds(157, 30, 227, 19);
+		add(nameTextField);
 		nameTextField.setColumns(10);
- 		
-		lblSpecializationName = new JLabel("Specialization Name");
-		lblSpecializationName.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblSpecializationName.setBounds(27, 29, 209, 31);
-		getContentPane().add(lblSpecializationName);
 		
-		btnSave = new JButton("Save");
-		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnSave.setBounds(620, 29, 209, 31);
-		getContentPane().add(btnSave);
+		yearTextField = new JTextField();
+		yearTextField.setBounds(157, 77, 227, 22);
+		add(yearTextField);
+		yearTextField.setColumns(10);
 		
-	
-		btnSave.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				adminCreateSpecializationsController.saveSpecialization();
-			}
-		});
-	}
-	
-	@Override
-	public void setLanguageBundle(ResourceBundle languageBundle)  {
+		semesterTextField = new JTextField();
+		semesterTextField.setBounds(157, 133, 227, 19);
+		add(semesterTextField);
+		semesterTextField.setColumns(10);
 		
-	      lblSpecializationName.setText(languageBundle.getString("specializationName")); 
-	  
-	      btnSave.setText(languageBundle.getString("save"));
-		}	
-	
-	public String getSpecializationName() {
-		return nameTextField.getText();
+		lblName = new JLabel("Name");
+		lblName.setBounds(62, 32, 56, 16);
+		add(lblName);
+		
+		lblYear = new JLabel("Year");
+		lblYear.setBounds(62, 80, 56, 16);
+		add(lblYear);
+		
+		lblSemester = new JLabel("Semester");
+		lblSemester.setBounds(62, 135, 56, 16);
+		add(lblSemester);
+		
+		ButtonGroup buttonGroup = new ButtonGroup();
+		
+		JButton btnCreate = new JButton("Create");
+		btnCreate.setBounds(209, 189, 116, 25);
+		add(btnCreate);
 	}
-
-	
-    public void ereaseAll() {
-   
-	  nameTextField.setText("");
-//	  yearTextField.setText("");      
-//	  semesterTextField.setText("");  
-	        
-	
-	}
-	
-	
-	
 }

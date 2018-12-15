@@ -1,16 +1,11 @@
 package com.views.teacher;
 
-import java.awt.Color;
-
 import javax.swing.JPanel;
 
-import com.views.common.ISupportPanel;
-import com.views.common.MailPanel;
-
-public class TeacherPanel extends JPanel implements ISupportPanel {
+public class TeacherPanel extends JPanel{
 	private JPanel currentPannel;
 	TeacherHeader header;
-
+	
 	public TeacherPanel(TeacherHeader header, JPanel startingPannel) {
 		currentPannel = startingPannel;
 		this.header = header;
@@ -18,18 +13,15 @@ public class TeacherPanel extends JPanel implements ISupportPanel {
 	}
 
 	private void initialize() {
-		setBackground(new Color(215, 228, 242));
-//		header = new TeacherHeader(null);
-		//currentPannel = new TeacherCoursesPanel(null, null, null);
+		header.setLocation(0, 0);
+		header.setSize(450, 53);
 		
-//		currentPannel = new TeacherProfileInformationPanel();
-		header.setLocation(39, 13);
-		header.setSize(913, 58);
-		currentPannel.setLocation(39, 86);
-		currentPannel.setSize(913, 570);
-
+		currentPannel = new TeacherProfileInformationPanel();
+		currentPannel.setLocation(0, 52);
+		currentPannel.setSize(450, 349);
+		
 		setLayout(null);
-
+		
 		add(header);
 		add(currentPannel);
 	}
@@ -38,9 +30,7 @@ public class TeacherPanel extends JPanel implements ISupportPanel {
 		remove(currentPannel);
 		currentPannel = newPannel;
 		add(currentPannel);
-		currentPannel.setLocation(39, 86);
-		currentPannel.setSize(913, 570);
-		revalidate();
-		repaint();
+		currentPannel.setLocation(0, 52);
+		currentPannel.setSize(450, 349);
 	}
 }

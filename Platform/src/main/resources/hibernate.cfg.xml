@@ -26,13 +26,8 @@
          
       </property>
       
-      <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
       <!-- List of XML mapping files -->
       <mapping resource = "config/hibernate/Student.hbm.xml"/>
-<!--       <mapping resource = "config/hibernate/Teacher.hbm.xml"/> -->
-<!--       <mapping resource = "config/hibernate/Course.hbm.xml"/> -->
-<!--       <mapping resource = "config/hibernate/Assignment.hbm.xml"/> -->
-<!--       <mapping resource = "config/hibernate/StudentAssignment.hbm.xml"/> -->
-<!--       <mapping resource = "config/hibernate/Mail.hbm.xml"/> -->
+      
    </session-factory>
 </hibernate-configuration>

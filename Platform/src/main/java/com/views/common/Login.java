@@ -1,141 +1,70 @@
 package com.views.common;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ResourceBundle;
-
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
+import java.awt.Color;
+import java.awt.SystemColor;
 import javax.swing.UIManager;
-import java.awt.Font;
 
-import com.controllers.common.ILanguageController;
-import com.controllers.common.ILoginController;
-
-public class Login extends JFrame implements ILanguagePanel{
+public class Login extends JPanel{
 	private JTextField textField;
 	private JTextField textField_1;
-	private JButton btnLogin;
-	private JButton btnLanguageEN;
-	private JButton btnLanguageRO;
-	private JButton btnRetrievePassword;
-	private JLabel txtrPassword;
-	private JLabel txtrUserName;
-	private ILanguageController languageController;
-	protected ILoginController loginController;
 	
-	public Login(ILoginController loginController, ILanguageController languageController) {
-		setResizable(false);
-		this.loginController = loginController;
-		this.languageController = languageController;
-		initialize();
+	public Login() {
+		setLayout(null);
 		
-	}
-	
-	public void initialize() {
-		setSize(1000, 500);
-		getContentPane().setLayout(null);
-		getContentPane().setBackground(new Color(215, 228, 242));
-		setBackground(new Color(215, 228, 242));
-		
-		btnLanguageEN = new JButton("EN");
-		btnLanguageEN.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnLanguageEN.setForeground(new Color(0, 0, 0));
-
-		btnLanguageEN.setBounds(830, 11, 61, 35);
+		JButton btnLanguageEN = new JButton("EN");
+		btnLanguageEN.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnLanguageEN.setBounds(374, 11, 45, 23);
 		add(btnLanguageEN);
 		
-		btnLanguageRO = new JButton("RO");
-		btnLanguageRO.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnLanguageRO.setForeground(new Color(0, 0, 0));
-		btnLanguageRO.setBounds(757, 11, 61, 35);
+		JButton btnLanguageRO = new JButton("RO");
+		btnLanguageRO.setBounds(317, 11, 47, 23);
 		add(btnLanguageRO);
 		
 		textField = new JTextField();
-		textField.setBounds(287, 133, 400, 40);
+		textField.setBounds(137, 72, 186, 20);
 		add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(287, 239, 400, 40);
+		textField_1.setBounds(137, 128, 186, 20);
 		add(textField_1);
 		
-		btnLogin = new JButton("Login");
-		btnLogin.setForeground(new Color(0, 102, 204));
-		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnLogin.setBounds(366, 324, 209, 35);
+		JButton btnLogin = new JButton("Login");
+		btnLogin.setBounds(95, 218, 89, 23);
 		add(btnLogin);
 		
-		btnRetrievePassword = new JButton("Retrieve password");
-		btnRetrievePassword.setForeground(new Color(0, 0, 0));
-		btnRetrievePassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnRetrievePassword.setBounds(699, 241, 209, 35);
+		JButton btnRetrievePassword = new JButton("Retrieve password");
+		btnRetrievePassword.setBounds(260, 218, 123, 23);
 		add(btnRetrievePassword);
 		
-		txtrUserName = new JLabel();
-		txtrUserName.setForeground(UIManager.getColor("Viewport.foreground"));
-		txtrUserName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JTextArea txtrUserName = new JTextArea();
 		txtrUserName.setBackground(UIManager.getColor("Button.background"));
-		txtrUserName.setText("User Name");
-		txtrUserName.setBounds(55, 133, 209, 39);
+		txtrUserName.setText("User name");
+		txtrUserName.setBounds(51, 70, 76, 22);
 		add(txtrUserName);
 		
-		txtrPassword = new JLabel();
-		txtrPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JTextArea txtrPassword = new JTextArea();
 		txtrPassword.setText("Password");
 		txtrPassword.setBackground(SystemColor.menu);
-		txtrPassword.setBounds(55, 239, 209, 39);
+		txtrPassword.setBounds(51, 126, 76, 22);
 		add(txtrPassword);
 		
-		btnLanguageRO.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				languageController.roLanguageSelected();
-			}
-		});
-		
-		btnLanguageEN.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				languageController.enLanguageSelected();
-			}
-		});
-		
-		btnLogin.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loginController.login();
-			}
-		});
+		DefaultListModel listModel = new DefaultListModel();
 	}
-	
-	@Override
-	public void setLanguageBundle(ResourceBundle languageBundle)  {
-		
-	      btnLogin.setText(languageBundle.getString("login"));             
-	      btnLanguageEN.setText(languageBundle.getString("languageEN"));         
-	      btnLanguageRO.setText(languageBundle.getString("languageRO"));            
-	      btnRetrievePassword.setText(languageBundle.getString("retrievePassword"));
-	      txtrPassword.setText(languageBundle.getString("password"));
-	      txtrUserName.setText(languageBundle.getString("userName"));
-	    
-		}
-
-	public String getUserCnp() {
-		return textField.getText();
-	}
-
-	public String getPassword() {
-		return textField_1.getText();
-	}	
 }

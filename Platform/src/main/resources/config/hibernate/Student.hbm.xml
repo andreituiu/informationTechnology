@@ -1,33 +1,22 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC 
 "-//Hibernate/Hibernate Mapping DTD//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
-<hibernate-mapping package="com.model">
-	<class entity-name="student" name="com.model.Student" table="student">
-
-		<id name="cnp" type="string" column="cnp">
-			<generator class="native" />
-		</id>
-
-<!-- 		<set name="enrolledCourses" cascade="save-update" table="stud_enrolled_courses"> -->
-<!-- 			<key column="studentCNP" /> -->
-<!-- 			<many-to-many column="courseName" class="Course" /> -->
-<!-- 		</set> -->
-
-		<property name="name" column="name" type="string" />
-		<property name="surname" column="surname" type="string" />
-		<property name="password" column="password" type="string" />
-		<property name="externalEmail" column="external_email" type="string" />
-		<property name="internalEmail" column="internal_email" type="string" />
-		<property name="specialization" column="specialization" type="string" />
-		<property name="studyYear" column="study_year" type="integer" />
-
-<!-- 		<set name="studentAssignment" table="student_assignment" cascade="all"> -->
-<!-- 			<key> -->
-<!-- 				<column name="student_id" /> -->
-<!-- 			</key> -->
-<!-- 			<one-to-many entity-name="studentAssignment" /> -->
-<!-- 		</set> -->
-	</class>
+<hibernate-mapping>
+   <class name = "com.model.Student" table = "student">
+            
+      <id name = "cnp" type = "string" column = "cnp">
+         <generator class="native"/>
+      </id>
+      
+      <property name = "name" column = "name" type = "string"/>
+      <property name = "surname" column = "surname" type = "string"/>
+      <property name = "password" column = "password" type = "string"/>
+      <property name = "externalEmail" column = "external_email" type = "string"/>
+      <property name = "internalEmail" column = "internal_email" type = "string"/>
+      <property name = "specialization" column = "specialization" type = "string"/>
+      <property name = "studyYear" column = "study_year" type = "integer"/>
+      
+   </class>
 </hibernate-mapping>

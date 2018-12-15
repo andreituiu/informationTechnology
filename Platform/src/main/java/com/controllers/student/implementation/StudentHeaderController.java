@@ -1,32 +1,36 @@
 package com.controllers.student.implementation;
 
-import com.controllers.common.IEmailPanelController;
-import com.controllers.student.IStudentCoursesPanelController;
 import com.controllers.student.IStudentHeaderController;
 import com.controllers.student.IStudentProfileInformationPanelController;
-import com.views.common.MailPanel;
+import com.views.common.Mail;
 import com.views.student.StudentCoursesPanel;
 import com.views.student.StudentPanel;
 import com.views.student.StudentProfileInformationPanel;
 
 public class StudentHeaderController implements IStudentHeaderController {
 
+	private StudentProfileInformationPanel studentProfilePanel;
+	private StudentPanel studentPanel;
+	private StudentCoursesPanel studentCoursesPanel;
+	private Mail emailPanel;
 	
 	private IStudentProfileInformationPanelController studentProfilePanelController;
-	private IEmailPanelController emailPanelController;
-	private IStudentCoursesPanelController studentCoursesPanelController;
 	
-
-	
-
-
 	public StudentHeaderController(IStudentProfileInformationPanelController studentProfilePanelController,
-			IStudentCoursesPanelController studentCoursesPanelController, IEmailPanelController emailPanelController) {
+			StudentCoursesPanel studentCoursesPanel, Mail emailPanel) {
 		super();
 		this.studentProfilePanelController = studentProfilePanelController;
-		this.studentCoursesPanelController = studentCoursesPanelController;
-		this.emailPanelController = emailPanelController;
+		this.studentCoursesPanel = studentCoursesPanel;
+		this.emailPanel = emailPanel;
 	}
+
+	
+	@Override
+	public void setStudentPanel(StudentPanel studentPanel) {
+		this.studentPanel = studentPanel;
+	}
+
+
 
 	@Override
 	public void viewProfile() {
@@ -35,12 +39,12 @@ public class StudentHeaderController implements IStudentHeaderController {
 
 	@Override
 	public void viewCourses() {
-		studentCoursesPanelController.viewCourses();
+		studentPanel.setPanel(studentCoursesPanel);
 	}
 
 	@Override
 	public void viewEmail() {
-		emailPanelController.viewEmail();
+		studentPanel.setPanel(emailPanel);
 	}
 
 }

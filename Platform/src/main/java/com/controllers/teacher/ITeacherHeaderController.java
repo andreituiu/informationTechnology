@@ -1,5 +1,7 @@
 package com.controllers.teacher;
 
+import com.views.teacher.TeacherPanel;
+
 public interface ITeacherHeaderController {
 
 	void viewProfile();
@@ -8,4 +10,5 @@ public interface ITeacherHeaderController {
 	
 	void viewEmail();
 
+	void setTeacherPanel(TeacherPanel teacherPanel);
 }
