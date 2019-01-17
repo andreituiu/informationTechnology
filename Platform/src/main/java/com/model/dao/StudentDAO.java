@@ -6,25 +6,23 @@ import com.model.Course;
 import com.model.Student;
 import com.model.User;
 
-public interface StudentDAO {
+public interface StudentDAO extends BaseDAO<Student, String>{
 
-	Student getStudent(String cnp);
-
-    List<Student> getWaitingStudents(Course course);
-
-    List<Student> getEnrolledStudents(Course course);
-
-    void enrolleToCourse(Student selectedStudent, Course course);
-
-    void removeFromCourse(Student selectedStudent, Course course);
-
-	void pendingStudent(Student student, Course selectedCourse);
-
-	void save(Student student);
-
-	void deleteUser(User selectedUser);
-
-	void update(Student student);
+//	Student getStudent(String cnp);
+//
+//    List<Student> getWaitingStudents(Course course);
+//
+//    List<Student> getEnrolledStudents(Course course);
+//
+//    void enrolleToCourse(Student selectedStudent, Course course);
+//
+//    void removeFromCourse(Student selectedStudent, Course course);
+//
+//	void pendingStudent(Student student, Course selectedCourse);
+//
+//	void save(Student student);
+//
+//	void deleteUser(User selectedUser);
 
 
 }

@@ -2,11 +2,13 @@ package com.views.admin;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -17,11 +19,15 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.controllers.admin.IAdminCreateUserController;
 import com.model.Assignment;
 import com.model.Specialization;
 import javax.swing.JList;
 
+@Component
 public class CreateUser extends JFrame {
 	
 	private JTextField nameTextField;
@@ -47,7 +53,8 @@ public class CreateUser extends JFrame {
    
     private JComboBox<Specialization> specializationComboBox;
 	
-    protected IAdminCreateUserController adminCreateUserController;
+    @Autowired
+    private IAdminCreateUserController adminCreateUserController;
     private JTextField studyYearTextField;
     private JLabel lblStudyYear;
    
@@ -57,11 +64,20 @@ public class CreateUser extends JFrame {
 	public CreateUser(IAdminCreateUserController adminCreateUserController) {
 		
 		this.adminCreateUserController = adminCreateUserController;
-		setBackground(new Color(215, 228, 242));
 		initialize();
 	}
+
 	
+	
+	public CreateUser() throws HeadlessException {
+		super();
+	}
+
+
+
+	@PostConstruct
 	public void initialize() {
+		setBackground(new Color(215, 228, 242));
 		setSize(800, 600);
 		setResizable(false);
 		setLayout(null);

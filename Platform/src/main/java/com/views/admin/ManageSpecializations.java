@@ -9,17 +9,22 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.controllers.admin.IAdminManageSpecializationsController;
 import com.model.Specialization;
 import com.views.common.ILanguagePanel;
 import java.awt.Font;
 
+@Component
 public class ManageSpecializations extends JPanel implements ILanguagePanel{
 	
 	private JTable table;
@@ -32,14 +37,26 @@ public class ManageSpecializations extends JPanel implements ILanguagePanel{
 	private List<Specialization> specializationsList;
 	
 	private String[] tableColumns = {"Name"};
-	protected IAdminManageSpecializationsController adminManageSpecializationsController;
+
+	@Autowired
+	private IAdminManageSpecializationsController adminManageSpecializationsController;
 	
 	public ManageSpecializations(IAdminManageSpecializationsController adminManageSpecializationsController) {
-		setBackground(new Color(215, 228, 242));
 		this.adminManageSpecializationsController = adminManageSpecializationsController;
 		initialize();
 	}
+
+	
+	
+	public ManageSpecializations() {
+		super();
+	}
+
+
+
+	@PostConstruct
 	public void initialize() {
+		setBackground(new Color(215, 228, 242));
 		
 		setLayout(null);
 		

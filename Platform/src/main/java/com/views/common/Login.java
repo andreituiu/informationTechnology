@@ -2,22 +2,29 @@ package com.views.common;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.awt.Font;
 
 import com.controllers.common.ILanguageController;
 import com.controllers.common.ILoginController;
 
+@Component
 public class Login extends JFrame implements ILanguagePanel{
 	private JTextField textField;
 	private JTextField textField_1;
@@ -27,8 +34,12 @@ public class Login extends JFrame implements ILanguagePanel{
 	private JButton btnRetrievePassword;
 	private JLabel txtrPassword;
 	private JLabel txtrUserName;
+
+	@Autowired
 	private ILanguageController languageController;
-	protected ILoginController loginController;
+	
+	@Autowired
+	private ILoginController loginController;
 	
 	public Login(ILoginController loginController, ILanguageController languageController) {
 		setResizable(false);
@@ -38,6 +49,15 @@ public class Login extends JFrame implements ILanguagePanel{
 		
 	}
 	
+	
+	
+	public Login() throws HeadlessException {
+		super();
+	}
+
+
+
+	@PostConstruct
 	public void initialize() {
 		setSize(1000, 500);
 		getContentPane().setLayout(null);

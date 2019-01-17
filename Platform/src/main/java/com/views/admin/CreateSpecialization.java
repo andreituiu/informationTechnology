@@ -5,15 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.controllers.admin.IAdminCreateSpecializationsController;
 import com.views.common.ILanguagePanel;
 import java.awt.Font;
+import java.awt.HeadlessException;
 
+@Component
 public class CreateSpecialization extends JFrame implements ILanguagePanel{
 
 	private JTextField nameTextField;
@@ -22,16 +28,26 @@ public class CreateSpecialization extends JFrame implements ILanguagePanel{
 	
 	private JButton btnSave;
 	
+	@Autowired
 	private IAdminCreateSpecializationsController adminCreateSpecializationsController;
 	
 	public CreateSpecialization(IAdminCreateSpecializationsController adminCreateSpecializationsController) {
-		getContentPane().setEnabled(false);
 		
 		this.adminCreateSpecializationsController = adminCreateSpecializationsController;
 		initialize();
 	}
 	
+	
+
+	public CreateSpecialization() throws HeadlessException {
+		super();
+	}
+
+
+
+	@PostConstruct
 	public void initialize() {
+		getContentPane().setEnabled(false);
 		setSize(1000, 150);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(215, 228, 242));

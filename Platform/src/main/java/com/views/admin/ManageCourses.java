@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -17,6 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.controllers.admin.IAdminManageCoursesController;
 import com.controllers.admin.implementation.AdminCreateCoursesController;
 import com.model.Course;
@@ -24,6 +28,7 @@ import com.model.Student;
 import com.views.common.ILanguagePanel;
 import java.awt.Font;
 
+@Component
 public class ManageCourses extends JPanel implements ILanguagePanel{
 
 	private JTable table;
@@ -37,17 +42,26 @@ public class ManageCourses extends JPanel implements ILanguagePanel{
 
 	private String[] tableColumns = { "Name", "Teacher", "Year", "Semester", "Specialization" };
 
+	
+	@Autowired
 	private IAdminManageCoursesController adminManageCoursesController;
 
 	private List<Course> coursesList;
 
 	public ManageCourses(IAdminManageCoursesController adminManageCoursesController) {
 		this.adminManageCoursesController = adminManageCoursesController;
-		setBackground(new Color(215, 228, 242));
 		initialize();
 	}
 
+	
+	
+	public ManageCourses() {
+		super();
+	}
+
+	@PostConstruct
 	public void initialize() {
+		setBackground(new Color(215, 228, 242));
 		setLayout(null);
 
 		JPanel tablePanel = new JPanel();

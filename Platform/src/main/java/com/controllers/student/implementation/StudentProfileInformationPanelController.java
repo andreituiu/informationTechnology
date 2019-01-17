@@ -1,21 +1,23 @@
 package com.controllers.student.implementation;
 
-import java.awt.Component;
-
 import org.hibernate.sql.Update;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.controllers.student.IStudentProfileInformationPanelController;
 import com.model.Student;
-import com.model.dao.StudentDAO;
 import com.views.student.StudentPanel;
 import com.views.student.StudentProfileInformationPanel;
 
+@Component
 public class StudentProfileInformationPanelController implements IStudentProfileInformationPanelController {
 
+	@Autowired
 	private StudentPanel studentPanel;
+	
+	@Autowired
 	private StudentProfileInformationPanel studentProfilePanel;
 	private Student student;
-	private StudentDAO studentDAO;
 
 	
 	
@@ -24,9 +26,13 @@ public class StudentProfileInformationPanelController implements IStudentProfile
 		this.student = student;
 	}
 
+	
+
 	public StudentProfileInformationPanelController() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
+
 
 
 	@Override
@@ -51,43 +57,15 @@ public class StudentProfileInformationPanelController implements IStudentProfile
 
 
 	private void update() {
-		studentProfilePanel.eraseAll();
 		studentProfilePanel.setUsername(student.getName());
 		studentProfilePanel.setSurname(student.getSurname());
 		studentProfilePanel.setCNP(student.getCnp());
-		studentProfilePanel.setExternalEmail(student.getExternalEmail());
-		studentProfilePanel.setInternalEmail(student.getInternalEmail());
-		studentProfilePanel.setSpecialization(student.getSpecialization());
-		studentProfilePanel.setYearStudy(student.getStudyYear());
 	}
 
 
 	@Override
 	public void setStudent(Student student) {
 		this.student = student;
-		update();
-	}
-
-
-	@Override
-	public void changePassword() {
-		String oldPass = studentProfilePanel.getOldPassword();
-		String newPass = studentProfilePanel.getNewPassword();
-		String confirmPass = studentProfilePanel.getConfirmPassword();
-		
-		if(student.getPassword().equals(oldPass)) {
-			if(newPass.equals(confirmPass)) {
-				student.setPassword(newPass);
-				studentDAO.update(student);
-			}
-		}
-	}
-
-
-	@Override
-	public void changeSave() {
-		student.setExternalEmail(studentProfilePanel.getExternalEmail());
-		studentDAO.update(student);
 	}
 
 }

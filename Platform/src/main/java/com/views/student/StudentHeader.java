@@ -6,23 +6,40 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.controllers.student.IStudentHeaderController;
 import com.views.common.ILanguagePanel;
 
+@Component
 public class StudentHeader extends JPanel implements ILanguagePanel{
-	protected IStudentHeaderController studentHeaderController;
 	private JButton btnProfile;
 	private JButton btnCourses;
 	private JButton btnMail;
+
+	@Autowired
+	private IStudentHeaderController studentHeaderController;
 
 	public StudentHeader(IStudentHeaderController studentHeaderController) {
 		this.studentHeaderController = studentHeaderController;
 		initialize();
 	}
+	
+	
 
+	public StudentHeader() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	@PostConstruct
 	private void initialize() {
 		setLayout(null);
 		setBackground(new Color(215, 228, 242));

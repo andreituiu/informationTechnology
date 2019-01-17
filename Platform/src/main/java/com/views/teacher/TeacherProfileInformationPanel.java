@@ -4,6 +4,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.controllers.teacher.ITeacherProfileInformationPanelController;
 import com.views.common.ILanguagePanel;
 
@@ -14,9 +17,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+
+@Component(value="teacherProfileInformationPanel")
 public class TeacherProfileInformationPanel extends JPanel implements ILanguagePanel {
 
 	private JTextField nameTextField;
@@ -39,6 +45,8 @@ public class TeacherProfileInformationPanel extends JPanel implements ILanguageP
 
 	private JButton btnSave;
 	private JButton btnChangePassword;
+
+	@Autowired
 	private ITeacherProfileInformationPanelController teacherProfileInformationController;
 
 	public TeacherProfileInformationPanel(
@@ -47,6 +55,13 @@ public class TeacherProfileInformationPanel extends JPanel implements ILanguageP
 		initialize();
 	}
 
+	
+	public TeacherProfileInformationPanel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@PostConstruct
 	private void initialize() {
 		setLayout(null);
 		setBackground(new Color(215, 228, 242));

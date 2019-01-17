@@ -10,12 +10,16 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.controllers.admin.IAdminManageUsersController;
 import com.controllers.common.ILanguageController;
@@ -27,6 +31,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
 
+@Component
 public class ManageUsers extends JPanel implements ILanguagePanel{
 	
 	private JTextField searchTextField;
@@ -42,13 +47,27 @@ public class ManageUsers extends JPanel implements ILanguagePanel{
 	private JButton btnCreate;
 	private JButton btnSearch;
 	
+	@Autowired
 	private IAdminManageUsersController adminManageUsersController;
 	
 	private List<User> usersList;
 	
 	public ManageUsers(final IAdminManageUsersController adminManageUsersController) {
-		setBackground(new Color(215, 228, 242));
 		this.adminManageUsersController = adminManageUsersController;
+		initialize();
+	}
+
+	
+	
+	public ManageUsers() {
+		super();
+	}
+
+
+
+	@PostConstruct
+	private void initialize() {
+		setBackground(new Color(215, 228, 242));
 		setLayout(null);
 		
 		searchTextField = new JTextField();

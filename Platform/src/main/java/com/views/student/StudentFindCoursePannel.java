@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,6 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import org.omg.CORBA.INITIALIZE;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -32,6 +35,7 @@ import com.model.Course;
 import com.views.common.ILanguagePanel;
 import java.awt.Font;
 
+@Component
 public class StudentFindCoursePannel extends JPanel implements ILanguagePanel{
 
 	private JTextField searchTextField;
@@ -43,15 +47,27 @@ public class StudentFindCoursePannel extends JPanel implements ILanguagePanel{
 
 	private String[] tableColumns = { "Status", "Course name", "Teacher name", "Specialization" };
 	private List<Course> courses;
-	protected IStudentFindCoursePannelController studentFindCoursesController;
 	private String pending = "Pending";
 	private String enrolled = "Enrolled";
 
+	@Autowired
+	private IStudentFindCoursePannelController studentFindCoursesController;
+
+	
 	public StudentFindCoursePannel(IStudentFindCoursePannelController studentFindCoursesController) {
 		this.studentFindCoursesController = studentFindCoursesController;
 		initialize();
 	}
+	
+	
 
+	public StudentFindCoursePannel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	@PostConstruct
 	private void initialize() {
 		setLayout(null);
 		setBackground(new Color(215, 228, 242));

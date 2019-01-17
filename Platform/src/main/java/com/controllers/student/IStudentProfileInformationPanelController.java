@@ -14,8 +14,4 @@ public interface IStudentProfileInformationPanelController {
 
 	void setStudent(Student student);
 
-	void changePassword();
-
-	void changeSave();
-
 }

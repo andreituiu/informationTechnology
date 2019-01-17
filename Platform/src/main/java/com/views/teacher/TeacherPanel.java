@@ -2,14 +2,25 @@ package com.views.teacher;
 
 import java.awt.Color;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JPanel;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.views.common.ISupportPanel;
 import com.views.common.MailPanel;
 
+@Component
 public class TeacherPanel extends JPanel implements ISupportPanel {
+	
+	@Autowired
+	@Qualifier("teacherProfileInformationPanel")
 	private JPanel currentPannel;
-	TeacherHeader header;
+
+	@Autowired
+	private TeacherHeader header;
 
 	public TeacherPanel(TeacherHeader header, JPanel startingPannel) {
 		currentPannel = startingPannel;
@@ -17,6 +28,15 @@ public class TeacherPanel extends JPanel implements ISupportPanel {
 		initialize();
 	}
 
+	
+	
+	public TeacherPanel() {
+		super();
+	}
+
+
+
+	@PostConstruct
 	private void initialize() {
 		setBackground(new Color(215, 228, 242));
 //		header = new TeacherHeader(null);

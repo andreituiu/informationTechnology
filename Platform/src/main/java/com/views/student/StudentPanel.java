@@ -2,14 +2,25 @@ package com.views.student;
 
 import java.awt.Color;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JPanel;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.views.common.ILanguagePanel;
 import com.views.common.ISupportPanel;
 import com.views.common.MailPanel;
 
+@Component
 public class StudentPanel extends JPanel implements ISupportPanel{
+	
+	@Autowired
+	@Qualifier("studentProfileInformationPanel")
 	private JPanel currentPannel;
+	
+	@Autowired
 	private StudentHeader header;
 	
 	public StudentPanel(StudentHeader header, JPanel startingPannel) {
@@ -18,6 +29,15 @@ public class StudentPanel extends JPanel implements ISupportPanel{
 		initialize();
 	}
 
+	
+	
+	public StudentPanel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	@PostConstruct
 	private void initialize() {
 		setBackground(new Color(215, 228, 242));
 		

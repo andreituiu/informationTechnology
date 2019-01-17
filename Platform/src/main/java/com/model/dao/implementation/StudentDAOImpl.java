@@ -132,15 +132,7 @@ public class StudentDAOImpl implements StudentDAO {
 			String userQuery = "INSERT INTO users(name, surname, userCNP, role) VALUES(?,?,?, 'student')";
 		
 		try {
-			
-			PreparedStatement p = conn.prepareStatement(userQuery);
-			p.setString(1, student.getName());
-			p.setString(2, student.getSurname());
-			p.setString(3, student.getCnp());
-			p.executeUpdate();
-			
-			
-			p = conn.prepareStatement(query);
+			PreparedStatement p = conn.prepareStatement(query);
 			p.setString(1, student.getName());
 			p.setString(2, student.getSurname());
 			p.setString(3, student.getCnp());
@@ -152,7 +144,11 @@ public class StudentDAOImpl implements StudentDAO {
 			
 			p.executeUpdate();
 			
-			
+			p = conn.prepareStatement(userQuery);
+			p.setString(1, student.getName());
+			p.setString(2, student.getSurname());
+			p.setString(3, student.getCnp());
+			p.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -167,27 +163,6 @@ public class StudentDAOImpl implements StudentDAO {
             PreparedStatement p = conn.prepareStatement(query);
             p.setString(1, selectedUser.getCnp());
 
-            p.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		
-	}
-
-	@Override
-	public void update(Student student) {
-		String query = "UPDATE student SET name=?,surname=?,password=?,?external_email=?,internal_email=?,specialization=?,study_year=? WHERE cnp=?";
-		try {
-            PreparedStatement p = conn.prepareStatement(query);
-            p.setString(1, student.getName());
-            p.setString(2, student.getSurname());
-            p.setString(3, student.getPassword());
-            p.setString(4, student.getExternalEmail());
-            p.setString(5, student.getInternalEmail());
-            p.setString(6, student.getSpecialization().getName());
-            p.setInt(7, student.getStudyYear());
-            p.setString(8, student.getCnp());
-            
             p.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

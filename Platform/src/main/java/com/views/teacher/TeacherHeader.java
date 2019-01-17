@@ -2,6 +2,9 @@ package com.views.teacher;
 
 import javax.swing.JPanel;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.controllers.teacher.ITeacherHeaderController;
 import com.views.common.ILanguagePanel;
 
@@ -11,10 +14,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 
+@Component
 public class TeacherHeader extends JPanel implements ILanguagePanel{
-	protected ITeacherHeaderController teacherHeaderController;
+	
+	@Autowired
+	private ITeacherHeaderController teacherHeaderController;
 	private JButton btnProfile;
 	private JButton btnCourses;
 	private JButton btnMail;
@@ -24,6 +31,8 @@ public class TeacherHeader extends JPanel implements ILanguagePanel{
 		initialize();
 	}
 
+	
+	@PostConstruct
 	private void initialize() {
 		setLayout(null);
 		setBackground(new Color(215, 228, 242));

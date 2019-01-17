@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -23,11 +24,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.controllers.student.IStudentEnrolledCoursesPanelController;
 import com.model.Assignment;
 import com.model.Course;
 import com.views.common.ILanguagePanel;
-
+@Component
 public class StudentEnrolledCoursesPanel extends JPanel implements ILanguagePanel{
 
 	private JTextField textField;
@@ -49,7 +53,9 @@ public class StudentEnrolledCoursesPanel extends JPanel implements ILanguagePane
 	private JComboBox<Assignment> assignmentComboBox;
 	private DefaultListModel<Course> coursesListModel;
 	private JList<Course> coursesList;
-	protected IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController;
+	
+	@Autowired
+	private IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController;
 
 	public StudentEnrolledCoursesPanel(IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController) {
 		super();
@@ -58,6 +64,15 @@ public class StudentEnrolledCoursesPanel extends JPanel implements ILanguagePane
 		initialzie();
 	}
 
+	
+	
+	public StudentEnrolledCoursesPanel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	@PostConstruct
 	private void initialzie() {
 		setLayout(null);
 		setBackground(new Color(215, 228, 242));

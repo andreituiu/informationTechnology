@@ -2,56 +2,50 @@ package com.model;
 
 import java.util.Set;
 
-public class Student {
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-	private String cnp;
-	private String name;
-	private String surname;
-	private String password;
-	private String externalEmail;
-	private String internalEmail;
-	private Specialization specialization;
+@Entity
+@DiscriminatorValue("student")
+public class Student extends User {
+
 	private Integer studyYear;
+	
+	
+	
+	@ManyToOne
+	@JoinColumn(name="specialization_id", nullable=false)
+	private Specialization specialization;
+
+	@ManyToMany(cascade=CascadeType.REMOVE, mappedBy="enrolledStudents", fetch=FetchType.EAGER)
 	private Set<Course> enrolledCourses;
+	
+	@ManyToMany(cascade=CascadeType.REMOVE, mappedBy="pendingStudents", fetch=FetchType.EAGER)
+	private Set<Course> pendingCourses;
+
+	@OneToMany(mappedBy="student", fetch=FetchType.EAGER)
 	private Set<StudentAssignment> studentAssignment;
 	
 	
-	public String getCnp() {
-		return cnp;
+	public Student() {
+		super();
 	}
-	public void setCnp(String cnp) {
-		this.cnp = cnp;
+
+
+	public Student(String cNP, String name, String surname, String externalEmail, String internalEmail,
+			String password, Integer studyYear, Specialization specialization) {
+		super(cNP, name, surname, externalEmail, internalEmail, password);
+		this.studyYear = studyYear;
+		this.specialization = specialization;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getSurname() {
-		return surname;
-	}
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getExternalEmail() {
-		return externalEmail;
-	}
-	public void setExternalEmail(String externalEmail) {
-		this.externalEmail = externalEmail;
-	}
-	public String getInternalEmail() {
-		return internalEmail;
-	}
-	public void setInternalEmail(String internalEmail) {
-		this.internalEmail = internalEmail;
-	}
+
+
 	public Specialization getSpecialization() {
 		return specialization;
 	}
@@ -70,13 +64,29 @@ public class Student {
 	public void setEnrolledCourses(Set<Course> enrolledCourses) {
 		this.enrolledCourses = enrolledCourses;
 	}
-	
+	public Set<Course> getPendingCourses() {
+		return pendingCourses;
+	}
+	public void setPendingCourses(Set<Course> pendingCourses) {
+		this.pendingCourses = pendingCourses;
+	}
+
+
+	public void addPendingCourse(Course course) {
+		pendingCourses.add(course);
+	}
+
+
 	public Set<StudentAssignment> getStudentAssignment() {
 		return studentAssignment;
 	}
+
+
 	public void setStudentAssignment(Set<StudentAssignment> studentAssignment) {
 		this.studentAssignment = studentAssignment;
 	}
+	
+	
 	
 	
 }

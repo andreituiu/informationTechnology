@@ -3,21 +3,29 @@ package com.views.student;
 import java.awt.Component;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.controllers.student.IStudentCoursesPanelController;
 import com.views.common.ILanguagePanel;
 
+@org.springframework.stereotype.Component
 public class StudentCoursesPanel extends JPanel implements ILanguagePanel{
 	
+	@Autowired
 	private StudentFindCoursePannel findCoursesPanel;
+	
+	@Autowired
 	private StudentEnrolledCoursesPanel enrolledCoursesPanel;
 
 	private JTabbedPane tabbedPane;
 
+	@Autowired
 	private IStudentCoursesPanelController studentCoursesPanelController;
 
 	public StudentCoursesPanel(IStudentCoursesPanelController studentCoursesPanelController,
@@ -29,7 +37,16 @@ public class StudentCoursesPanel extends JPanel implements ILanguagePanel{
 
 		initialzie();
 	}
+	
+	
 
+	public StudentCoursesPanel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	@PostConstruct
 	private void initialzie() {
 		setLayout(null);
 

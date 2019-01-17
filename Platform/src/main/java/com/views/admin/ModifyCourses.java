@@ -6,12 +6,16 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.controllers.admin.IAdminModifyCoursesController;
 import com.model.Assignment;
@@ -23,7 +27,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 import java.awt.Font;
+import java.awt.HeadlessException;
 
+@Component
 public class ModifyCourses extends JFrame implements ILanguagePanel{
 	
 	private JTextField courseNameTextField;
@@ -40,15 +46,27 @@ public class ModifyCourses extends JFrame implements ILanguagePanel{
 	private JComboBox<Specialization> specializationComboBox;
 	
 	private JButton btnSave;
+
+	@Autowired
 	private IAdminModifyCoursesController adminModifyCoursesController;
 	
 	
 	public ModifyCourses(IAdminModifyCoursesController adminModifyCoursesController) {
 		this.adminModifyCoursesController = adminModifyCoursesController;
-		setBackground(new Color(215, 228, 242));
 		intialize();
 	}
+	
+	
+	
+	public ModifyCourses() throws HeadlessException {
+		super();
+	}
+
+
+
+	@PostConstruct
 	public void intialize() {
+		setBackground(new Color(215, 228, 242));
 		setSize(800, 500);
 		setResizable(false);
 	

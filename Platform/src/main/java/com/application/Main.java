@@ -6,6 +6,12 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.boot.registry.internal.StandardServiceRegistryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import com.controllers.admin.IAdminCreateCoursesController;
 import com.controllers.admin.IAdminCreateSpecializationsController;
 import com.controllers.admin.IAdminCreateUserController;
@@ -16,7 +22,6 @@ import com.controllers.admin.IAdminManageSpecializationsController;
 import com.controllers.admin.IAdminManageUsersController;
 import com.controllers.admin.IAdminModifyCoursesController;
 import com.controllers.admin.IAdminModifySpecializationController;
-import com.controllers.admin.IAdminModifyUserController;
 import com.controllers.admin.IAdminProfileController;
 import com.controllers.admin.implementation.AdminCreateCoursesController;
 import com.controllers.admin.implementation.AdminCreateSpecializationsController;
@@ -28,7 +33,6 @@ import com.controllers.admin.implementation.AdminManageSpecializationsController
 import com.controllers.admin.implementation.AdminManageUsersController;
 import com.controllers.admin.implementation.AdminModifyCoursesController;
 import com.controllers.admin.implementation.AdminModifySpecializationController;
-import com.controllers.admin.implementation.AdminModifyUsersController;
 import com.controllers.admin.implementation.AdminProfileController;
 import com.controllers.common.IEmailPanelController;
 import com.controllers.common.ILanguageController;
@@ -50,18 +54,17 @@ import com.controllers.student.implementation.StudentHeaderController;
 import com.controllers.student.implementation.StudentProfileInformationPanelController;
 import com.controllers.teacher.ITeacherCoursePanelController;
 import com.controllers.teacher.ITeacherCreateAssignmentFrameController;
-import com.controllers.teacher.ITeacherFrameController;
 import com.controllers.teacher.ITeacherHeaderController;
 import com.controllers.teacher.ITeacherManageAssignmentsPanelController;
 import com.controllers.teacher.ITeacherManageStudentsPanelController;
 import com.controllers.teacher.ITeacherProfileInformationPanelController;
-import com.controllers.teacher.implementation.TeacherCoursePanelController;
+import com.controllers.teacher.implementation.TeacherCourseController;
 import com.controllers.teacher.implementation.TeacherCreateAssignmentFrameController;
 import com.controllers.teacher.implementation.TeacherFrameController;
 import com.controllers.teacher.implementation.TeacherHeaderController;
 import com.controllers.teacher.implementation.TeacherManageAssignmentsPanelController;
 import com.controllers.teacher.implementation.TeacherManageStudentsPanelController;
-import com.controllers.teacher.implementation.TeacherProfileInformationPanelController;
+import com.controllers.teacher.implementation.TeacherProfileController;
 import com.model.Admin;
 import com.model.Student;
 import com.model.Teacher;
@@ -74,18 +77,12 @@ import com.model.dao.SpecializationDAO;
 import com.model.dao.StudentDAO;
 import com.model.dao.TeacherDAO;
 import com.model.dao.UserDAO;
-import com.model.dao.implementation.AdminDAOImpl;
-import com.model.dao.implementation.AssignmentDAOImpl;
-import com.model.dao.implementation.CourseDAOImpl;
-import com.model.dao.implementation.MailDAOImpl;
-import com.model.dao.implementation.SpecializationDAOImpl;
-import com.model.dao.implementation.StudentDAOImpl;
-import com.model.dao.implementation.TeacherDAOImpl;
-import com.model.dao.implementation.UserDAOImpl;
+import com.model.dao.hibernateimplementation.AdminDAOHImpl;
+import com.model.dao.hibernateimplementation.TeacherDAOHImpl;
+import com.model.dao.hibernateimplementation.UserDAOHImpl;
 import com.model.mapper.AdminMapper;
 import com.model.mapper.AssignmentMapper;
 import com.model.mapper.CourseMapper;
-import com.model.mapper.MailMapper;
 import com.model.mapper.StudentAssignmentMapper;
 import com.model.mapper.StudentMapper;
 import com.model.mapper.TeacherMapper;
@@ -102,7 +99,6 @@ import com.views.admin.ManageSpecializations;
 import com.views.admin.ManageUsers;
 import com.views.admin.ModifyCourses;
 import com.views.admin.ModifySpecialization;
-import com.views.admin.ModifyUser;
 import com.views.common.Login;
 import com.views.common.MailPanel;
 import com.views.student.StudentCoursesPanel;
@@ -122,10 +118,65 @@ import com.views.teacher.TeacherPanel;
 import com.views.teacher.TeacherProfileInformationPanel;
 import com.views.teacher.TeacherStudentsTablePanel;
 
-public class Main {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
+public class Main extends Application{
+
+//	@Autowired
+//	ApplicationContext context;
+	
 	public static void main(String[] args) {
-		new Main().run();
+		
+//		new Main().run();
+		launch(args);
+//		Admin a = new Admin("1", null, null, null, null, "test");
+//		AdminDAO aDao = new AdminDAOHImpl();
+//		a.addCourse(c);
+//		c.setTeacher(a);
+//		aDao.save(a);
+////		Admin findByID = aDao.findByID("7");
+////		System.out.println(findByID);
+//		System.out.println("aj");
+//		return;
+		
+//		ServiceRegistry serviceRegistry = buildCfg();
+//        MetadataImplementor metadata = (MetadataImplementor) new MetadataSources(serviceRegistry).buildMetadata();
+//        SchemaExport schemaExport = new SchemaExport(metadata);
+//        schemaExport.setOutputFile("hbm2schema.sql");
+//        schemaExport.create(true, true);
+//        ( (StandardServiceRegistryImpl) serviceRegistry ).destroy();
+    }
+
+     
+	@Override
+	public void start(Stage primaryStage) {
+		try {
+//			teacherFrameController.openFrame();
+			// Read file fxml and draw interface.
+			ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxxml/Login.fxml"));
+			loader.setControllerFactory(context::getBean);
+			Parent root = loader.load();
+//			((ConfigurableApplicationContext)context).close();
+//			Parent root = FXMLLoader.load(getClass().getResource("/fxxml/Login.fxml"));
+//			loader.setControllerFactory(context::getBean);
+			primaryStage.setTitle("My Application");
+			primaryStage.setScene(new Scene(root));
+			primaryStage.show();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static StandardServiceRegistryImpl buildCfg() {
+		return (StandardServiceRegistryImpl) new StandardServiceRegistryBuilder()
+				.configure("hibernate.cfg.xml")
+				.build();
 	}
 
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -163,20 +214,20 @@ public class Main {
 	private ResourceBundle enBundle;
 	private ResourceBundle roBundle;
 	private Login loginFrame;
-	private ITeacherFrameController teacherFrameController;
+//	private ITeacherFrameController teacherFrameController;
 	private IStudentFrameController studentFrameController;
 	private IAdminFrameController adminFrameController;
 
 	public void run() {
 		initializeBundles();
-		initConn();
-		initMappers();
+//		initConn();
+//		initMappers();
 		initDAO();
 //		init();
 //		 initialize();
-		initStudent();
+//		initStudent();
 		initTeacher();
-		initAdmin();
+//		initAdmin();
 		initLogin();
 		loginFrame.setVisible(true);
 //		adminFrame.setVisible(true);
@@ -195,9 +246,9 @@ public class Main {
 
 
 	private void initAdmin() {
-//		Admin admin = adminDAO.getAdmin("3");
-//		User user = new User();
-		IAdminProfileController adminProfileController = new AdminProfileController(adminDAO);
+		Admin admin = adminDAO.getAdmin("3");
+		User user = new User();
+		IAdminProfileController adminProfileController = new AdminProfileController(admin);
 		
 		IAdminCreateCoursesController adminCreateCourseController = new AdminCreateCoursesController(coursesDAO, teacherDAO, specializationDAO);
 		IAdminModifyCoursesController adminModifyCourseController = new AdminModifyCoursesController(coursesDAO, teacherDAO, specializationDAO);
@@ -207,18 +258,14 @@ public class Main {
 		IAdminCreateSpecializationsController adminCreateSpecializationsController = new AdminCreateSpecializationsController(specializationDAO);
 		IAdminManageSpecializationsController adminManageSpecializationsController = new AdminManageSpecializationsController(specializationDAO, adminModifySpecializationsController, adminCreateSpecializationsController);
 				
-		IEmailPanelController emailPanelController = new EmailPanelController(mailDAO);
+		IEmailPanelController emailPanelController = new EmailPanelController(mailDAO, user);
 		
-		IAdminModifyUserController adminModifyUserController = new AdminModifyUsersController(adminDAO, teacherDAO, studentDAO, specializationDAO);
 		IAdminCreateUserController adminCreateUserController = new AdminCreateUserController(teacherDAO, studentDAO, adminDAO, userDAO, specializationDAO);
-		IAdminManageUsersController adminMangageUsersController = new AdminManageUsersController(userDAO, adminDAO, teacherDAO, studentDAO, adminCreateUserController, adminModifyUserController);
-
+		IAdminManageUsersController adminMangageUsersController = new AdminManageUsersController(userDAO, adminDAO, teacherDAO, studentDAO, adminCreateUserController);
 		IAdminHeaderController adminHeaderController = new AdminHeaderController(adminProfileController, adminManageCoursesController, adminManageSpecializationsController, adminMangageUsersController,emailPanelController);
 		
-		MailPanel mailPanel = new MailPanel(emailPanelController);
-		
 		AdminHeader adminHeader = new AdminHeader(adminHeaderController);
-		AdminProfile adminProfile = new AdminProfile(adminProfileController);
+		AdminProfile adminProfile = new AdminProfile();
 		AdminPanel adminPanel = new AdminPanel(adminHeader, adminProfile);
 		
 		ManageCourses adminManageCourses = new ManageCourses(adminManageCoursesController);
@@ -231,12 +278,9 @@ public class Main {
 		
 		CreateUser adminCreateUsers = new CreateUser(adminCreateUserController);
 		ManageUsers adminManageUsers = new ManageUsers(adminMangageUsersController);
-		ModifyUser adminModifyUsers = new ModifyUser(adminModifyUserController);
-
 		adminCreateUserController.setAdminCreateUsers(adminCreateUsers);
 		adminMangageUsersController.setAdminPanel(adminPanel);
 		adminMangageUsersController.setAdminManageUsers(adminManageUsers);
-		adminModifyUserController.setAdminModifyUsers(adminModifyUsers);
 		
 		adminManageSpecializationsController.setAdminManageSpecializations(adminManageSpecializations);
 		adminManageSpecializationsController.setAdminPanel(adminPanel);
@@ -253,23 +297,10 @@ public class Main {
 		adminProfileController.setAdminPanel(adminPanel);
 		adminProfileController.setAdminProfilePanel(adminProfile);
 		
-		emailPanelController.setSupportPanel(adminPanel);
-		emailPanelController.setMailPanel(mailPanel);
-		
 		adminFrame = new AdminFrame(adminPanel);
 		
 		languageController.add(adminHeader);
-		languageController.add(adminModifyUsers);
-		languageController.add(adminModifySpecialization);
-		languageController.add(adminCreateSpecialization);
-		languageController.add(adminManageSpecializations);
-		languageController.add(adminCreateCourses);
-		languageController.add(adminModifyCourses);
-		languageController.add(adminManageCourses);
-		languageController.add(adminProfile);
-		languageController.add(mailPanel);
-		languageController.add(adminManageUsers);
-		adminFrameController = new AdminFrameController(adminProfileController, emailPanelController);
+		adminFrameController = new AdminFrameController(adminProfileController);
 		adminFrameController.setAdminFrame(adminFrame);
 	}
 
@@ -296,27 +327,27 @@ public class Main {
 	}
 
 	private void initDAO() {
-		studentDAO = new StudentDAOImpl(studentMapper, connection);
-        coursesDAO = new CourseDAOImpl(courseMapper,connection);
-		mailDAO = new MailDAOImpl(new MailMapper(), connection);
-		teacherDAO = new TeacherDAOImpl(teacherMapper, connection);
-		assignmentDAO = new AssignmentDAOImpl(assignmetMapper, studentAssignmentsMapper, connection);
-		adminDAO = new AdminDAOImpl(adminMapper, connection);
-		specializationDAO = new SpecializationDAOImpl(connection);
-		userDAO = new UserDAOImpl(userMapper, connection);
+//		studentDAO = new StudentDAOImpl(studentMapper, connection);
+//        coursesDAO = new CourseDAOImpl(courseMapper,connection);
+//		mailDAO = new MailDAOImpl(new MailMapper(), connection);
+		teacherDAO = new TeacherDAOHImpl();
+//		assignmentDAO = new AssignmentDAOImpl(assignmetMapper, studentAssignmentsMapper, connection);
+		adminDAO = new AdminDAOHImpl();
+//		specializationDAO = new SpecializationDAOImpl(connection);
+		userDAO = new UserDAOHImpl();
 	}
 
 	private void initTeacher() {
-//		User user = new User();
-//		Teacher teacher = teacherDAO.getTeacher("123");
+		User user = new User();
+		Teacher teacher = null;// = teacherDAO.getTeacher("123");
 		
-		emailPanelControllerTeacher = new EmailPanelController(mailDAO);
-		ITeacherProfileInformationPanelController teacherProfilePanelController = new TeacherProfileInformationPanelController(teacherDAO);
+		emailPanelControllerTeacher = new EmailPanelController(mailDAO, user);
+		ITeacherProfileInformationPanelController teacherProfilePanelController = new TeacherProfileController(teacher);
 		
 		ITeacherManageStudentsPanelController teacherManageStudentsPanelController = new TeacherManageStudentsPanelController(studentDAO);
 		ITeacherCreateAssignmentFrameController teacherCreateAssignmentFrameController = new TeacherCreateAssignmentFrameController(assignmentDAO);
 		ITeacherManageAssignmentsPanelController teacherManageAssignmentsPanelConttoller = new TeacherManageAssignmentsPanelController(studentDAO, assignmentDAO, teacherCreateAssignmentFrameController);
-		ITeacherCoursePanelController teacherCoursesPanelController = new TeacherCoursePanelController(coursesDAO, teacherManageStudentsPanelController, teacherManageAssignmentsPanelConttoller);
+		ITeacherCoursePanelController teacherCoursesPanelController = new TeacherCourseController(teacher, coursesDAO, teacherManageStudentsPanelController, teacherManageAssignmentsPanelConttoller);
 		
 		ITeacherHeaderController teacherHeaderController = new TeacherHeaderController(teacherProfilePanelController, teacherCoursesPanelController, emailPanelControllerTeacher);
 		
@@ -333,7 +364,7 @@ public class Main {
 		TeacherCoursesPanel teacherCoursePanel = new TeacherCoursesPanel(teacherCoursesPanelController, teacherManageStudentsPanel, teacherManageAssignmentsPanel);
 
 		TeacherHeader teacherHeader = new TeacherHeader(teacherHeaderController);
-		TeacherProfileInformationPanel teacherProfileInformationPanel = new TeacherProfileInformationPanel(teacherProfilePanelController);
+		TeacherProfileInformationPanel teacherProfileInformationPanel = new TeacherProfileInformationPanel();
 		TeacherPanel teacherPanel = new TeacherPanel(teacherHeader, teacherProfileInformationPanel);
 		teacherFrame = new TeacherFrame(teacherPanel);
 		
@@ -352,15 +383,7 @@ public class Main {
 		emailPanelControllerTeacher.setMailPanel(mailPanel);
 		emailPanelControllerTeacher.setSupportPanel(teacherPanel);
 	
-		languageController.add(teacherProfileInformationPanel);
-		languageController.add(teacherHeader);
-		languageController.add(teacherCoursePanel);
-		languageController.add(studentsTablePanel);
-		languageController.add(enrolledStudentsTablePanel);
-		languageController.add(waitingStudentsTablePanel);
-		languageController.add(mailPanel);
-		
-		teacherFrameController = new TeacherFrameController(teacherProfilePanelController, teacherCoursesPanelController, emailPanelControllerTeacher);
+		teacherFrameController = new TeacherFrameController(teacherProfilePanelController, teacherCoursesPanelController);
 		teacherFrameController.setTeacherFrame(teacherFrame);
 	}
 
@@ -375,16 +398,16 @@ public class Main {
 	
 
 	private void initStudent() {
-//		User user = new User();
-//		Student student = studentDAO.getStudent("1");
-		IStudentProfileInformationPanelController studentProfilePanelController = new StudentProfileInformationPanelController();
+		User user = new User();
+		Student student = studentDAO.getStudent("1");
+		IStudentProfileInformationPanelController studentProfilePanelController = new StudentProfileInformationPanelController(student);
 		
-		IStudentFindCoursePannelController studentFindCoursePannelController = new StudentFindCoursePannelController(coursesDAO, studentDAO);
-		IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController = new StudentEnrolledCoursesPanelController(coursesDAO, assignmentDAO, null);
+		IStudentFindCoursePannelController studentFindCoursePannelController = new StudentFindCoursePannelController(student, coursesDAO, studentDAO);
+		IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController = new StudentEnrolledCoursesPanelController(coursesDAO, assignmentDAO, student);
 		
 		studentCoursesPanelController = new StudentCoursesPanelController(studentFindCoursePannelController, studentEnrolledCoursesPanelController);
 		
-		emailPanelControllerStudent = new EmailPanelController(mailDAO);
+		emailPanelControllerStudent = new EmailPanelController(mailDAO, user);
 		
 		IStudentHeaderController studentHeaderController = new StudentHeaderController(studentProfilePanelController, studentCoursesPanelController, emailPanelControllerStudent);
 
@@ -413,15 +436,7 @@ public class Main {
 		emailPanelControllerStudent.setSupportPanel(studentPanel);
 		
 		studentFrame = new StudentFrame(studentPanel);
-		
-		languageController.add(mailPanel);
-		languageController.add(studentCoursesPanel);
-		languageController.add(studentEnrolledCoursesPanel);
-		languageController.add(studentFindCoursePannel);
-		languageController.add(header);
-		languageController.add(studentProfilePanel);
-		
-		studentFrameController = new StudentFrameController(studentProfilePanelController, studentFindCoursePannelController, studentEnrolledCoursesPanelController, emailPanelControllerStudent);
+		studentFrameController = new StudentFrameController(studentProfilePanelController, studentFindCoursePannelController, studentEnrolledCoursesPanelController);
 		studentFrameController.setStudentFrame(studentFrame);
 	}
 
