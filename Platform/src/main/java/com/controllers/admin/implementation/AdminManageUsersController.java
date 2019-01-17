@@ -7,14 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.controllers.admin.IAdminCreateUserController;
 import com.controllers.admin.IAdminManageUsersController;
+import com.controllers.admin.IAdminModifyUserController;
 import com.model.User;
-import com.model.dao.AdminDAO;
-import com.model.dao.StudentDAO;
-import com.model.dao.TeacherDAO;
-import com.model.dao.UserDAO;
-import com.model.repository.AdminRepository;
-import com.model.repository.StudentRepository;
-import com.model.repository.TeacherRepository;
 import com.model.repository.UserRepository;
 import com.views.admin.AdminPanel;
 import com.views.admin.ManageUsers;
@@ -28,37 +22,17 @@ public class AdminManageUsersController  implements IAdminManageUsersController{
 	@Autowired
 	private UserRepository usersRepository;
 
-	@Autowired
-	private AdminRepository adminRepository;
-
-	@Autowired
-	private TeacherRepository teacherRepository;
-
-	@Autowired
-	private StudentRepository studentRepository;
 
 	@Autowired
 	private ManageUsers adminManageUsers;
 	
 	List<User> usersList;
 
-	private User selectedUser;
-
 	@Autowired
 	private AdminPanel adminPanel;
-	
-	
 
-	public AdminManageUsersController(UserDAO usersDAO, AdminDAO adminDAO, TeacherDAO teacherDAO, StudentDAO studentDAO,
-			IAdminCreateUserController adminCreateUserController) {
-		super();
-		this.usersRepository = usersDAO;
-		this.adminRepository = adminDAO;
-		this.teacherRepository = teacherDAO;
-		this.studentRepository = studentDAO;
-		this.adminCreateUserController = adminCreateUserController;
-	}
-	
+	@Autowired
+	private IAdminModifyUserController adminModifyUserController;	
 	
 	
 	public AdminManageUsersController() {
@@ -87,32 +61,13 @@ public class AdminManageUsersController  implements IAdminManageUsersController{
 	}
 
 	@Override
-	public void openModifyUserFrame(Object selectedUser) {
-		// TODO Auto-generated method stub
-		
+	public void openModifyUserFrame(User selectedUser) {
+		adminModifyUserController.openFrame(selectedUser);		
 	}
 
 	@Override
 	public void deleteUser(User selectedUser) {
-	
-		usersRepository.deleteUser(selectedUser);
-		
-		if(selectedUser.getRole().equals("admin")) {
-			adminRepository.deleteUser(selectedUser);
-		}
-		else if (selectedUser.getRole().equals("teacher")) {
-			teacherRepository.deleteUser(selectedUser);
-		}
-		else {
-			studentRepository.deleteUser(selectedUser);
-		}
-		
-		
-	}
-
-	@Override
-	public void userSelected(User user) {
-		selectedUser = user;
+		usersRepository.delete(selectedUser);
 	}
 	
 	public void viewUsers() {
@@ -128,8 +83,9 @@ public class AdminManageUsersController  implements IAdminManageUsersController{
 
 	@Override
 	public void search() {
-		// TODO Auto-generated method stub
-		
+		String searchString = adminManageUsers.getSearchString();
+		List<User> list = usersRepository.findByCnpContainingOrRoleContainingOrNameContainingOrSurnameContaining(searchString, searchString, searchString, searchString);
+		adminManageUsers.populate(list);
 	}
 
 }

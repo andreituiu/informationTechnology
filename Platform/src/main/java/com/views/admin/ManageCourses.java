@@ -2,6 +2,7 @@ package com.views.admin;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -10,9 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,11 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.controllers.admin.IAdminManageCoursesController;
-import com.controllers.admin.implementation.AdminCreateCoursesController;
 import com.model.Course;
-import com.model.Student;
 import com.views.common.ILanguagePanel;
-import java.awt.Font;
 
 @Component
 public class ManageCourses extends JPanel implements ILanguagePanel{

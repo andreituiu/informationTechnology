@@ -9,64 +9,57 @@ import org.springframework.stereotype.Component;
 import com.controllers.teacher.ITeacherManageStudentsPanelController;
 import com.model.Course;
 import com.model.Student;
-import com.model.dao.StudentDAO;
-import com.model.repository.StudentRepository;
+import com.model.repository.CourseRepository;
 import com.views.teacher.TeacherManageStudentsPanel;
 
 @Component
 public class TeacherManageStudentsPanelController implements ITeacherManageStudentsPanelController {
 
 	@Autowired
-    private TeacherManageStudentsPanel teacherManageStudentsPanel;
-    private Course course;
+	private TeacherManageStudentsPanel teacherManageStudentsPanel;
+	private Course course;
 
-    @Autowired
-    private StudentRepository studentRepository;
-    
-
-    public TeacherManageStudentsPanelController(StudentDAO studentDAO) {
-		super();
-		this.studentRepository = studentDAO;
-	}
-    
-    
+	@Autowired
+	private CourseRepository courseRepository;
 
 	public TeacherManageStudentsPanelController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-
+	@Override
+	public void courseSelected(Course course) {
+		this.course = course;
+		update();
+	}
 
 	@Override
-    public void courseSelected(Course course) {
-        
-        this.course = course;
-        List<Student> waitingStudents = new ArrayList<>(course.getPendingStudents());
-        List<Student> enrolledStudents = new ArrayList<>(course.getEnrolledStudents());
-        teacherManageStudentsPanel.populateWaitingStudents(waitingStudents);
-        teacherManageStudentsPanel.populateEnrolledStudents(enrolledStudents);
-        
-    }
+	public void acceptStudent(Student selectedStudent) {
+		selectedStudent.getPendingCourses().remove(course);
+		selectedStudent.getEnrolledCourses().add(course);
+		course.getPendingStudents().remove(selectedStudent);
+		course.getEnrolledStudents().add(selectedStudent);
+		courseRepository.save(course);
+		update();
+	}
 
-    @Override
-    public void acceptStudent(Student selectedStudent) {
-    	selectedStudent.getPendingCourses().remove(course);
-    	selectedStudent.getEnrolledCourses().add(course);
-    	studentRepository.save(selectedStudent);
-    }
+	@Override
+	public void removeStudent(Student selectedStudent) {
+		selectedStudent.getEnrolledCourses().remove(course);
+		course.getEnrolledStudents().remove(selectedStudent);
+		courseRepository.save(course);
+		update();
+	}
 
-    @Override
-    public void removeStudent(Student selectedStudent) {
-    	selectedStudent.getEnrolledCourses().remove(course);
-    	studentRepository.save(selectedStudent);
-    }
+	private void update() {
+		List<Student> waitingStudents = new ArrayList<>(course.getPendingStudents());
+		List<Student> enrolledStudents = new ArrayList<>(course.getEnrolledStudents());
+		teacherManageStudentsPanel.populateWaitingStudents(waitingStudents);
+		teacherManageStudentsPanel.populateEnrolledStudents(enrolledStudents);
+	}
 
-    @Override
+	@Override
 	public void setTeacherManageStudentsPanel(TeacherManageStudentsPanel teacherManageStudentsPanel) {
 		this.teacherManageStudentsPanel = teacherManageStudentsPanel;
 	}
-    
-    
 
 }

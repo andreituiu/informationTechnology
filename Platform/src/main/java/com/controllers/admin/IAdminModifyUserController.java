@@ -1,17 +1,26 @@
 package com.controllers.admin;
 
 import com.model.Specialization;
+import com.model.User;
+import com.views.admin.ModifyUser;
 
 public interface IAdminModifyUserController {
-
-	void selectSpecialization(Specialization specialization);
-
 	void saveUser();
 
-	void selectAdmin();
+	void openFrame(User selectedUser);
 
-	void selectStudent();
+	void setAdminModifyUsers(ModifyUser adminModifyUsers);
+//
+//	void selectSpecialization(Specialization specialization);
+//
+//	void saveUser();
+//
+//	void selectAdmin();
+//
+//	void selectStudent();
+//
+//	void selectTeacher();
 
-	void selectTeacher();
+	void selectSpecialization(Specialization selectedSpecialization);
 
 }

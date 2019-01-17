@@ -14,7 +14,7 @@ public class StudentCoursesPanelController implements IStudentCoursesPanelContro
 
 	@Autowired
 	private StudentPanel studentPanel;
-	
+
 	@Autowired
 	private StudentCoursesPanel studentCoursesPanel;
 
@@ -24,36 +24,19 @@ public class StudentCoursesPanelController implements IStudentCoursesPanelContro
 	@Autowired
 	private IStudentFindCoursePannelController studentFindCoursePannelController;
 
-	
-	
-	public StudentCoursesPanelController(IStudentFindCoursePannelController studentFindCoursePannelController, 
-			IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController) {
-		super();
-		this.studentFindCoursePannelController = studentFindCoursePannelController;
-		this.studentEnrolledCoursesPanelController = studentEnrolledCoursesPanelController;
-	}
-
-	
-	
 	public StudentCoursesPanelController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
-
 
 	@Override
 	public void setStudentPanel(StudentPanel studentPanel) {
 		this.studentPanel = studentPanel;
 	}
 
-
 	@Override
 	public void setStudentCoursesPanel(StudentCoursesPanel studentCoursesPanel) {
 		this.studentCoursesPanel = studentCoursesPanel;
 	}
-
-
 
 	@Override
 	public void viewCourses() {

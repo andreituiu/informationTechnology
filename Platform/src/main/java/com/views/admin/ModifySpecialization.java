@@ -1,23 +1,25 @@
 package com.views.admin;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
-import javax.swing.ButtonGroup;
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.controllers.admin.IAdminModifySpecializationController;
 import com.views.common.ILanguagePanel;
-import java.awt.Font;
 
+@Component
 public class ModifySpecialization extends JFrame implements ILanguagePanel {
 
 	private JTextField nameTextField;
@@ -26,6 +28,7 @@ public class ModifySpecialization extends JFrame implements ILanguagePanel {
 
 	private JButton btnSave;
 
+	@Autowired
 	private IAdminModifySpecializationController adminModifySpecializationController;
 
 	public ModifySpecialization(IAdminModifySpecializationController adminModifySpecializationController) {
@@ -34,6 +37,11 @@ public class ModifySpecialization extends JFrame implements ILanguagePanel {
 		initialize();
 	}
 
+	public ModifySpecialization() throws HeadlessException {
+		super();
+	}
+
+	@PostConstruct
 	public void initialize() {
 		setSize(1000, 150);
 		getContentPane().setLayout(null);
@@ -76,7 +84,7 @@ public class ModifySpecialization extends JFrame implements ILanguagePanel {
 	public void setName(String name) {
 		nameTextField.setText(name);
 	}
-	
+
 	public String getName() {
 		return nameTextField.getText();
 	}

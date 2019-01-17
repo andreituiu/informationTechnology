@@ -23,4 +23,6 @@ public interface ITeacherManageAssignmentsPanelController {
 
 	void updateFields();
 
+	void downloadFile();
+
 }

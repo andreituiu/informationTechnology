@@ -1,85 +1,38 @@
 package com.controllers.admin.implementation;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import org.apache.catalina.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.controllers.admin.IAdminCreateUserController;
+import com.controllers.admin.IAdminManageUsersController;
 import com.model.Admin;
 import com.model.Specialization;
 import com.model.Student;
 import com.model.Teacher;
-import com.model.User;
-import com.model.dao.AdminDAO;
-import com.model.dao.SpecializationDAO;
-import com.model.dao.StudentDAO;
-import com.model.dao.TeacherDAO;
-import com.model.dao.UserDAO;
-import com.model.repository.AdminRepository;
 import com.model.repository.SpecializationRepository;
-import com.model.repository.StudentRepository;
-import com.model.repository.TeacherRepository;
 import com.model.repository.UserRepository;
 import com.model.utils.UserType;
+import com.utils.GeneratorUtil;
 import com.views.admin.CreateUser;
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-
 @Component
-public class AdminCreateUserController implements IAdminCreateUserController, Initializable{
+public class AdminCreateUserController implements IAdminCreateUserController{
 	
 	@Autowired
 	private CreateUser adminCreateUsers;
-//	
-	@Autowired
-	private TeacherRepository teacherRepository;
-//	
-	@Autowired
-	private StudentRepository studentRepository;
-//	
-	@Autowired
-	private AdminRepository adminRepository;
-//	
 	@Autowired
 	private UserRepository userRepository;
-//
 	private UserType selected;
-//	private String role;
-//	
+	
 	@Autowired
 	private SpecializationRepository specializationRepository;
 	private Specialization selectedSpecialization;
-//
-//	@FXML
-//	private TextField cnpTF;
-//	
-//	@FXML
-//	private TextField nameTF;
-//	
-//	@FXML
-//	private TextField passwordTF;
-//	
-//	@FXML
-//	private TextField yearTF;
-//	
-//	@FXML
-//	private ComboBox<Specialization> specializationCmb;
+
+	@Autowired
+	private IAdminManageUsersController adminManageUsersController;
 	
-	public AdminCreateUserController(TeacherDAO teacherDAO, StudentDAO studentDAO, AdminDAO adminDAO, UserDAO userDAO,
-			SpecializationDAO specializationDAO) {
-		super();
-//		this.teacherRepository = teacherDAO;
-//		this.studentRepository = studentDAO;
-//		this.adminRepository = adminDAO;
-//		this.userRepository = userDAO;
-//		this.specializationRepository = specializationDAO;
-	}
+	@Autowired
+	private GeneratorUtil generatorUtil;
 	
 	
 	
@@ -97,15 +50,24 @@ public class AdminCreateUserController implements IAdminCreateUserController, In
 
 	@Override
 	public void saveUser() {
-
-		 if(UserType.ADMIN == selected) {
+		String cnp = adminCreateUsers.getCNP();
+		if(userRepository.existsById(cnp)) {
+			String message = "User already exists";
+			if(adminCreateUsers.getLanguageBundle() != null) {
+				message = adminCreateUsers.getLanguageBundle().getString("user.alreadyExists");
+			}
+			adminCreateUsers.showPopup(message);
+			return;
+		}
+		String password = generatorUtil.generatePassword();
+		if(UserType.ADMIN == selected) {
 			 Admin admin = new Admin();
 			 admin.setName(adminCreateUsers.getName());
 			 admin.setSurname(adminCreateUsers.getSurname());
 			 admin.setCnp(adminCreateUsers.getCNP());
 			 admin.setInternalEmail(adminCreateUsers.getInternalEmail());
-			 admin.setInternalEmail(adminCreateUsers.getExternalEmail());
-			 admin.setPassword(adminCreateUsers.getPassword());
+			 admin.setExternalEmail(adminCreateUsers.getExternalEmail());
+			 admin.setPassword(password);
 			 userRepository.save(admin);
 		 }
 		 else if(UserType.TEACHER == selected) {
@@ -115,50 +77,29 @@ public class AdminCreateUserController implements IAdminCreateUserController, In
 			 teacher.setSurname(adminCreateUsers.getSurname());
 			 teacher.setCnp(adminCreateUsers.getCNP());
 			 teacher.setInternalEmail(adminCreateUsers.getInternalEmail());
-			 teacher.setInternalEmail(adminCreateUsers.getExternalEmail());
-			 teacher.setPassword(adminCreateUsers.getPassword());
+			 teacher.setExternalEmail(adminCreateUsers.getExternalEmail());
+			 teacher.setPassword(password);
 			 userRepository.save(teacher);
 		 }
 		 else {
 			 Student student = new Student();
-			 
 			 student.setName(adminCreateUsers.getName());
 			 student.setSurname(adminCreateUsers.getSurname());
 			 student.setCnp(adminCreateUsers.getCNP());
 			 student.setInternalEmail(adminCreateUsers.getInternalEmail());
-			 student.setInternalEmail(adminCreateUsers.getExternalEmail());
-			 student.setPassword(adminCreateUsers.getPassword());
+			 student.setExternalEmail(adminCreateUsers.getExternalEmail());
+			 student.setPassword(password);
 			 student.setStudyYear(adminCreateUsers.getStudyYear());
 			 student.setSpecialization(selectedSpecialization);
-			 
-			 
 			 userRepository.save(student);
 		 }
+		String message = "User created with password: " + password;
+		if(adminCreateUsers.getLanguageBundle() != null) {
+			message = adminCreateUsers.getLanguageBundle().getString("user.created.password") + ": " + password;
+		}
+		adminCreateUsers.showPopup(message);
+		adminManageUsersController.viewUsers();
 	}
-	
-	public void saveU() {
-		
-		User user = new User();
-		user.setName(adminCreateUsers.getName());
-		user.setSurname(adminCreateUsers.getSurname());
-		user.setCnp(adminCreateUsers.getCNP());
-
-		user.setRole(selected.getName());
-		userRepository.save(user);
-//		 if(UserType.ADMIN == selected) {
-//
-//		 }
-//		 else if(UserType.TEACHER == selected) {
-//			 
-//			 user.setRole(role);
-//			 userRepository.save(user);
-//		 }
-//		 else {
-//			 	user.setRole(role);
-//			 	userRepository.save(user);
-//		 }
-	}
-	
 	
 	public void openFrame() {
 		adminCreateUsers.ereaseAll();
@@ -192,8 +133,12 @@ public class AdminCreateUserController implements IAdminCreateUserController, In
 
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+	public void updateInternalEmail() {
+		String cnp = adminCreateUsers.getCNP();
+		String name = adminCreateUsers.getName();
+		String generatedInternalEmail = generatorUtil.generateInternalEmail(cnp, name);
+		adminCreateUsers.setInternalEmail(generatedInternalEmail);
 	}
+
+
 }

@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 import com.controllers.admin.IAdminProfileController;
 import com.views.common.ILanguagePanel;
 
-@Component(value="adminProfile")
+@Component(value = "adminProfile")
 public class AdminProfile extends JPanel implements ILanguagePanel {
 	private JTextField nameTextField;
 	private JTextField surnameTextField;
@@ -45,6 +46,7 @@ public class AdminProfile extends JPanel implements ILanguagePanel {
 
 	@Autowired
 	private IAdminProfileController adminProfileController;
+	private ResourceBundle languageBundle;
 
 	public AdminProfile(IAdminProfileController adminProfileController) {
 
@@ -175,6 +177,7 @@ public class AdminProfile extends JPanel implements ILanguagePanel {
 	@Override
 	public void setLanguageBundle(ResourceBundle languageBundle) {
 
+		this.languageBundle = languageBundle;
 		lblName.setText(languageBundle.getString("name"));
 		lblSurname.setText(languageBundle.getString("surname"));
 		lblCnp.setText(languageBundle.getString("cnp"));
@@ -185,6 +188,14 @@ public class AdminProfile extends JPanel implements ILanguagePanel {
 		lblConfirmNewPassword.setText(languageBundle.getString("confirmPassword"));
 		btnSave.setText(languageBundle.getString("save"));
 		btnChangePassword.setText(languageBundle.getString("changePassword"));
+	}
+	
+	public void showPopup(String message) {
+		JOptionPane.showMessageDialog(this, message);
+	}
+
+	public ResourceBundle getLanguageBundle() {
+		return languageBundle;
 	}
 
 	public void setUsername(String name) {

@@ -1,6 +1,7 @@
 package com.controllers.teacher.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.controllers.common.IEmailPanelController;
@@ -11,46 +12,32 @@ import com.controllers.teacher.ITeacherProfileInformationPanelController;
 @Component
 public class TeacherHeaderController implements ITeacherHeaderController {
 
-    @Autowired
+	@Autowired
 	private ITeacherProfileInformationPanelController teacherProfilePanelController;
-    
-    @Autowired
-    private IEmailPanelController emailPanelController;
 
-    @Autowired
-    private ITeacherCoursePanelController teacherCoursesPanelController;
+	@Autowired
+	@Qualifier("teacherEmailPanelController")
+	private IEmailPanelController emailPanelController;
 
-    public TeacherHeaderController(
-            ITeacherProfileInformationPanelController teacherProfilePanelController,
-            ITeacherCoursePanelController teacherCoursesPanelController,
-            IEmailPanelController emailPanelController) {
-        super();
-        this.teacherProfilePanelController = teacherProfilePanelController;
-        this.teacherCoursesPanelController = teacherCoursesPanelController;
-        this.emailPanelController = emailPanelController;
-    }
-    
-    
+	@Autowired
+	private ITeacherCoursePanelController teacherCoursesPanelController;
 
-    public TeacherHeaderController() {
+	public TeacherHeaderController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-
+	@Override
+	public void viewProfile() {
+		teacherProfilePanelController.viewProfile();
+	}
 
 	@Override
-    public void viewProfile() {
-        teacherProfilePanelController.viewProfile();
-    }
+	public void viewCourses() {
+		teacherCoursesPanelController.viewCourse();
+	}
 
-    @Override
-    public void viewCourses() {
-        teacherCoursesPanelController.viewCourse();
-    }
-
-    @Override
-    public void viewEmail() {
-        emailPanelController.viewEmail();
-    }
+	@Override
+	public void viewEmail() {
+		emailPanelController.viewEmail();
+	}
 }

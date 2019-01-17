@@ -17,4 +17,6 @@ public interface ITeacherCoursePanelController {
 
 	void setTeacher(Teacher teacher);
 
+	void searchCourses();
+
 }

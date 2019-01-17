@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 @Component(value="teacherProfileInformationPanel")
@@ -48,6 +49,7 @@ public class TeacherProfileInformationPanel extends JPanel implements ILanguageP
 
 	@Autowired
 	private ITeacherProfileInformationPanelController teacherProfileInformationController;
+	private ResourceBundle languageBundle;
 
 	public TeacherProfileInformationPanel(
 			ITeacherProfileInformationPanelController teacherProfileInformationController) {
@@ -97,11 +99,11 @@ public class TeacherProfileInformationPanel extends JPanel implements ILanguageP
 
 		oldPasswordTextField = new JPasswordField();
 		oldPasswordTextField.setColumns(10);
-		oldPasswordTextField.setBounds(456, 346, 354, 31);
+		oldPasswordTextField.setBounds(456, 302, 354, 31);
 		add(oldPasswordTextField);
 
 		newPasswordTextField = new JPasswordField();
-		newPasswordTextField.setBounds(456, 302, 354, 31);
+		newPasswordTextField.setBounds(456, 346, 354, 31);
 		newPasswordTextField.setColumns(10);
 		add(newPasswordTextField);
 
@@ -147,12 +149,12 @@ public class TeacherProfileInformationPanel extends JPanel implements ILanguageP
 
 		lblOldPassword = new JLabel("Old password");
 		lblOldPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblOldPassword.setBounds(135, 345, 209, 31);
+		lblOldPassword.setBounds(135, 301, 209, 31);
 		add(lblOldPassword);
 
 		lblNewPassword = new JLabel("New password");
 		lblNewPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewPassword.setBounds(135, 301, 209, 31);
+		lblNewPassword.setBounds(135, 345, 209, 31);
 		add(lblNewPassword);
 
 		lblConfirmationPassword = new JLabel("Confirm new password");
@@ -213,6 +215,7 @@ public class TeacherProfileInformationPanel extends JPanel implements ILanguageP
 	@Override
 	public void setLanguageBundle(ResourceBundle languageBundle) {
 
+		this.languageBundle = languageBundle;
 		lblName.setText(languageBundle.getString("name"));
 		lblSurname.setText(languageBundle.getString("surname"));
 		lblCnp.setText(languageBundle.getString("cnp"));
@@ -223,6 +226,16 @@ public class TeacherProfileInformationPanel extends JPanel implements ILanguageP
 		lblConfirmationPassword.setText(languageBundle.getString("confirmPassword"));
 		btnSave.setText(languageBundle.getString("save"));
 		btnChangePassword.setText(languageBundle.getString("changePassword"));
+	}
+	
+	
+
+	public ResourceBundle getLanguageBundle() {
+		return languageBundle;
+	}
+
+	public void showPopup(String message) {
+		JOptionPane.showMessageDialog(this, message);
 	}
 
 	public void eraseAll() {

@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -31,7 +32,7 @@ public class TeacherManageAssignmentsPanel extends JPanel {
 	private JTextField lastUploadTextField;
 	private JTextField gradeTextField;
 	private Component deadlineLabel;
-	private JButton btnUpload;
+	private JButton btnDownload;
 	private Component lastUploadLabel;
 	private JLabel gradeLabel;
 	private JButton btnCreateAssignment;
@@ -112,10 +113,10 @@ public class TeacherManageAssignmentsPanel extends JPanel {
 		deadlineLabel.setSize(209, 31);
 		add(deadlineLabel);
 
-		btnUpload = new JButton("Upload");
-		btnUpload.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnUpload.setBounds(533, 290, 170, 35);
-		add(btnUpload);
+		btnDownload = new JButton("Download");
+		btnDownload.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnDownload.setBounds(533, 290, 170, 35);
+		add(btnDownload);
 
 		lastUploadLabel = new JLabel("Last upload");
 		lastUploadLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -163,6 +164,15 @@ public class TeacherManageAssignmentsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				teacherManageAssignmentsPanelController.deleteStdent(studentsTablePanel.getSelectedStudent());
+			}
+		});
+		
+		btnDownload.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				teacherManageAssignmentsPanelController.downloadFile();
+				
 			}
 		});
 	}
@@ -226,6 +236,22 @@ public class TeacherManageAssignmentsPanel extends JPanel {
 	@Autowired
 	public void setStudentsTablePanel(TeacherStudentsTablePanel studentsTablePanel) {
 		this.studentsTablePanel = studentsTablePanel;
+	}
+
+
+
+
+	public void showPopupInfo(String message) {
+		JOptionPane.showMessageDialog(this, message);
+	}
+
+
+
+
+	public void ereaseFields() {
+		setDeadline(null);
+        setLastUpdate(null);
+        setGrade(null);		
 	}
 
 }

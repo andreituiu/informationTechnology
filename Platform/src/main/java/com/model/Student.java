@@ -86,7 +86,14 @@ public class Student extends User {
 		this.studentAssignment = studentAssignment;
 	}
 	
-	
+	public StudentAssignment getStudentAssignmentFor(Assignment assignment) {
+		for(StudentAssignment studentAssignmentAux : studentAssignment) {
+			if(studentAssignmentAux.getAssignment().equals(assignment)) {
+				return studentAssignmentAux;
+			}
+		}
+		return null;
+	}
 	
 	
 }

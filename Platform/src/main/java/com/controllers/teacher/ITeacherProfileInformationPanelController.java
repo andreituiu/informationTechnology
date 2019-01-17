@@ -11,10 +11,14 @@ public interface ITeacherProfileInformationPanelController {
 
 	void viewProfile();
 
-//	void setTeacherPanel(TeacherPanel teacherPanel);
+	void setTeacherPanel(TeacherPanel teacherPanel);
 
 	void setTeacherProfileInformationPanel(TeacherProfileInformationPanel teacherProfilePanel);
 
 	void setTeacher(Teacher teacher);
+
+	void changePassword();
+
+	void changeSave();
 
 }

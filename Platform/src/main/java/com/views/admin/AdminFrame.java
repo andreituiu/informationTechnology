@@ -15,15 +15,6 @@ public class AdminFrame extends JFrame{
 	@Autowired
 	private AdminPanel adminPanel;
 
-	public AdminFrame(AdminPanel adminPanel) throws HeadlessException {
-		super();
-		this.adminPanel = adminPanel;
-	
-		initialize();
-	}
-
-	
-	
 	public AdminFrame() throws HeadlessException {
 		super();
 	}

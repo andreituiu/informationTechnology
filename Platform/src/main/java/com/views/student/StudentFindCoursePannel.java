@@ -2,11 +2,12 @@ package com.views.student;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
@@ -16,27 +17,15 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import org.omg.CORBA.INITIALIZE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.swing.JButton;
-import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ResourceBundle;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
 
 import com.controllers.student.IStudentFindCoursePannelController;
 import com.model.Course;
 import com.views.common.ILanguagePanel;
-import java.awt.Font;
 
 @Component
-public class StudentFindCoursePannel extends JPanel implements ILanguagePanel{
+public class StudentFindCoursePannel extends JPanel implements ILanguagePanel {
 
 	private JTextField searchTextField;
 	private JTable table;
@@ -53,19 +42,15 @@ public class StudentFindCoursePannel extends JPanel implements ILanguagePanel{
 	@Autowired
 	private IStudentFindCoursePannelController studentFindCoursesController;
 
-	
 	public StudentFindCoursePannel(IStudentFindCoursePannelController studentFindCoursesController) {
 		this.studentFindCoursesController = studentFindCoursesController;
 		initialize();
 	}
-	
-	
 
 	public StudentFindCoursePannel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 
 	@PostConstruct
 	private void initialize() {
@@ -97,13 +82,8 @@ public class StudentFindCoursePannel extends JPanel implements ILanguagePanel{
 
 		tableModel = new DefaultTableModel(tableColumns, 0);
 
-		table = new JTable(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Status", "Course name", "Teacher name", "Specialization"
-			}
-		));
+		table = new JTable(new DefaultTableModel(new Object[][] {},
+				new String[] { "Status", "Course name", "Teacher name", "Specialization" }));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		table.setBounds(0, 0, 450, 300);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
@@ -150,17 +130,23 @@ public class StudentFindCoursePannel extends JPanel implements ILanguagePanel{
 		courses.addAll(enrolledCourses);
 
 		for (Course course : notEnrolledCourses) {
-			Object[] newRow = { "", course.getName(), course.getSpecialization(), course.getTeacher().getName() };
+			Object[] newRow = { "", course.getName(),
+					course.getTeacher().getName() + " " + course.getTeacher().getSurname(),
+					course.getSpecialization() };
 			tableModel.addRow(newRow);
 		}
 
 		for (Course course : pendingCoursesCourses) {
-			Object[] newRow = { pending, course.getName(), course.getSpecialization(), course.getTeacher().getName() };
+			Object[] newRow = { pending, course.getName(),
+					course.getTeacher().getName() + " " + course.getTeacher().getSurname(),
+					course.getSpecialization() };
 			tableModel.addRow(newRow);
 		}
 
 		for (Course course : enrolledCourses) {
-			Object[] newRow = { enrolled, course.getName(), course.getSpecialization(), course.getTeacher().getName() };
+			Object[] newRow = { enrolled, course.getName(),
+					course.getTeacher().getName() + " " + course.getTeacher().getSurname(),
+					course.getSpecialization() };
 			tableModel.addRow(newRow);
 		}
 		table.setModel(tableModel);

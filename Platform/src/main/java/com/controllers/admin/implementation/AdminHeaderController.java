@@ -34,19 +34,19 @@ public class AdminHeaderController implements IAdminHeaderController{
 	
 	
 	
-
-	public AdminHeaderController(IAdminProfileController adminProfileController,
-			IAdminManageCoursesController adminManageCoursesController,
-			IAdminManageSpecializationsController adminManageSpecializationsController,
-			IAdminManageUsersController adminManageUsersController,
-			IEmailPanelController emailPanelController) {
-		super();
-		this.adminProfileController = adminProfileController;
-		this.adminManageCoursesController = adminManageCoursesController;
-		this.adminManageSpecializationsController = adminManageSpecializationsController;
-		this.emailPanelController = emailPanelController;
-		this.adminManageUsersController = adminManageUsersController;
-	}
+//
+//	public AdminHeaderController(IAdminProfileController adminProfileController,
+//			IAdminManageCoursesController adminManageCoursesController,
+//			IAdminManageSpecializationsController adminManageSpecializationsController,
+//			IAdminManageUsersController adminManageUsersController,
+//			IEmailPanelController emailPanelController) {
+//		super();
+//		this.adminProfileController = adminProfileController;
+//		this.adminManageCoursesController = adminManageCoursesController;
+//		this.adminManageSpecializationsController = adminManageSpecializationsController;
+//		this.emailPanelController = emailPanelController;
+//		this.adminManageUsersController = adminManageUsersController;
+//	}
 
 	
 	

@@ -1,14 +1,5 @@
 package com.views.student;
 
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import org.springframework.stereotype.Component;
-
-import com.controllers.student.IStudentProfileInformationPanelController;
-import com.model.Specialization;
-import com.views.common.ILanguagePanel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -19,8 +10,19 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
-@Component(value="studentProfileInformationPanel")
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.controllers.student.IStudentProfileInformationPanelController;
+import com.model.Specialization;
+import com.views.common.ILanguagePanel;
+
+@Component(value = "studentProfileInformationPanel")
 public class StudentProfileInformationPanel extends JPanel implements ILanguagePanel {
 
 	private JTextField nameTextField;
@@ -47,10 +49,13 @@ public class StudentProfileInformationPanel extends JPanel implements ILanguageP
 
 	private JButton btnSave;
 	private JButton btnChangePassword;
-//	private IStudentProfileInformationPanelController studentProfileInformationController;
+
+	@Autowired
+	private IStudentProfileInformationPanelController studentProfileInformationController;
+	private ResourceBundle languageBundle;
 
 	public StudentProfileInformationPanel() {
-		
+
 	}
 
 	@PostConstruct
@@ -151,12 +156,12 @@ public class StudentProfileInformationPanel extends JPanel implements ILanguageP
 
 		lblOldPassword = new JLabel("Old password");
 		lblOldPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblOldPassword.setBounds(43, 384, 209, 31);
+		lblOldPassword.setBounds(43, 340, 209, 31);
 		add(lblOldPassword);
 
 		lblNewPassword = new JLabel("New password");
 		lblNewPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewPassword.setBounds(43, 340, 209, 31);
+		lblNewPassword.setBounds(43, 384, 209, 31);
 		add(lblNewPassword);
 
 		lblSpecialization = new JLabel("Specialization");
@@ -174,13 +179,13 @@ public class StudentProfileInformationPanel extends JPanel implements ILanguageP
 		lblConfirmationPassword.setFont(new Font("Arial", Font.PLAIN, 15));
 		lblConfirmationPassword.setBounds(43, 436, 209, 31);
 		add(lblConfirmationPassword);
-		
+
 		btnChangePassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				studentProfileInformationController.changePassword();
 			}
 		});
-		
+
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				studentProfileInformationController.changeSave();
@@ -222,19 +227,23 @@ public class StudentProfileInformationPanel extends JPanel implements ILanguageP
 	public String getOldPassword() {
 		return new String(oldPasswordTextField.getPassword());
 	}
+
 	public String getNewPassword() {
 		return new String(newPasswordTextField.getPassword());
 	}
+
 	public String getConfirmPassword() {
 		return new String(confirmPasswordTextField.getPassword());
 	}
+
 	public String getExternalEmail() {
 		return externalEmailTextField.getText();
 	}
-	
+
 	@Override
 	public void setLanguageBundle(ResourceBundle languageBundle) {
 
+		this.languageBundle = languageBundle;
 		lblName.setText(languageBundle.getString("name"));
 		lblSurname.setText(languageBundle.getString("surname"));
 		lblCnp.setText(languageBundle.getString("cnp"));
@@ -249,6 +258,12 @@ public class StudentProfileInformationPanel extends JPanel implements ILanguageP
 		btnChangePassword.setText(languageBundle.getString("changePassword"));
 	}
 	
+	
+
+	public ResourceBundle getLanguageBundle() {
+		return languageBundle;
+	}
+
 	public void eraseAll() {
 		nameTextField.setText("");
 		surnameTextField.setText("");
@@ -260,5 +275,9 @@ public class StudentProfileInformationPanel extends JPanel implements ILanguageP
 		oldPasswordTextField.setText("");
 		newPasswordTextField.setText("");
 		confirmPasswordTextField.setText("");
+	}
+
+	public void showPopup(String message) {
+		JOptionPane.showMessageDialog(this, message);
 	}
 }

@@ -1,25 +1,22 @@
 package com.views.teacher;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.controllers.teacher.ITeacherCreateAssignmentFrameController;
-import com.views.common.ILanguagePanel;
-import java.awt.Font;
 
 @Component
 public class TeacherCreateAssignmentFrame extends JFrame {
@@ -28,33 +25,28 @@ public class TeacherCreateAssignmentFrame extends JFrame {
 
 	@Autowired
 	private ITeacherCreateAssignmentFrameController teacherCreateAssignmentFrameController;
-	
-	
-	
+
 	public TeacherCreateAssignmentFrame(ITeacherCreateAssignmentFrameController teacherCreateAssignmentFrameController)
 			throws HeadlessException {
 		super();
 		this.teacherCreateAssignmentFrameController = teacherCreateAssignmentFrameController;
-		
+
 		initialize();
 	}
-	
-	
-	
+
 	public TeacherCreateAssignmentFrame() throws HeadlessException {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-
 	@PostConstruct
 	private void initialize() {
 		setSize(700, 300);
 		setResizable(false);
-		
+
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(215, 228, 242));
-		
+
 		JButton btnSave = new JButton("Save");
 		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnSave.setBounds(280, 186, 209, 35);
@@ -89,13 +81,8 @@ public class TeacherCreateAssignmentFrame extends JFrame {
 		});
 	}
 
-	public Date getDeadline() {
-		try {
-			return new SimpleDateFormat("dd/MM/yyyy").parse(deadlineTextField.getText());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public String getDeadline() {
+		return deadlineTextField.getText();
 	}
 
 	public String getName() {
@@ -105,5 +92,9 @@ public class TeacherCreateAssignmentFrame extends JFrame {
 	public void ereaseAll() {
 		deadlineTextField.setText("");
 		nameTextField.setText("");
+	}
+
+	public void showPopup(String message) {
+		JOptionPane.showMessageDialog(this, message);
 	}
 }

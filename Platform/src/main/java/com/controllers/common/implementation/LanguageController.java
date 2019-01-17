@@ -1,6 +1,5 @@
 package com.controllers.common.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,26 +13,20 @@ import com.views.common.ILanguagePanel;
 @Component
 public class LanguageController implements ILanguageController {
 
-	private List<ILanguagePanel> panels = new ArrayList<>();
+	@Autowired
+	private List<ILanguagePanel> panels;
 	private ResourceBundle currentLanguage;
-	
+
 	@Autowired
 	@Qualifier("roLanguageBundle")
 	private ResourceBundle roLanguageBundle;
-	
+
 	@Autowired
 	@Qualifier("enLanguageBundle")
 	private ResourceBundle enLanguageBundle;
 
-	public LanguageController(ResourceBundle roLanguageBundle, ResourceBundle enLanguageBundle) {
-		super();
-		this.roLanguageBundle = roLanguageBundle;
-		this.enLanguageBundle = enLanguageBundle;
-	}
-
 	public LanguageController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -47,7 +40,6 @@ public class LanguageController implements ILanguageController {
 		update();
 	}
 
-
 	@Override
 	public void enLanguageSelected() {
 		currentLanguage = enLanguageBundle;
@@ -55,7 +47,7 @@ public class LanguageController implements ILanguageController {
 	}
 
 	private void update() {
-		for(ILanguagePanel languagePanel : panels) {
+		for (ILanguagePanel languagePanel : panels) {
 			languagePanel.setLanguageBundle(currentLanguage);
 		}
 	}

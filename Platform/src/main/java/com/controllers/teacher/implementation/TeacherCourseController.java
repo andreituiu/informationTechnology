@@ -11,68 +11,52 @@ import com.controllers.teacher.ITeacherManageAssignmentsPanelController;
 import com.controllers.teacher.ITeacherManageStudentsPanelController;
 import com.model.Course;
 import com.model.Teacher;
-import com.model.dao.CourseDAO;
 import com.model.repository.CourseRepository;
 import com.views.teacher.TeacherCoursesPanel;
 import com.views.teacher.TeacherPanel;
-
-import javafx.scene.Node;
 
 @Component
 public class TeacherCourseController implements ITeacherCoursePanelController {
 
 	@Autowired
-    private TeacherPanel teacherPanel;
-    
-    @Autowired
-    private TeacherCoursesPanel teacherCoursePanel;
-    private Teacher teacher;
-    
-    @Autowired
-    private CourseRepository coursesRepository;
-    
-    @Autowired
-    private ITeacherManageStudentsPanelController teacherManageStudentsPanelController;
-    
-    @Autowired
-    private ITeacherManageAssignmentsPanelController teacherManageAssignmentsPanelConttoller;
-	private Node coursesPanel;
+	private TeacherPanel teacherPanel;
 
-    
-    
-    public TeacherCourseController(Teacher teacher, CourseDAO coursesDAO,
-			ITeacherManageStudentsPanelController teacherManageStudentsPanelController,
-			ITeacherManageAssignmentsPanelController teacherManageAssignmentsPanelConttoller) {
-		super();
-		this.teacher = teacher;
-		this.coursesRepository = coursesDAO;
-		this.teacherManageStudentsPanelController = teacherManageStudentsPanelController;
-		this.teacherManageAssignmentsPanelConttoller = teacherManageAssignmentsPanelConttoller;
-	}
+	@Autowired
+	private TeacherCoursesPanel teacherCoursePanel;
+	private Teacher teacher;
+
+	@Autowired
+	private CourseRepository coursesRepository;
+
+	@Autowired
+	private ITeacherManageStudentsPanelController teacherManageStudentsPanelController;
+
+	@Autowired
+	private ITeacherManageAssignmentsPanelController teacherManageAssignmentsPanelConttoller;
 
 	public TeacherCourseController() {
 		super();
 	}
 
 	@Override
-    public void courseSelected(Course course) {
-        teacherManageStudentsPanelController.courseSelected(course);
-        teacherManageAssignmentsPanelConttoller.courseSelected(course);
-    }
+	public void courseSelected(Course course) {
+		teacherManageStudentsPanelController.courseSelected(course);
+		teacherManageAssignmentsPanelConttoller.courseSelected(course);
+	}
 
-    @Override
-    public void viewCourse() {
-        List<Course> courses = new ArrayList<>(teacher.getCourses());
-        teacherCoursePanel.populateCourses(courses);
-        teacherPanel.setPanel(teacherCoursePanel);
-    }
+	@Override
+	public void viewCourse() {
+		List<Course> courses = new ArrayList<>(teacher.getCourses());
+		teacherCoursePanel.populateCourses(courses);
+		teacherPanel.setPanel(teacherCoursePanel);
+	}
 
-    @Override
+	@Override
 	public void setTeacherPanel(TeacherPanel teacherPanel) {
 		this.teacherPanel = teacherPanel;
 	}
 
-    @Override
+	@Override
 	public void setTeacherCoursePanel(TeacherCoursesPanel teacherCoursePanel) {
 		this.teacherCoursePanel = teacherCoursePanel;
 	}
@@ -82,20 +66,11 @@ public class TeacherCourseController implements ITeacherCoursePanelController {
 		this.teacher = teacher;
 	}
 
-	public void update() {
-		// TODO Auto-generated method stub
-		
+	@Override
+	public void searchCourses() {
+		String searchedString = teacherCoursePanel.getSearchdString();
+		List<Course> courses = coursesRepository.findByNameContains(searchedString);
+		teacherCoursePanel.populateCourses(courses);
 	}
-
-	public Node getCoursesPanel() {
-		return coursesPanel;
-	}
-
-	public void setCoursesPanel(Node coursesPanel) {
-		this.coursesPanel = coursesPanel;
-		
-	}
-    
-    
 
 }

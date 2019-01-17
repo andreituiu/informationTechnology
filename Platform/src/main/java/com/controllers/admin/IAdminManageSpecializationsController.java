@@ -10,8 +10,6 @@ public interface IAdminManageSpecializationsController {
 	
 	void openModifySpecializationFrame(Specialization specialization);
 
-	void specializationSelected(Specialization selectedSpecialization);
-	
 	void viewSpecializations();
 
 	void setAdminManageSpecializations(ManageSpecializations adminManageSpecializations);

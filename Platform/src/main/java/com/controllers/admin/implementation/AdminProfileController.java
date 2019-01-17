@@ -1,5 +1,7 @@
 package com.controllers.admin.implementation;
 
+import java.util.ResourceBundle;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +10,6 @@ import com.model.Admin;
 import com.model.repository.AdminRepository;
 import com.views.admin.AdminPanel;
 import com.views.admin.AdminProfile;
-import com.views.student.StudentProfileInformationPanel;
 
 @Component
 public class AdminProfileController implements IAdminProfileController {
@@ -68,13 +69,25 @@ public class AdminProfileController implements IAdminProfileController {
 		String oldPass = adminProfile.getOldPassword();
 		String newPass = adminProfile.getNewPassword();
 		String confirmPass = adminProfile.getConfirmPassword();
-		
+		ResourceBundle languageBundle = adminProfile.getLanguageBundle();
 		if(admin.getPassword().equals(oldPass)) {
 			if(newPass.equals(confirmPass)) {
 				admin.setPassword(newPass);
 				adminRepository.save(admin);
+				String passwordSavedMessage = "Password saved";
+				if(languageBundle != null) {
+					passwordSavedMessage = languageBundle.getString("password.saved");
+				}
+				adminProfile.showPopup(passwordSavedMessage );
+				return;
 			}
 		}
+		
+		String wrongPasswordMessage = "Wrong password";
+		if(languageBundle != null) {
+			wrongPasswordMessage = languageBundle.getString("password.wrong");
+		}
+		adminProfile.showPopup(wrongPasswordMessage );
 	}
 
 	@Override

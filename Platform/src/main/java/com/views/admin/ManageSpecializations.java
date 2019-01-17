@@ -2,10 +2,9 @@ package com.views.admin;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -22,65 +21,60 @@ import org.springframework.stereotype.Component;
 import com.controllers.admin.IAdminManageSpecializationsController;
 import com.model.Specialization;
 import com.views.common.ILanguagePanel;
-import java.awt.Font;
 
 @Component
-public class ManageSpecializations extends JPanel implements ILanguagePanel{
-	
+public class ManageSpecializations extends JPanel implements ILanguagePanel {
+
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private JScrollPane scrollPanel;
-	
+
 	private JButton btnModify;
 	private JButton btnCreate;
-	
+
 	private List<Specialization> specializationsList;
-	
-	private String[] tableColumns = {"Name"};
+
+	private String[] tableColumns = { "Name" };
 
 	@Autowired
 	private IAdminManageSpecializationsController adminManageSpecializationsController;
-	
+
 	public ManageSpecializations(IAdminManageSpecializationsController adminManageSpecializationsController) {
 		this.adminManageSpecializationsController = adminManageSpecializationsController;
 		initialize();
 	}
 
-	
-	
 	public ManageSpecializations() {
 		super();
 	}
 
-
-
 	@PostConstruct
 	public void initialize() {
 		setBackground(new Color(215, 228, 242));
-		
+
 		setLayout(null);
-		
+
 		JPanel tablePanel = new JPanel();
 		tablePanel.setSize(100, 100);
-		
+
 		tablePanel.setLayout(null);
-		
+
 		tablePanel.setPreferredSize(new Dimension(536, 246));
-		
+
 		tableModel = new DefaultTableModel(tableColumns, 0);
-		
+
 		table = new JTable(tableModel);
 		table.setBounds(0, 0, 450, 300);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		scrollPanel = new JScrollPane(table);
 		scrollPanel.setBounds(23, 28, 503, 449);
 		add(scrollPanel);
-		
+
 		btnModify = new JButton("Modify");
 		btnModify.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnModify.setBounds(163, 489, 209, 35);
 		add(btnModify);
-		
+
 		btnCreate = new JButton("Create");
 		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCreate.setBounds(565, 28, 209, 35);
@@ -101,28 +95,27 @@ public class ManageSpecializations extends JPanel implements ILanguagePanel{
 			}
 		});
 
-//		table.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if (adminManageSpecializationsController != null) {
-//					adminManageSpecializationsController.specializationSelected(getSelectedSpecialization());
-//				}
-//			}
-//		});
-		
+		// table.addMouseListener(new MouseAdapter() {
+		// @Override
+		// public void mouseClicked(MouseEvent e) {
+		// if (adminManageSpecializationsController != null) {
+		// adminManageSpecializationsController.specializationSelected(getSelectedSpecialization());
+		// }
+		// }
+		// });
+
 	}
-	
+
 	@Override
-	public void setLanguageBundle(ResourceBundle languageBundle)  {
-		
-	      btnModify.setText(languageBundle.getString("modify"));
-	      btnCreate.setText(languageBundle.getString("create"));
-	  
-	  
-		}	
+	public void setLanguageBundle(ResourceBundle languageBundle) {
+
+		btnModify.setText(languageBundle.getString("modify"));
+		btnCreate.setText(languageBundle.getString("create"));
+
+	}
 
 	public void populate(List<Specialization> specializationsList) {
-        this.specializationsList = specializationsList;
+		this.specializationsList = specializationsList;
 		ereaseAll();
 		if (specializationsList == null || specializationsList.isEmpty()) {
 			return;

@@ -1,23 +1,20 @@
 package com.views.admin;
 
-import javax.swing.JPanel;
-
-import com.controllers.admin.IAdminHeaderController;
-import com.controllers.student.IStudentHeaderController;
-import com.views.common.ILanguagePanel;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.ResourceBundle;
-import java.awt.event.ActionEvent;
-import java.awt.SystemColor;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.UIManager;
+import javax.swing.JPanel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.controllers.admin.IAdminHeaderController;
+import com.views.common.ILanguagePanel;
 
 @Component
 public class AdminHeader extends JPanel implements ILanguagePanel {
@@ -30,12 +27,6 @@ public class AdminHeader extends JPanel implements ILanguagePanel {
 
 	@Autowired
 	private IAdminHeaderController adminHeaderController;
-
-	public AdminHeader(IAdminHeaderController adminHeaderController) {
-
-		this.adminHeaderController = adminHeaderController;
-		initialize();
-	}
 
 	public AdminHeader() {
 		super();

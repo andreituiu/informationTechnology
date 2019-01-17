@@ -1,5 +1,7 @@
 package com.controllers.student;
 
+import java.io.File;
+
 import com.model.Assignment;
 import com.model.Course;
 import com.model.Student;
@@ -16,5 +18,13 @@ public interface IStudentEnrolledCoursesPanelController {
 	void setStudentEnrolledCoursesPanel(StudentEnrolledCoursesPanel studentEnrolledCoursesPanel);
 
 	void setStudent(Student student);
+
+	void chooseFileUpload();
+
+	void setSelectedUploadFile(File selectedFile);
+
+	void save();
+
+	void updateStudentAssignmentsDetails();
 
 }

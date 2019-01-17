@@ -3,26 +3,30 @@ package com.views.admin;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.ButtonGroup;
+import javax.annotation.PostConstruct;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.controllers.admin.IAdminModifyUserController;
-import com.controllers.common.implementation.ROLE;
 import com.model.Specialization;
+import com.model.utils.UserType;
 import com.views.common.ILanguagePanel;
 
+@Component
 public class ModifyUser extends JFrame implements ILanguagePanel {
 
 	private JTextField nameTextField;
@@ -44,16 +48,27 @@ public class ModifyUser extends JFrame implements ILanguagePanel {
 
 	private JComboBox<Specialization> specializationComboBox;
 
-	protected IAdminModifyUserController adminModifyUserController;
 	private JTextField studyYearTextField;
 	private JLabel lblStudyYear;
 
+	@Autowired
+	private IAdminModifyUserController adminModifyUserController;
+
+	
 	public ModifyUser(IAdminModifyUserController adminModifyUserController) {
 		
 		this.adminModifyUserController = adminModifyUserController;
 		initialize();
 	}
+	
+	
 
+	public ModifyUser() throws HeadlessException {
+		super();
+	}
+
+
+	@PostConstruct
 	public void initialize() {
 		setSize(800, 600);
 		setResizable(false);
@@ -78,6 +93,7 @@ public class ModifyUser extends JFrame implements ILanguagePanel {
 		cnpTextField.setBounds(201, 130, 354, 31);
 		getContentPane().add(cnpTextField);
 		cnpTextField.setColumns(10);
+		cnpTextField.setEditable(false);
 
 		internalEmailTextField = new JTextField();
 		internalEmailTextField.setColumns(10);
@@ -163,6 +179,14 @@ public class ModifyUser extends JFrame implements ILanguagePanel {
 				adminModifyUserController.saveUser();
 			}
 		});
+		
+		specializationComboBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminModifyUserController.selectSpecialization((Specialization)specializationComboBox.getSelectedItem());
+			};
+			});
 
 	}
 
@@ -223,7 +247,7 @@ public class ModifyUser extends JFrame implements ILanguagePanel {
 	}
 
 	public void populateSpecializations(List<Specialization> specializations) {
-		DefaultComboBoxModel<Specialization> model = (DefaultComboBoxModel) specializationComboBox.getModel();
+		DefaultComboBoxModel<Specialization> model = (DefaultComboBoxModel<Specialization>) specializationComboBox.getModel();
 		model.removeAllElements();
 		if (specializations == null || specializations.isEmpty()) {
 			return;
@@ -233,6 +257,9 @@ public class ModifyUser extends JFrame implements ILanguagePanel {
 
 			specializationComboBox.addItem(specialization);
 		}
+		
+		adminModifyUserController.selectSpecialization((Specialization) specializationComboBox
+                .getSelectedItem());
 
 	}
 
@@ -245,6 +272,8 @@ public class ModifyUser extends JFrame implements ILanguagePanel {
 				break;
 			}
 		}
+		adminModifyUserController.selectSpecialization((Specialization) specializationComboBox
+                .getSelectedItem());
 	}
 
 	public void setName(String name) {
@@ -282,10 +311,11 @@ public class ModifyUser extends JFrame implements ILanguagePanel {
 		studyYearTextField.setText("" + studyYear);
 	}
 
-	public void setRole(ROLE role) {
-		if(ROLE.STUDENT == role) {
+	public void setRole(String role) {
+		if(UserType.STUDENT.getName().equals(role)) {
 			studentSelected(true);
+		} else {
+			studentSelected(false);
 		}
-		studentSelected(false);
 	}
 }

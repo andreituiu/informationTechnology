@@ -11,24 +11,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StudentFrame extends JFrame {
-	
+
 	@Autowired
 	private StudentPanel studentPanel;
 
-	public StudentFrame(StudentPanel studentPanel) throws HeadlessException {
-		super();
-		this.studentPanel = studentPanel;
-	
-		initialize();
-	}
-	
-	
-
 	public StudentFrame() throws HeadlessException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
 
 	@PostConstruct
 	private void initialize() {

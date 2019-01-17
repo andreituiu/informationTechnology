@@ -9,48 +9,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.views.common.ILanguagePanel;
 import com.views.common.ISupportPanel;
-import com.views.common.MailPanel;
 
 @Component
-public class StudentPanel extends JPanel implements ISupportPanel{
-	
+public class StudentPanel extends JPanel implements ISupportPanel {
+
 	@Autowired
 	@Qualifier("studentProfileInformationPanel")
 	private JPanel currentPannel;
-	
+
 	@Autowired
 	private StudentHeader header;
-	
-	public StudentPanel(StudentHeader header, JPanel startingPannel) {
-		currentPannel = startingPannel;
-		this.header = header;
-		initialize();
-	}
 
-	
-	
 	public StudentPanel() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
 
 	@PostConstruct
 	private void initialize() {
 		setBackground(new Color(215, 228, 242));
-		
-//		header = new StudentHeader(null);
+
 		header.setLocation(58, 13);
 		header.setSize(837, 56);
-		
-//		currentPannel = new MailPanel(null);
+
 		currentPannel.setLocation(85, 82);
 		currentPannel.setSize(2000, 2000);
-		
+
 		setLayout(null);
-		
+
 		add(header);
 		add(currentPannel);
 	}

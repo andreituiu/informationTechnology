@@ -17,7 +17,7 @@ import com.controllers.student.IStudentHeaderController;
 import com.views.common.ILanguagePanel;
 
 @Component
-public class StudentHeader extends JPanel implements ILanguagePanel{
+public class StudentHeader extends JPanel implements ILanguagePanel {
 	private JButton btnProfile;
 	private JButton btnCourses;
 	private JButton btnMail;
@@ -25,19 +25,9 @@ public class StudentHeader extends JPanel implements ILanguagePanel{
 	@Autowired
 	private IStudentHeaderController studentHeaderController;
 
-	public StudentHeader(IStudentHeaderController studentHeaderController) {
-		this.studentHeaderController = studentHeaderController;
-		initialize();
-	}
-	
-	
-
 	public StudentHeader() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
-
 
 	@PostConstruct
 	private void initialize() {
@@ -61,38 +51,38 @@ public class StudentHeader extends JPanel implements ILanguagePanel{
 		btnMail.setForeground(new Color(0, 0, 255));
 		btnMail.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(btnMail);
-		
+
 		btnProfile.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				studentHeaderController.viewProfile();
 			}
 		});
-		
+
 		btnCourses.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				studentHeaderController.viewCourses();
 			}
 		});
-		
+
 		btnMail.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				studentHeaderController.viewEmail();
 			}
 		});
 	}
-	
+
 	@Override
-	public void setLanguageBundle(ResourceBundle languageBundle)  {
-		
-		  btnProfile.setText(languageBundle.getString("profile"));             
-		  btnCourses.setText(languageBundle.getString("courses"));                
-		  btnMail.setText(languageBundle.getString("email"));
-	  
-		}
+	public void setLanguageBundle(ResourceBundle languageBundle) {
+
+		btnProfile.setText(languageBundle.getString("profile"));
+		btnCourses.setText(languageBundle.getString("courses"));
+		btnMail.setText(languageBundle.getString("email"));
+
+	}
 }

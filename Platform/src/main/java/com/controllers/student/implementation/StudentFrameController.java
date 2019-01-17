@@ -1,8 +1,10 @@
 package com.controllers.student.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.controllers.common.IEmailPanelController;
 import com.controllers.student.IStudentEnrolledCoursesPanelController;
 import com.controllers.student.IStudentFindCoursePannelController;
 import com.controllers.student.IStudentFrameController;
@@ -25,13 +27,9 @@ public class StudentFrameController implements IStudentFrameController {
 	@Autowired
 	private StudentFrame studentFrame;
 
-	public StudentFrameController(IStudentProfileInformationPanelController studentProfilePanelController,
-			IStudentFindCoursePannelController studentFindCoursePannelController,
-			IStudentEnrolledCoursesPanelController studentEnrolledCoursesPanelController) {
-		this.studentProfilePanelController = studentProfilePanelController;
-		this.studentFindCoursePannelController = studentFindCoursePannelController;
-		this.studentEnrolledCoursesPanelController = studentEnrolledCoursesPanelController;
-	}
+	@Autowired
+	@Qualifier("studentEmailPanelController")
+	private IEmailPanelController studentEmailPanelController;
 
 	public StudentFrameController() {
 		super();
@@ -52,6 +50,8 @@ public class StudentFrameController implements IStudentFrameController {
 		studentProfilePanelController.setStudent(student);
 		studentFindCoursePannelController.setStudent(student);
 		studentEnrolledCoursesPanelController.setStudent(student);
+		studentEmailPanelController.setUser(student);
+		studentProfilePanelController.viewProfile();
 	}
 
 }

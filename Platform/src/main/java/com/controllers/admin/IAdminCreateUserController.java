@@ -19,4 +19,6 @@ public interface IAdminCreateUserController {
 
 	void setAdminCreateUsers(CreateUser adminCreateUsers);
 
+	void updateInternalEmail();
+
 }

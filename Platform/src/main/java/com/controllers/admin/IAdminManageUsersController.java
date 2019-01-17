@@ -8,11 +8,9 @@ public interface IAdminManageUsersController {
 
 	void openCreateUserFrame();
 
-	void openModifyUserFrame(Object selectedUser);
+	void openModifyUserFrame(User selectedUser);
 
 	void deleteUser(User selectedUser);
-
-	void userSelected(User user);
 
 	void search();
 

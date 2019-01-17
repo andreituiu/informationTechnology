@@ -1,6 +1,5 @@
 package com.views.student;
 
-import java.awt.Component;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
@@ -15,11 +14,11 @@ import com.controllers.student.IStudentCoursesPanelController;
 import com.views.common.ILanguagePanel;
 
 @org.springframework.stereotype.Component
-public class StudentCoursesPanel extends JPanel implements ILanguagePanel{
-	
+public class StudentCoursesPanel extends JPanel implements ILanguagePanel {
+
 	@Autowired
 	private StudentFindCoursePannel findCoursesPanel;
-	
+
 	@Autowired
 	private StudentEnrolledCoursesPanel enrolledCoursesPanel;
 
@@ -37,14 +36,11 @@ public class StudentCoursesPanel extends JPanel implements ILanguagePanel{
 
 		initialzie();
 	}
-	
-	
 
 	public StudentCoursesPanel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 
 	@PostConstruct
 	private void initialzie() {
@@ -68,10 +64,10 @@ public class StudentCoursesPanel extends JPanel implements ILanguagePanel{
 	}
 
 	@Override
-	public void setLanguageBundle(ResourceBundle languageBundle)  {
+	public void setLanguageBundle(ResourceBundle languageBundle) {
 		tabbedPane.setTitleAt(0, "findCourses");
 		tabbedPane.setTitleAt(1, "enrolledCourses");
-		
+
 	}
 
 }

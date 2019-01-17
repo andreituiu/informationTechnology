@@ -1,14 +1,17 @@
 package com.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorColumn(name="role", discriminatorType = DiscriminatorType.STRING)
@@ -17,11 +20,13 @@ public class User implements Serializable {
 	
 	@Id
 	@Column(name = "cnp")
-	private String CNP;
+	private String cnp;
 
 	private String name;
 	private String surname;
 	private String externalEmail;
+	
+	@Column(unique=true)
 	private String internalEmail;
 	
 	@Column(name = "role", insertable = false, updatable = false)
@@ -32,6 +37,11 @@ public class User implements Serializable {
 	@Column(name = "pass")
 	private String password;
 	
+	@OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
+	private Set<Mail> sentMails;
+	
+	@OneToMany(mappedBy = "reciever", fetch = FetchType.EAGER)
+	private Set<Mail> recievedMails;
 	
     public User() {
 		super();
@@ -39,9 +49,9 @@ public class User implements Serializable {
     
     
 
-	public User(String cNP, String name, String surname, String externalEmail, String internalEmail, String password) {
+	public User(String cnp, String name, String surname, String externalEmail, String internalEmail, String password) {
 		super();
-		CNP = cNP;
+		this.cnp = cnp;
 		this.name = name;
 		this.surname = surname;
 		this.externalEmail = externalEmail;
@@ -52,11 +62,11 @@ public class User implements Serializable {
 
 
 	public String getCnp() {
-       return CNP;
+       return cnp;
     }
 	
-	public void setCnp(String cNP) {
-		CNP = cNP;
+	public void setCnp(String cnp) {
+		this.cnp = cnp;
 	}
 
 
@@ -112,19 +122,6 @@ public class User implements Serializable {
 	}
 
 
-
-	public String getCNP() {
-		return CNP;
-	}
-
-
-
-	public void setCNP(String cNP) {
-		CNP = cNP;
-	}
-
-
-
 	public String getRole() {
 		return role;
 	}
@@ -135,6 +132,31 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
+
+
+	public Set<Mail> getSentMails() {
+		return sentMails;
+	}
+
+
+
+	public void setSentMails(Set<Mail> sentMails) {
+		this.sentMails = sentMails;
+	}
+
+
+
+	public Set<Mail> getRecievedMails() {
+		return recievedMails;
+	}
+
+
+
+	public void setRecievedMails(Set<Mail> recievedMails) {
+		this.recievedMails = recievedMails;
+	}
+
+	
 
 
     
